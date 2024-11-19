@@ -6,9 +6,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="h-full w-full overflow-hidden bg-backgroundLinear">
+    <div className="flex min-h-screen w-full flex-col bg-backgroundLinear">
       <Header selecionado="home" />
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-full w-full flex-1 items-center justify-center">
         <div className="flex h-[30rem] w-[60rem] overflow-hidden rounded-3xl bg-white">
           <div className="h-full w-1/2">
             <Image

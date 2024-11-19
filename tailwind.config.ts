@@ -8,10 +8,12 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      backgroundImage: {
+        backgroundLinear: "linear-gradient(to bottom, #3954AD 0%, #283B7A 50%, #172347 100%)",
       },
+      fontFamily: {
+        
+      }
     },
   },
   plugins: [],

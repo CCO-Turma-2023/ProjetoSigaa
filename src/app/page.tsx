@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="h-[100vh] w-full overflow-hidden bg-backgroundLinear">
+    <div className="h-full w-full overflow-hidden bg-backgroundLinear">
       <Header selecionado="home" />
       <div className="flex h-full w-full items-center justify-center">
         <div className="flex h-[30rem] w-[60rem] overflow-hidden rounded-3xl bg-white">

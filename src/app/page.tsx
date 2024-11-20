@@ -42,7 +42,10 @@ export default function Home() {
                   id="senha"
                   placeholder="Digite a senha"
                 />
-                <Link className="mt-2 text-xs text-blue-500" href={"sla"}>
+                <Link
+                  className="mt-2 text-xs text-blue-500"
+                  href="https://pbs.twimg.com/media/GUpZVNLXAAAia1R.jpg"
+                >
                   Esqueceu a senha?
                 </Link>
               </div>

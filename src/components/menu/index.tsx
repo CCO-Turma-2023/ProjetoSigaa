@@ -8,6 +8,7 @@ import { HiHome } from "react-icons/hi2";
 import { HiAcademicCap } from "react-icons/hi2";
 import { HiMiniPresentationChartLine } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
+import { HiOutlineLogout } from "react-icons/hi";
 
 export default function Menu() {
   const [showMenu, setShowMenu] = useState(false);
@@ -24,17 +25,26 @@ export default function Menu() {
     { rota: "/turma", name: "Turmas", icon: HiAcademicCap },
     { rota: "/calendario", name: "Calendário", icon: FaCalendar },
     { rota: "/projeto", name: "Projetos", icon: HiMiniPresentationChartLine },
+    { rota: "/", name: "Sair", icon: HiOutlineLogout },
   ]);
 
   useEffect(() => {
     // Verifica o caminho apenas após o componente ser montado no cliente
-    setShowMenu(
-      window.location.pathname !== "/sobre" && window.location.pathname !== "/",
-    );
+    if (
+      window.location.pathname !== "/sobre" &&
+      window.location.pathname !== "/"
+    ) {
+      setShowMenu(true);
+    } else {
+      setShowMenu(false);
+    }
   }, []);
 
   const defineSelected = (prop: string) => {
     setSelected(prop);
+    if (prop === "/") {
+      setShowMenu(false);
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import Header from "../components/headerInicio";
 import unifei from "../assets/unifeiImagem.jpg";
 import logo from "../assets/logoEngrenagem.png";
 import Link from "next/link";
+const nodemailer = require("nodemailer");
 
 export default function Home() {
   return (
@@ -49,7 +50,6 @@ export default function Home() {
                   Esqueceu a senha?
                 </Link>
               </div>
-
               <button
                 className="h-9 w-36 rounded-3xl bg-[#314894] text-white"
                 type="submit"

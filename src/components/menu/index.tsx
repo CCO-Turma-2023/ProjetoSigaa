@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import userImage from "../../assets/user.png";
 import Image from "next/image";
 import Link from "next/link";
-import { FaCalendar } from "react-icons/fa";
+import { FaRegNewspaper } from "react-icons/fa";
 import { HiHome } from "react-icons/hi2";
 import { HiAcademicCap } from "react-icons/hi2";
 import { HiMiniPresentationChartLine } from "react-icons/hi2";
@@ -17,14 +17,13 @@ export default function Menu() {
   const [user, setUser] = useState({
     nome: "LIONEL MESSI",
     matricula: "2025001009",
-    curso: "CIÊNCIAS ATMOSFÉRICAS",
+    curso: "CIÊNCIA DA COMPUTAÇÃO",
   });
 
   const [isPages] = useState([
     { rota: "/inicio", name: "Início", icon: HiHome },
     { rota: "/turma", name: "Turmas", icon: HiAcademicCap },
-    { rota: "/calendario", name: "Calendário", icon: FaCalendar },
-    { rota: "/projeto", name: "Projetos", icon: HiMiniPresentationChartLine },
+    { rota: "/indices", name: "Indices", icon: FaRegNewspaper },
     { rota: "/", name: "Sair", icon: HiOutlineLogout },
   ]);
 

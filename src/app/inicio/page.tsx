@@ -57,7 +57,7 @@ export default function Inicio() {
         })}
       </div>
       <div className="h-3 w-full bg-[#00002B]"></div>
-      <div className="flex w-full items-center justify-center gap-3 p-10">
+      <div className="flex w-full items-center justify-center gap-16 p-10">
         <Horarios></Horarios>
         <MyCalendar></MyCalendar>
       </div>

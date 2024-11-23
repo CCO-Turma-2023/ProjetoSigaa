@@ -7,12 +7,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import ptBR from "@fullcalendar/core/locales/pt-br"; // Importando o idioma
 import axios from "axios";
+import DialogData from "../dialog";
 
 const MyCalendar = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear(),
-  ); // Ano inicial
+  );
+  const [selectedEvent, setSelectedEvent] = useState<any | null>(null); // Estado para armazenar o evento selecionado
 
   const fetchHolidays = async (year: number) => {
     try {
@@ -20,7 +22,6 @@ const MyCalendar = () => {
         `https://brasilapi.com.br/api/feriados/v1/${year}`,
       );
 
-      // Transformar os feriados em eventos
       const holidayEvents = response.data.map((holiday: any) => ({
         title: holiday.name,
         date: holiday.date,
@@ -30,7 +31,6 @@ const MyCalendar = () => {
         },
       }));
 
-      // Atualizar os eventos no estado
       setEvents((prevEvents) => [
         ...prevEvents.filter((event) => !event.extendedProps?.type), // Remove feriados antigos
         ...holidayEvents,
@@ -43,11 +43,11 @@ const MyCalendar = () => {
   const addExtraEvents = () => {
     const extraEvents = [
       {
-        title: "Reunião de Equipe",
-        date: "2024-12-01",
+        title: "Prova do japones fia da puta",
+        date: "2024-12-04",
         color: "blue",
         extendedProps: {
-          description: "Reunião mensal com a equipe.",
+          description: "ARROMBADO",
         },
       },
       {
@@ -68,51 +68,55 @@ const MyCalendar = () => {
       },
     ];
 
-    // Adiciona os eventos personalizados
     setEvents((prevEvents) => [...prevEvents, ...extraEvents]);
   };
 
   useEffect(() => {
-    // Busca os feriados quando o ano muda
     fetchHolidays(currentYear);
   }, [currentYear]);
 
   useEffect(() => {
-    // Adiciona eventos extras ao carregar o componente
     addExtraEvents();
   }, []);
 
   const handleDatesSet = (arg: any) => {
-    const newYear = new Date(arg.start).getFullYear(); // Ano do intervalo visível no calendário
+    const newYear = new Date(arg.start).getFullYear();
     if (newYear !== currentYear) {
-      setCurrentYear(newYear); // Atualiza o ano se mudou
+      setCurrentYear(newYear);
     }
   };
 
-  const handleDateClick = (arg: any) => {
-    alert(`Você clicou na data: ${arg.dateStr}`);
+  const handleEventClick = (info: any) => {
+    const { title, extendedProps, start } = info.event;
+    const description = extendedProps?.description || "Nenhuma descrição";
+    const eventDate = start
+      ? start.toLocaleDateString("pt-BR")
+      : "Data desconhecida"; // Formata a data do evento
+
+    setSelectedEvent({ title, description, eventDate }); // Armazena o evento completo
   };
 
   return (
-    <div className="h-full w-[50rem] border border-white bg-[rgba(0,17,61,1)] p-2 text-white">
+    <div className="h-full w-[40rem] border border-white bg-[rgba(0,17,61,1)] p-2 text-white">
+      {selectedEvent && (
+        <DialogData
+          title={selectedEvent.title}
+          description={selectedEvent.description}
+          eventDate={selectedEvent.eventDate} // Passa a data para o DialogData
+          onClose={() => setSelectedEvent(null)} // Função para fechar o diálogo
+        />
+      )}
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         editable={true}
         selectable={true}
-        dateClick={(info) => {
-          handleDateClick(info);
-        }}
-        datesSet={handleDatesSet} // Callback para capturar o intervalo visível
+        datesSet={handleDatesSet}
         events={events}
         eventClick={(info) => {
-          alert(
-            `Evento: ${info.event.title}\nDescrição: ${
-              info.event.extendedProps?.description || "Nenhuma descrição"
-            }`,
-          );
+          handleEventClick(info); // Passa o evento para ser exibido no DialogData
         }}
-        locale={ptBR} // Definindo o idioma para pt-br
+        locale={ptBR}
       />
     </div>
   );

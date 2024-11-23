@@ -10,19 +10,19 @@ import { HiMiniPresentationChartLine } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
-import setCaminho from "../submenu"
+import setCaminho from "../submenu";
 
 export default function Menu() {
   const [showMenu, setShowMenu] = useState(false);
   const [userIcon, setUserIcon] = useState(userImage);
-  const [isSelected, setSelected] = useState(window.location.pathname);
+  const [isSelected, setSelected] = useState("/inicio");
   const [user, setUser] = useState({
     nome: "LIONEL MESSI",
     matricula: "2025001009",
     curso: "CIÊNCIA DA COMPUTAÇÃO",
   });
 
-  const[estado, setEstado] = useState(false)
+  const [estado, setEstado] = useState(false);
 
   const [isPages] = useState([
     { rota: "/inicio", name: "Início", icon: HiHome },
@@ -54,7 +54,6 @@ export default function Menu() {
     setEstado(false);
   };
 
-
   return (
     <>
       {showMenu && (
@@ -74,19 +73,20 @@ export default function Menu() {
             {isPages.map((pages, index) => {
               return (
                 <div key={index + 48}>
-                <BotoesNav
-                  key={index}
-                  rota={pages.rota}
-                  name={pages.name}
-                  icon={pages.icon}
-                  defineSelected={defineSelected}
-                  isSelected={isSelected}
-                />
-                { isSelected === "/disciplinas/turma" && pages.rota === "/disciplinas/turma" && estado && <SubMenu key={index + 25}/>}
+                  <BotoesNav
+                    key={index}
+                    rota={pages.rota}
+                    name={pages.name}
+                    icon={pages.icon}
+                    defineSelected={defineSelected}
+                    isSelected={isSelected}
+                  />
+                  {isSelected === "/disciplinas/turma" &&
+                    pages.rota === "/disciplinas/turma" &&
+                    estado && <SubMenu key={index + 25} />}
                 </div>
               );
-            })
-          }
+            })}
           </div>
         </nav>
       )}

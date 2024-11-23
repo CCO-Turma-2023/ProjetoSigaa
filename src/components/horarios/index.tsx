@@ -178,7 +178,7 @@ export default function Horarios() {
   }
 
   return (
-    <div className="h-full w-full">
+    <div className="flex items-center justify-center border border-white bg-[rgba(0,17,61,1)] text-xs">
       <div className="flex">
         <div className="flex flex-col">
           <DiasSemana dia={"Horário"} />

@@ -43,7 +43,7 @@ export default function Inicio() {
           <p className="ml-3 mt-2 text-xl text-[#efeff0]"> - 2023002135</p>
         </div>
       </div>
-      <div className="mb-2 mt-2 flex flex-row items-center justify-center gap-[5rem]">
+      <div className="mb-2 mt-2 flex flex-row items-center justify-center gap-[4rem]">
         {cards.map((card, index) => {
           return (
             <CardsInicio
@@ -57,8 +57,9 @@ export default function Inicio() {
         })}
       </div>
       <div className="h-3 w-full bg-[#00002B]"></div>
-      <div className="mt-4 h-60 w-60">
-        <Horarios />
+      <div className="flex w-full items-center justify-center gap-3 p-10">
+        <Horarios></Horarios>
+        <MyCalendar></MyCalendar>
       </div>
     </div>
   );

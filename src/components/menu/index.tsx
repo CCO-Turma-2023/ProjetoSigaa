@@ -49,7 +49,7 @@ export default function Menu() {
   return (
     <>
       {showMenu && (
-        <nav className="flex min-h-screen w-72 flex-col items-center gap-5 bg-[#00113D]">
+        <nav className="flex min-h-screen w-64 min-w-64 flex-col items-center gap-5 bg-[#00113D]">
           <div className="mt-4 flex w-full flex-col items-center justify-center gap-3">
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white">
               <Image src={userIcon} alt="userIcon" width={80} height={80} />

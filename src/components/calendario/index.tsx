@@ -9,7 +9,7 @@ import ptBR from "@fullcalendar/core/locales/pt-br"; // Importando o idioma
 import axios from "axios";
 import DialogData from "../dialog";
 
-const MyCalendar = () => {
+export default function MyCalendar() {
   const [events, setEvents] = useState<any[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear(),
@@ -33,7 +33,7 @@ const MyCalendar = () => {
 
       setEvents((prevEvents) => [
         ...prevEvents.filter((event) => !event.extendedProps?.type), // Remove feriados antigos
-        ...holidayEvents,
+        ...holidayEvents, ...extraEvents
       ]);
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
@@ -75,9 +75,6 @@ const MyCalendar = () => {
     fetchHolidays(currentYear);
   }, [currentYear]);
 
-  useEffect(() => {
-    addExtraEvents();
-  }, []);
 
   const handleDatesSet = (arg: any) => {
     const newYear = new Date(arg.start).getFullYear();
@@ -122,4 +119,4 @@ const MyCalendar = () => {
   );
 };
 
-export default MyCalendar;
+

@@ -9,20 +9,24 @@ import { HiAcademicCap } from "react-icons/hi2";
 import { HiMiniPresentationChartLine } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
+import SubMenu from "../submenu";
+import setCaminho from "../submenu"
 
 export default function Menu() {
   const [showMenu, setShowMenu] = useState(false);
   const [userIcon, setUserIcon] = useState(userImage);
-  const [isSelected, setSelected] = useState("/inicio");
+  const [isSelected, setSelected] = useState(window.location.pathname);
   const [user, setUser] = useState({
     nome: "LIONEL MESSI",
     matricula: "2025001009",
     curso: "CIÊNCIA DA COMPUTAÇÃO",
   });
 
+  const[estado, setEstado] = useState(false)
+
   const [isPages] = useState([
     { rota: "/inicio", name: "Início", icon: HiHome },
-    { rota: "/turma", name: "Turmas", icon: HiAcademicCap },
+    { rota: "/disciplinas/turma", name: "Disciplinas", icon: HiAcademicCap },
     { rota: "/indices", name: "Indices", icon: FaRegNewspaper },
     { rota: "/", name: "Sair", icon: HiOutlineLogout },
   ]);
@@ -43,8 +47,13 @@ export default function Menu() {
     setSelected(prop);
     if (prop === "/") {
       setShowMenu(false);
+    } else if (prop === "/disciplinas/turma") {
+      setEstado(!estado);
+      return;
     }
+    setEstado(false);
   };
+
 
   return (
     <>
@@ -64,6 +73,7 @@ export default function Menu() {
           <div className="flex w-full flex-col gap-2">
             {isPages.map((pages, index) => {
               return (
+                <div key={index + 48}>
                 <BotoesNav
                   key={index}
                   rota={pages.rota}
@@ -72,8 +82,11 @@ export default function Menu() {
                   defineSelected={defineSelected}
                   isSelected={isSelected}
                 />
+                { isSelected === "/disciplinas/turma" && pages.rota === "/disciplinas/turma" && estado && <SubMenu key={index + 25}/>}
+                </div>
               );
-            })}
+            })
+          }
           </div>
         </nav>
       )}

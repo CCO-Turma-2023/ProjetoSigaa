@@ -33,8 +33,9 @@ export default function MyCalendar() {
 
       setEvents((prevEvents) => [
         ...prevEvents.filter((event) => !event.extendedProps?.type), // Remove feriados antigos
-        ...holidayEvents, ...extraEvents
+        ...holidayEvents,
       ]);
+      console.log("1");
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
     }
@@ -43,7 +44,7 @@ export default function MyCalendar() {
   const addExtraEvents = () => {
     const extraEvents = [
       {
-        title: "Prova do japones fia da puta",
+        title: "Entrega Trabalho Web",
         date: "2024-12-04",
         color: "blue",
         extendedProps: {
@@ -67,14 +68,19 @@ export default function MyCalendar() {
         },
       },
     ];
-
-    setEvents((prevEvents) => [...prevEvents, ...extraEvents]);
+    console.log("2");
+    setEvents(extraEvents);
   };
 
   useEffect(() => {
+    // Ao trocar de ano / inicio do componente ele seta o ano atual.
     fetchHolidays(currentYear);
   }, [currentYear]);
 
+  useEffect(() => {
+    // Ao iniciar componente, pegar as datas de eventos, como provas, trabalho etc...
+    addExtraEvents();
+  }, []);
 
   const handleDatesSet = (arg: any) => {
     const newYear = new Date(arg.start).getFullYear();
@@ -117,6 +123,4 @@ export default function MyCalendar() {
       />
     </div>
   );
-};
-
-
+}

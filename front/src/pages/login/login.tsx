@@ -1,10 +1,41 @@
+import React, { useState } from "react";
 import Header from "../../components/headerInicio";
 import unifei from "../../assets/unifeiImagem.jpg";
 import logo from "../../assets/logoEngrenagem.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./login.css";
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+    matricula: "",
+    senha: "",
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({
+      matricula: formData.matricula,
+      senha: formData.senha,
+      [name]: value,
+    });
+    console.log(value);
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData);
+    event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
+    try {
+      const response = await axios.post(
+        "http://localhost:3200/users/login",
+        formData,
+      );
+      console.log("Resposta do servidor:", response.data);
+    } catch (error) {
+      console.error("Erro ao enviar os dados:", error);
+    }
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-backgroundLinear">
       <Header selecionado="home" />
@@ -25,20 +56,21 @@ export default function Home() {
             />
             <form
               className="flex w-full flex-col items-center justify-center gap-5"
-              action="post"
-              method="http://localhost:3200/login"
+              onSubmit={onSubmit}
             >
               <div className="flex w-full flex-col items-center justify-center gap-1">
-                <label className="font" htmlFor="usuario">
+                <label className="font" htmlFor="matricula">
                   Usuário
                 </label>
                 <input
                   style={{ backgroundColor: "rgb(212, 212, 216)" }}
                   className="w-1/2 rounded-3xl text-center"
                   type="text"
-                  name="usuario"
-                  id="usuario"
-                  placeholder="Digite o Usuário"
+                  name="matricula"
+                  id="matricula"
+                  placeholder="Digite sua Matrícula"
+                  value={formData.matricula}
+                  onChange={handleChange}
                 />
                 <label htmlFor="senha">Senha</label>
                 <input
@@ -48,6 +80,8 @@ export default function Home() {
                   name="senha"
                   id="senha"
                   placeholder="Digite a senha"
+                  value={formData.senha}
+                  onChange={handleChange}
                 />
                 <Link
                   className="mt-2 text-xs text-blue-500"

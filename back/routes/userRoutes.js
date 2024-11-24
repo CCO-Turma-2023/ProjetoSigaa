@@ -5,7 +5,7 @@ const { cadastrarUsuario } = require("../postMethod/cadastro"); // Importa a ló
 const { login } = require("../postMethod/login");
 
 // Rota para cadastrar ou atualizar o usuário
-router.post("/", cadastrarUsuario);
-router.post("/", login);
+router.post("/cadastro", cadastrarUsuario);
+router.post("/login", login);
 
 module.exports = router;

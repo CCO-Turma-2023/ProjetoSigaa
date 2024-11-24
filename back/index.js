@@ -22,8 +22,7 @@ app.get("/", (req, res) => {
 });
 
 // Usando as rotas de usuários
-app.use("/cadastro", userRoutes); // Chama as rotas de cadastro
-app.use("/login", userRoutes);
+app.use("/users", userRoutes); // Chama as rotas de cadastro
 
 // Inicia o servidor
 const PORT = 3200;

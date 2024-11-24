@@ -2,14 +2,14 @@ const pool = require("../db");
 
 const cadastrarUsuario = async (req, res) => {
   try {
-    const infos = req.body.formValues;
+    const infos = req.body;
 
     if (infos.senha !== infos.confirmarSenha) {
       return res.status(400).json({ message: "Senhas não coincidem" });
     }
 
     // Verifica se o usuário já existe e está inativo
-    const [rows] = pool.query("SELECT * FROM users WHERE matricula = ?", [
+    const [rows] = await pool.query("SELECT * FROM users WHERE matricula = ?", [
       infos.matricula,
     ]);
 
@@ -19,7 +19,7 @@ const cadastrarUsuario = async (req, res) => {
         "UPDATE users SET name = ?, senha = ?, email = ?, status = ? WHERE matricula = ?";
 
       pool.query(updateQuery, [
-        infos.name,
+        infos.nome,
         infos.senha,
         infos.email,
         1, // status ativo

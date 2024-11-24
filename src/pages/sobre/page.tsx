@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import Header from "../../components/headerInicio";
 import Membro from "../../components/membro";

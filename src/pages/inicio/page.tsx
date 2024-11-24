@@ -1,5 +1,4 @@
 import Horarios from "../../components/horarios";
-import Menu from "../../components/menu";
 import { FaBook } from "react-icons/fa6";
 import { FaGraduationCap } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
@@ -37,7 +36,7 @@ export default function Inicio() {
   return (
     <div className="flex min-h-screen w-full flex-1 flex-col gap-6 bg-backgroundLinear">
       <div className="flex w-full text-center text-white">
-        <div className=" ml-[3rem] mt-4 flex w-full justify-left pr-1 text-center">
+        <div className="justify-left ml-[3rem] mt-4 flex w-full pr-1 text-center">
           <h1 className="text-4xl">Ciência da Computação (Graduação)</h1>
           <p className="ml-3 mt-2 text-xl text-[#efeff0]"> - 2025002135</p>
         </div>

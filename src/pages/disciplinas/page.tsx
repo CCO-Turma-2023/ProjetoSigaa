@@ -1,5 +1,5 @@
-import Disciplina from "../../../components/disciplina";
-import { PropsDisciplina } from "../../../components/disciplina";
+import Disciplina from "../../components/disciplina";
+import { PropsDisciplina } from "../../components/disciplina";
 
 export default function Turma() {
   const disc: PropsDisciplina = {

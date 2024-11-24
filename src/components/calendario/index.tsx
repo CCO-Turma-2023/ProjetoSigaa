@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import ptBR from "@fullcalendar/core/locales/pt-br"; // Importando o idioma
+import ptBR from "@fullcalendar/core/locales/pt-br";
 import axios from "axios";
 import DialogData from "../dialog";
 
@@ -14,9 +14,9 @@ export default function MyCalendar() {
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear(),
   );
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null); // Estado para armazenar o evento selecionado
+  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
 
-  const fetchHolidays = async (year: number) => {
+  const fetchHolidays = useCallback(async (year: number) => {
     try {
       const response = await axios.get(
         `https://brasilapi.com.br/api/feriados/v1/${year}`,
@@ -25,30 +25,30 @@ export default function MyCalendar() {
       const holidayEvents = response.data.map((holiday: any) => ({
         title: holiday.name,
         date: holiday.date,
-        color: "red", // Cor dos feriados
+        color: "red",
         extendedProps: {
-          type: holiday.type, // Tipo do feriado
+          type: holiday.type,
         },
       }));
 
+      // Atualiza os eventos sem duplicar
       setEvents((prevEvents) => [
-        ...prevEvents.filter((event) => !event.extendedProps?.type), // Remove feriados antigos
+        ...prevEvents.filter((event) => !event.extendedProps?.type),
         ...holidayEvents,
       ]);
-      console.log("1");
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
     }
-  };
+  }, []);
 
-  const addExtraEvents = () => {
+  const addExtraEvents = useCallback(() => {
     const extraEvents = [
       {
         title: "Entrega Trabalho Web",
         date: "2024-12-04",
         color: "blue",
         extendedProps: {
-          description: "ARROMBADO",
+          description: "!!!!!",
         },
       },
       {
@@ -64,23 +64,19 @@ export default function MyCalendar() {
         date: "2024-12-05",
         color: "green",
         extendedProps: {
-          description: "Sessão de treinamento sobre novas ferramentas.",
+          description: "Prova de revisão.",
         },
       },
     ];
-    console.log("2");
-    setEvents(extraEvents);
-  };
 
-  useEffect(() => {
-    // Ao trocar de ano / inicio do componente ele seta o ano atual.
-    fetchHolidays(currentYear);
-  }, [currentYear]);
-
-  useEffect(() => {
-    // Ao iniciar componente, pegar as datas de eventos, como provas, trabalho etc...
-    addExtraEvents();
+    setEvents((prevEvents) => [...prevEvents, ...extraEvents]);
   }, []);
+
+  useEffect(() => {
+    // Carrega os feriados e eventos extras ao inicializar ou quando o ano mudar
+    fetchHolidays(currentYear);
+    addExtraEvents();
+  }, [currentYear, fetchHolidays, addExtraEvents]);
 
   const handleDatesSet = (arg: any) => {
     const newYear = new Date(arg.start).getFullYear();
@@ -94,9 +90,9 @@ export default function MyCalendar() {
     const description = extendedProps?.description || "Nenhuma descrição";
     const eventDate = start
       ? start.toLocaleDateString("pt-BR")
-      : "Data desconhecida"; // Formata a data do evento
+      : "Data desconhecida";
 
-    setSelectedEvent({ title, description, eventDate }); // Armazena o evento completo
+    setSelectedEvent({ title, description, eventDate });
   };
 
   return (
@@ -105,8 +101,8 @@ export default function MyCalendar() {
         <DialogData
           title={selectedEvent.title}
           description={selectedEvent.description}
-          eventDate={selectedEvent.eventDate} // Passa a data para o DialogData
-          onClose={() => setSelectedEvent(null)} // Função para fechar o diálogo
+          eventDate={selectedEvent.eventDate}
+          onClose={() => setSelectedEvent(null)}
         />
       )}
       <FullCalendar
@@ -116,9 +112,7 @@ export default function MyCalendar() {
         selectable={true}
         datesSet={handleDatesSet}
         events={events}
-        eventClick={(info) => {
-          handleEventClick(info); // Passa o evento para ser exibido no DialogData
-        }}
+        eventClick={handleEventClick}
         locale={ptBR}
       />
     </div>

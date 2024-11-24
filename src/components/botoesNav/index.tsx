@@ -1,6 +1,5 @@
-"use client";
-import Link from "next/link";
 import { ComponentType, useState } from "react";
+import { Link } from "react-router-dom";
 
 export interface PropsBotoes {
   rota: string;
@@ -28,16 +27,28 @@ export default function BotoesNav({
           <div className="h-full w-1" /> /* Adicionar uma BOX invísivel para todos ficarem alinhados */
         )}
 
-        <Link
-          onClick={() => {
-            defineSelected(rota);
-          }}
-          className="flex items-center gap-2"
-          href={rota}
-        >
-          <Icon />
-          {name}
-        </Link>
+        {rota === "/disciplina" ? (
+          <button
+            onClick={() => {
+              defineSelected(rota);
+            }}
+            className="flex items-center gap-2"
+          >
+            <Icon />
+            {name}
+          </button>
+        ) : (
+          <Link
+            onClick={() => {
+              defineSelected(rota);
+            }}
+            className="flex items-center gap-2"
+            to={rota}
+          >
+            <Icon />
+            {name}
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -2,25 +2,22 @@ import { useState } from "react";
 
 interface PropsDialogTrancamento {
   curso: string;
+  periodo: string;
+  ano: string;
   onClose: (rota: boolean) => void; // Boolean para indicar se fecha ou não
 }
 
 export default function DialogTrancarCurso({
   curso,
+  periodo,
+  ano,
   onClose,
 }: PropsDialogTrancamento) {
   const [senha, setSenha] = useState("");
 
-  const enviarSolicitacao = (e: React.FormEvent) => {
+  const enviarSolicitacao = (e: React.MouseEvent) => {
     e.preventDefault(); // Evita o reload da página
-    console.log("Enviando trancamento com senha:", senha);
-    // Aqui você pode adicionar a lógica para validar e enviar a solicitação
-    if (senha.length > 6) {
-      console.log("Trancamento enviado com sucesso");
-      onClose(false);
-    } else {
-      alert("Coloque uma senha válida");
-    }
+    console.log("Enviando solicitação de trancamento",);
   };
 
   const fecharTrancamento = (e: React.MouseEvent) => {
@@ -29,38 +26,29 @@ export default function DialogTrancarCurso({
   };
 
   return (
-    <div className="absolute -top-0 right-1/2 flex h-[100vh] w-[100vw] translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.98)]">
-      <div className="flex h-[40rem] w-[40rem] flex-col items-center justify-between rounded-[1rem] bg-white p-5">
-        <h2 className="text-center text-2xl font-bold">
-          Você tem certeza que gostaria de trancar o curso de {curso}?
-        </h2>
-        <p>
-          Se você quiser proceder com esta ação, saiba que, se aprovado, será
-          irreversível!
-        </p>
-        <div className="flex flex-col items-center justify-center gap-4">
-          <form
-            className="flex flex-col gap-3 text-center"
-            onSubmit={enviarSolicitacao}
-          >
-            <label htmlFor="senha">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              className="bg-gray-500 p-2"
-              placeholder="Digite sua senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
-            <button type="submit" className="bg-red-500 p-2 text-white">
-              Solicitar Trancamento
-            </button>
-          </form>
+    <div className="absolute -top-0 right-1/2 flex h-[100vh] w-[100vw] translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.7)]">
+      <div className="flex h-[20rem] w-[40rem] flex-col items-center justify-between rounded-[1rem] bg-white">
+        <div className="bg-red-500 w-[100%] rounded-t-[1rem]">
+          <h2 className="text-left text-xl p-[1rem] text-white ">
+            Solicitar cancelamento de turma
+          </h2>
+        </div>
+        <div className="flex flex-col self-start p-[1rem]">
+          <p className="pb-[2rem]">
+            Deseja realmente solicitar o cancelamento da turma ?
+          </p>
+          <p><span className="font-bold">Disciplina: </span>{curso}</p>
+          <p><span className="font-bold">Periodo/Ano: </span> {periodo}/{ano}</p>
+        </div>
+        <div className="flex gap-4 bg-red-500 w-[100%] rounded-b-[1rem] justify-end p-[0.5rem]">
           <button
             onClick={fecharTrancamento}
-            className="bg-green-800 p-2 text-white"
+            className="bg-white p-2 text-black rounded-[0.5rem] border-[1px] border-black"
           >
             Cancelar
+          </button>
+          <button onClick={enviarSolicitacao} className="bg-red-700 p-2 rounded-[0.5rem] text-white">
+            Confirmar
           </button>
         </div>
       </div>

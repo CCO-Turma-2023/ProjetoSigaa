@@ -24,7 +24,7 @@ export default function Inicio() {
     {
       icon: FaUser,
       titulo: "Coordenador",
-      texto: "Nome: Rafael Farinhas",
+      texto: "Nome: Rafael Frinhani",
       color: "#6DAC67",
     },
     {
@@ -37,9 +37,9 @@ export default function Inicio() {
   return (
     <div className="flex min-h-screen w-full flex-1 flex-col gap-6 bg-backgroundLinear">
       <div className="flex w-full text-center text-white">
-        <div className="mt-4 flex w-full justify-center pr-1 text-center">
+        <div className=" ml-[3rem] mt-4 flex w-full justify-left pr-1 text-center">
           <h1 className="text-4xl">Ciência da Computação (Graduação)</h1>
-          <p className="ml-3 mt-2 text-xl text-[#efeff0]"> - 2023002135</p>
+          <p className="ml-3 mt-2 text-xl text-[#efeff0]"> - 2025002135</p>
         </div>
       </div>
       <div className="mb-2 mt-2 flex flex-row items-center justify-center gap-[4rem]">

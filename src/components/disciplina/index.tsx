@@ -28,6 +28,8 @@ export default function Disciplina({
       {dialogTrancamentos && (
         <DialogTrancarCurso
           curso={disciplina.nome}
+          periodo={disciplina.periodo}
+          ano={disciplina.ano}
           onClose={solicitarTrancamento}
         ></DialogTrancarCurso>
       )}

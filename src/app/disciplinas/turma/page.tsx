@@ -3,11 +3,11 @@ import { PropsDisciplina } from "../../../components/disciplina";
 
 export default function Turma() {
   const disc: PropsDisciplina = {
-    codigo: "TC026",
+    codigo: "CRSC03",
     nome: "ARQUITETURA DE COMPUTADORES I",
     periodo: "1º Semestre",
     ano: "2025",
-    horarios: ["Não tem", "Talvez Tenha", "Sexta 23:99", "Sábado-Feira: 04:00"],
+    horarios: ["Terça-Feira - 13:30 - 15:20", "Quinta-Feira - 15:20 - 17:35"],
     situacao: "Matriculado",
   };
 

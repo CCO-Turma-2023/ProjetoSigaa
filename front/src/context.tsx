@@ -47,11 +47,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (verifyToken) {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token"); // Pegamos o token
       if (token) {
         try {
-          const decoded = jwtDecode<JwtPayload>(token);
+          const decoded = jwtDecode<JwtPayload>(token); // Decodificamos
           if (decoded && decoded.matricula && decoded.name && decoded.curso) {
+            // Atualizamos as constantes de exibição
             setNome(decoded.name);
             setMatricula(decoded.matricula);
             setCurso(decoded.curso);

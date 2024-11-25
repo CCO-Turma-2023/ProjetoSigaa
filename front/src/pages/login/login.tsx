@@ -12,8 +12,6 @@ import { jwtDecode } from "jwt-decode";
 export default function Home() {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated } = useAuth();
-
   useEffect(() => {
     localStorage.removeItem("token");
   }, []);
@@ -45,7 +43,6 @@ export default function Home() {
       }
 
       localStorage.setItem("token", response.data.token); // Armazena o token JWT
-      setIsAuthenticated(true);
       navigate("/inicio");
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);

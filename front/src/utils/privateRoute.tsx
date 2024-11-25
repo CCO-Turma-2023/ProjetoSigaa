@@ -6,7 +6,7 @@ import { useAuth } from "../context";
 const isAuthenticated = async (
   setverifyToken: Dispatch<SetStateAction<boolean>>,
 ): Promise<boolean> => {
-  const token = localStorage.getItem("token"); // Pegue o token de forma segura
+  const token = localStorage.getItem("token"); // Pegando o token para verificar se ainda está autenticado
   if (!token) {
     console.warn("Token não encontrado!");
     setverifyToken(false);
@@ -14,12 +14,14 @@ const isAuthenticated = async (
   }
 
   try {
+    // Verificando a integridade do token para ver se não estourou o tempo
     const response = await axios.get("http://localhost:3200/users/autentica", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
+    // Caso tudo tiver OK, atualizamos o verifyToken para mudar as constantes de exibição
     if (response.status === 200) {
       setverifyToken(true);
       return true;

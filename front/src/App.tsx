@@ -5,9 +5,10 @@ import Inicio from "./pages/inicio/page.tsx";
 import Menu from "./components/menu/index.tsx";
 import Turma from "./pages/disciplinas/page.tsx";
 import Cadastro from "./pages/cadastro/index.tsx";
-import Header from "./components/headerInicio/index.tsx";
 import Senha from "./pages/esqueceSenha/page.tsx";
-import PrivateRoute from "./components/rotaPrivada"
+import PrivateRoute from "./utils/privateRoute.tsx";
+import Historico from "./pages/historico/index.tsx";
+import Matricula from "./pages/matricula/page.tsx";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/esqueceu" element={<Senha />} />
+
+        {/* Rotas protegidas */}
         <Route
           path="/inicio"
           element={
@@ -24,9 +27,8 @@ function App() {
               <div className="flex">
                 <Menu />
                 <Inicio />
-              </div> 
+              </div>
             </PrivateRoute>
-            
           }
         />
         <Route
@@ -38,7 +40,30 @@ function App() {
                 <Turma />
               </div>
             </PrivateRoute>
-            
+          }
+        />
+
+        <Route
+          path="/historico"
+          element={
+            <PrivateRoute>
+              <div className="flex">
+                <Menu />
+                <Historico />
+              </div>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/matricula"
+          element={
+            <PrivateRoute>
+              <div className="flex">
+                <Menu />
+                <Matricula />
+              </div>
+            </PrivateRoute>
           }
         />
       </Routes>

@@ -1,21 +1,50 @@
 // db.js
 const mysql = require("mysql2/promise");
+const {
+  createDatabaseSQL,
+  createCursosTableSQL,
+  createUsersTableSQL,
+  insertCursosSQL,
+} = require("./bd/bd"); // Importando as queries do arquivo bd.js
 
+// Configuração do pool de conexões
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "",
-  database: "bdUsers",
+  password: "", // Coloque sua senha aqui
+  database: "bdusers", // Inicializa com um banco qualquer (no caso, "bdusers")
 });
 
-// Testa a conexão com o banco na inicialização
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error("Erro ao conectar ao banco de dados:", err.message);
-  } else {
-    console.log("Conexão com o banco de dados estabelecida!");
-    connection.release(); // Libera a conexão de volta para o pool
+// Função para inicializar o banco de dados
+async function initializeDatabase() {
+  const connection = await pool.getConnection();
+  try {
+    // Cria o banco de dados se não existir
+    await connection.query(createDatabaseSQL);
+    console.log("Banco de dados criado ou já existente.");
+
+    // Após criar o banco, usa o banco correto
+    await connection.query("USE `bdusers`;");
+
+    // Cria a tabela cursos
+    await connection.query(createCursosTableSQL);
+    console.log("Tabela cursos criada.");
+
+    // Cria a tabela users
+    await connection.query(createUsersTableSQL);
+    console.log("Tabela users criada.");
+
+    // Insere os dados na tabela cursos
+    await connection.query(insertCursosSQL);
+    console.log("Dados inseridos na tabela cursos.");
+  } catch (error) {
+    console.error("Erro ao configurar o banco de dados:", error);
+  } finally {
+    connection.release();
   }
-});
+}
+
+// Inicializa o banco ao iniciar o servidor
+initializeDatabase();
 
 module.exports = pool;

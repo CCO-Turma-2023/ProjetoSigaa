@@ -1,24 +1,26 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
-const {key} = require("../postMethod/login")
+const { key } = require("../postMethod/login");
 
-const autenticaUsuario = (req, res) =>{
+const autenticaUsuario = (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Extrai o token do cabeçalho
 
-  if (!token){
+  if (!token) {
     return res.status(401).json({ message: "Token não fornecido" });
-  } 
+  }
 
   jwt.verify(token, key, (err, user) => {
     if (err) {
-        return res.status(403).json({ message: "Token inválido" });
+      return res.status(403).json({ message: "Token inválido" });
     }
 
+    console.log("Teste");
+
     res.json({
-        user: user
+      user: user,
     });
   });
-}
+};
 
-module.exports = {autenticaUsuario}
+module.exports = { autenticaUsuario };

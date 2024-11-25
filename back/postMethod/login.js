@@ -29,13 +29,15 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         matricula: user.matricula,
+        curso: user.curso,
       };
-      const token = jwt.sign(dados, key, { expiresIn: "1h" });
+      const token = jwt.sign(dados, key, { expiresIn: "1h" }); // Gera TOKEM
       console.log("Login realizado com sucesso");
-      return res.status(200).json({ token });
+
+      return res.status(200).json({ token, status: true });
     } else {
       console.log("Senha incorreta");
-      return res.status(401).send("Login ou senha errado");
+      return res.status(200).send({ status: false });
     }
   } catch (error) {
     console.error("Erro ao consultar o banco de dados:", error.message);

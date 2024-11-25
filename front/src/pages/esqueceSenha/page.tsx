@@ -1,27 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import Header from "../../components/headerInicio";
-import { useForm, SubmitHandler } from "react-hook-form"; // Importando SubmitHandler para tipagem
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-// Tipagem dos dados do formulário
-interface IFormInput {
-  email: string;
-  matricula: string;
-}
 
 export default function Senha() {
-  // Inicializa o react-hook-form para gerenciar os dados do formulário
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-  // Função de envio de dados para o backend
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log("Dados enviados:", data);
+  const [formData, setFormData] = useState({
+    email: "",
+    matricula: "",
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({
+      email: formData.email,
+      matricula: formData.matricula,
+      [name]: value,
+    });
+    console.log(value);
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData);
+    event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
     try {
-      // Envia a requisição POST para o backend
       const response = await axios.post(
         "http://localhost:3200/users/esqueceu",
-        data
+        formData,
       );
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
@@ -37,7 +43,7 @@ export default function Senha() {
           <div className="flex w-full flex-1 flex-col items-center justify-center p-3">
             <form
               className="flex w-full flex-col items-center justify-center gap-5"
-              onSubmit={handleSubmit(onSubmit)} // Usa o handleSubmit do react-hook-form
+              onSubmit={onSubmit} 
             >
               <div className="flex w-full flex-col items-center justify-center gap-1">
 
@@ -49,11 +55,12 @@ export default function Senha() {
                   style={{ backgroundColor: "rgb(212, 212, 216)" }}
                   className="w-1/2 rounded-3xl text-center"
                   type="email"
+                  name="email"
+                  value={formData.email}
                   id="email"
                   placeholder="Digite o Email"
-                  {...register("email", { required: "Email é obrigatório" })} // Registra o campo email com validação
+                  onChange={handleChange}
                 />
-                {errors.email && <span>{errors.email.message}</span>} {/* Exibe erro se houver */}
 
                 {/* Matrícula */}
                 <label className="font mt-4" htmlFor="matricula">
@@ -63,11 +70,12 @@ export default function Senha() {
                   style={{ backgroundColor: "rgb(212, 212, 216)" }}
                   className="w-1/2 rounded-3xl text-center"
                   type="text"
+                  name="matricula"
                   id="matricula"
+                  value={formData.matricula}
                   placeholder="Número de Matrícula"
-                  {...register("matricula", { required: "Matrícula é obrigatória" })} // Registra o campo matrícula com validação
+                  onChange={handleChange}
                 />
-                {errors.matricula && <span>{errors.matricula.message}</span>} {/* Exibe erro se houver */}
               </div>
 
               {/* Botões */}

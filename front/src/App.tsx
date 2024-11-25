@@ -7,6 +7,7 @@ import Turma from "./pages/disciplinas/page.tsx";
 import Cadastro from "./pages/cadastro/index.tsx";
 import Header from "./components/headerInicio/index.tsx";
 import Senha from "./pages/esqueceSenha/page.tsx";
+import PrivateRoute from "./components/rotaPrivada"
 
 function App() {
   return (
@@ -19,19 +20,25 @@ function App() {
         <Route
           path="/inicio"
           element={
-            <div className="flex">
-              <Menu />
-              <Inicio />
-            </div>
+            <PrivateRoute>
+              <div className="flex">
+                <Menu />
+                <Inicio />
+              </div> 
+            </PrivateRoute>
+            
           }
         />
         <Route
           path="/turma"
           element={
-            <div className="flex">
-              <Menu />
-              <Turma />
-            </div>
+            <PrivateRoute>
+              <div className="flex">
+                <Menu />
+                <Turma />
+              </div>
+            </PrivateRoute>
+            
           }
         />
       </Routes>

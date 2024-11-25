@@ -33,6 +33,12 @@ export default function Menu() {
       setSelected("/disciplina");
       return;
     }
+
+    if(prop === "/"){
+      localStorage.removeItem("token")
+      console.log("token removido")
+    }
+
     setEstado(false);
     setSelected(prop);
   };
@@ -67,6 +73,7 @@ export default function Menu() {
         />
 
         {estado && <SubMenu />}
+
         <BotoesNav
           rota={"/indices"}
           name={"Indices"}

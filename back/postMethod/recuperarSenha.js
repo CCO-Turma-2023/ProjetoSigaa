@@ -15,10 +15,12 @@ const transporter = nodemailer.createTransport({
 const recuperarSenha = async (req, res) => {
     
     try {
-        const { matricula, email } = req.body;
+        const { email, matricula } = req.body;
+
+        console.log(req.body)
     
         // Usar await com o pool configurado para Promises
-        const [rows] = await pool.query("SELECT * FROM usuarios WHERE matricula = ?", [
+        const [rows] = await pool.query("SELECT * FROM users WHERE matricula = ?", [
           matricula,
         ]);
     

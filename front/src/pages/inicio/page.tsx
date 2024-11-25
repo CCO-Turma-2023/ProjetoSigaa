@@ -5,8 +5,12 @@ import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import CardsInicio from "../../components/cardsInicio";
 import MyCalendar from "../../components/calendario";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Inicio() {
+  
   const cards = [
     {
       icon: FaBook,
@@ -36,6 +40,8 @@ export default function Inicio() {
       color: "#E5AE55",
     },
   ];
+
+
   return (
     <div className="flex min-h-screen w-full flex-1 flex-col gap-6 bg-backgroundLinear">
       <div className="flex w-full text-center text-white">
@@ -63,5 +69,5 @@ export default function Inicio() {
         <MyCalendar></MyCalendar>
       </div>
     </div>
-  );
+  )
 }

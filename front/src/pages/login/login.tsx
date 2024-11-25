@@ -34,8 +34,13 @@ export default function Home() {
         "http://localhost:3200/users/login",
         formData,
       );
-      console.log("Resposta do servidor:", response.data);
+      
+      const {token} = response.data
+
+      localStorage.setItem("token", token);
+
       navigate("/inicio");
+      
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }

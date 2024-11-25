@@ -1,5 +1,9 @@
 const pool = require("../db");
 
+const jwt = require("jsonwebtoken");
+
+const key = "1234"
+
 const login = async (req, res) => {
   try {
     const { matricula, senha } = req.body;
@@ -16,10 +20,14 @@ const login = async (req, res) => {
 
     const user = rows[0]; // Pegar o primeiro (e único) resultado
 
+    console.log(user)
+
     // Validar a senha
     if (user.senha === senha) {
+      const dados = {id : user.id, name: user.name, email: user.email, matricula: user.matricula}
+      const token = jwt.sign(dados, key, { expiresIn: "1h" })
       console.log("Login realizado com sucesso");
-      return res.status(200).send("Login realizado com sucesso");
+      return res.status(200).json({token});
     } else {
       console.log("Senha incorreta");
       return res.status(401).send("Login ou senha errado");
@@ -30,4 +38,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login };
+module.exports = { login, key};

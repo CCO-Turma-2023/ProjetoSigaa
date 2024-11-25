@@ -19,8 +19,8 @@ interface AuthContextType {
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   curso: string;
   setCurso: Dispatch<SetStateAction<string>>;
-  teste: boolean;
-  setTeste: Dispatch<SetStateAction<boolean>>;
+  verifyToken: boolean;
+  setverifyToken: Dispatch<SetStateAction<boolean>>;
 }
 
 // Cria o contexto com valor inicial
@@ -43,10 +43,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [nome, setNome] = useState<string>("");
   const [curso, setCurso] = useState<string>("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [teste, setTeste] = useState<boolean>(false);
+  const [verifyToken, setverifyToken] = useState<boolean>(false);
 
   useEffect(() => {
-    if (teste) {
+    if (verifyToken) {
       const token = localStorage.getItem("token");
       if (token) {
         try {
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(false);
       }
     }
-  }, [teste]);
+  }, [verifyToken]);
 
   return (
     <AuthContext.Provider
@@ -80,8 +80,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setCurso,
         isAuthenticated,
         setIsAuthenticated,
-        teste,
-        setTeste,
+        verifyToken,
+        setverifyToken,
       }}
     >
       {children}

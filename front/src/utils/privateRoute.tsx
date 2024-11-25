@@ -4,12 +4,12 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context";
 
 const isAuthenticated = async (
-  setTeste: Dispatch<SetStateAction<boolean>>,
+  setverifyToken: Dispatch<SetStateAction<boolean>>,
 ): Promise<boolean> => {
   const token = localStorage.getItem("token"); // Pegue o token de forma segura
   if (!token) {
     console.warn("Token não encontrado!");
-    setTeste(false);
+    setverifyToken(false);
     return false;
   }
 
@@ -21,27 +21,27 @@ const isAuthenticated = async (
     });
 
     if (response.status === 200) {
-      setTeste(true);
+      setverifyToken(true);
       return true;
     } else {
-      setTeste(false);
+      setverifyToken(false);
       return false;
     }
   } catch (error) {
     console.error("Erro ao verificar autenticação:", error);
-    setTeste(false);
+    setverifyToken(false);
     return false;
   }
 };
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const { setTeste } = useAuth();
+  const { setverifyToken } = useAuth();
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     let isMounted = true; // Para evitar atualizações no estado após desmontar
     const checkAuthentication = async () => {
-      const result = await isAuthenticated(setTeste);
+      const result = await isAuthenticated(setverifyToken);
       if (isMounted) setAuthenticated(result);
     };
 
@@ -50,7 +50,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
     return () => {
       isMounted = false; // Limpeza ao desmontar
     };
-  }, [setTeste]);
+  }, [setverifyToken]);
 
   if (authenticated === null) {
     return <div>Carregando...</div>; // Substituir por um componente de loading

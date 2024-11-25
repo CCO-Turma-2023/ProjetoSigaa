@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, {
   createContext,
   useContext,
@@ -29,12 +30,31 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+interface JwtPayload {
+  matricula: string;
+  name: string;
+  curso: string;
+}
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [matricula, setMatricula] = useState<string>("");
   const [nome, setNome] = useState<string>("");
   const [curso, setCurso] = useState<string>("");
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // Pegue o token de forma segura
+    if (token !== null) {
+      const teste = jwtDecode<JwtPayload>(token);
+      console.log(token);
+      setNome(teste.name);
+      setMatricula(teste.matricula);
+      setCurso(teste.curso);
+
+      console.log(teste);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider

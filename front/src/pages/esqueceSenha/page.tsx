@@ -3,9 +3,7 @@ import Header from "../../components/headerInicio";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 export default function Senha() {
-
   const [formData, setFormData] = useState({
     email: "",
     matricula: "",
@@ -18,11 +16,9 @@ export default function Senha() {
       matricula: formData.matricula,
       [name]: value,
     });
-    console.log(value);
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData);
     event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
     try {
       const response = await axios.post(
@@ -43,10 +39,9 @@ export default function Senha() {
           <div className="flex w-full flex-1 flex-col items-center justify-center p-3">
             <form
               className="flex w-full flex-col items-center justify-center gap-5"
-              onSubmit={onSubmit} 
+              onSubmit={onSubmit}
             >
               <div className="flex w-full flex-col items-center justify-center gap-1">
-
                 {/* Email */}
                 <label className="font mt-4" htmlFor="email">
                   Email

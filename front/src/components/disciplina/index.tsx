@@ -60,25 +60,28 @@ export default function Disciplina({
         </div>
         <div className="flex flex-col gap-[0.5rem]">
           <p className="font-bold">Situação</p>
-          <p className="rounded-[0.4rem] bg-green-500 p-[0.3rem] font-bold text-white">
+          <p
+            className={`rounded-[0.4rem] bg-${disciplina.situacao === "Encerrado" ? "red" : "green"}-500 p-[0.3rem] font-bold text-white`}
+          >
             {disciplina.situacao}
           </p>
         </div>
 
         <div className="flex flex-col gap-[0.5rem]">
-          {disciplina.situacao !== "Trancado" && (
-            <>
-              <p className="font-bold">Ações</p>
-              <button
-                onClick={() => {
-                  solicitarTrancamento(true);
-                }}
-                className="rounded-[0.4rem] bg-red-500 p-[0.3rem] font-bold text-white"
-              >
-                Solicitar trancamento
-              </button>
-            </>
-          )}
+          {disciplina.situacao !== "Trancado" &&
+            disciplina.situacao !== "Encerrado" && (
+              <>
+                <p className="font-bold">Ações</p>
+                <button
+                  onClick={() => {
+                    solicitarTrancamento(true);
+                  }}
+                  className="rounded-[0.4rem] bg-red-500 p-[0.3rem] font-bold text-white"
+                >
+                  Solicitar trancamento
+                </button>
+              </>
+            )}
         </div>
       </div>
     </div>

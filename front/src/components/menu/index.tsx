@@ -6,16 +6,13 @@ import { HiAcademicCap } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
+import { useAuth } from "../../context.tsx";
 
 export default function Menu() {
+  const { matricula, nome, curso } = useAuth();
+
   const [userIcon, setUserIcon] = useState(userImage);
   const [isSelected, setSelected] = useState("");
-  const [user, setUser] = useState({
-    nome: "LIONEL MESSI",
-    matricula: "2025001009",
-    curso: "CIÊNCIA DA COMPUTAÇÃO",
-  });
-
   const [estado, setEstado] = useState(false);
 
   useEffect(() => {
@@ -34,9 +31,9 @@ export default function Menu() {
       return;
     }
 
-    if(prop === "/"){
-      localStorage.removeItem("token")
-      console.log("token removido")
+    if (prop === "/") {
+      localStorage.removeItem("token");
+      console.log("token removido");
     }
 
     setEstado(false);
@@ -50,9 +47,9 @@ export default function Menu() {
           <img src={userIcon} alt="userIcon" className="w-[80px]" />
         </div>
         <div className="flex h-36 w-full flex-col items-center justify-center gap-2 bg-[#00002b] p-[1rem] text-center text-sm font-bold">
-          <span className="text-white">{user.nome}</span>
-          <span className="mt-2 text-white">{user.matricula}</span>
-          <span className="mt-2 text-white">{user.curso}</span>
+          <span className="text-white">{matricula}</span>
+          <span className="mt-2 text-white">{nome}</span>
+          <span className="mt-2 text-white">{curso}</span>
         </div>
       </div>
       <div className="h-1 w-5/6 rounded-full bg-white"></div>

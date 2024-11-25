@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/headerInicio";
 import unifei from "../../assets/unifeiImagem.jpg";
 import logo from "../../assets/logoEngrenagem.png";
@@ -6,10 +6,17 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context";
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const { setMatricula, setNome, setCurso } = useAuth();
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
 
   const [formData, setFormData] = useState({
     matricula: "",
@@ -23,24 +30,23 @@ export default function Home() {
       senha: formData.senha,
       [name]: value,
     });
-    console.log(value);
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData);
     event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
     try {
       const response = await axios.post(
         "http://localhost:3200/users/login",
         formData,
       );
-      
-      const {token} = response.data
 
-      localStorage.setItem("token", token);
+      if (!response.data.status) {
+        return;
+      }
+
+      localStorage.setItem("token", response.data.token); // Armazena o token JWT
 
       navigate("/inicio");
-      
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }
@@ -93,10 +99,7 @@ export default function Home() {
                   value={formData.senha}
                   onChange={handleChange}
                 />
-                <Link
-                  className="mt-2 text-xs text-blue-500"
-                  to="/esqueceu"
-                >
+                <Link className="mt-2 text-xs text-blue-500" to="/esqueceu">
                   Esqueceu a senha?
                 </Link>
               </div>

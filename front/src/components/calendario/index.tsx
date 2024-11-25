@@ -100,7 +100,7 @@ export default function MyCalendar() {
   };
 
   return (
-    <div className="h-full w-[40rem] border border-white bg-[rgba(0,17,61,1)] p-2 text-white">
+    <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[45rem] lg:text-[0.9rem]">
       {selectedEvent && (
         <DialogData
           title={selectedEvent.title}

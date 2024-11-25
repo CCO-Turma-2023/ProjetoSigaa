@@ -1,25 +1,26 @@
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, {
   createContext,
   useContext,
   useState,
+  useEffect,
   ReactNode,
   Dispatch,
   SetStateAction,
-  useEffect,
 } from "react";
 
 // Define o tipo do estado do contexto
 interface AuthContextType {
   matricula: string;
-  setMatricula: Dispatch<SetStateAction<string>>; // Expondo o setter
+  setMatricula: Dispatch<SetStateAction<string>>;
   nome: string;
-  setNome: Dispatch<SetStateAction<string>>; // Expondo o setter
-  isAuthenticated: boolean | null; // Status de autenticação
-  setIsAuthenticated: Dispatch<SetStateAction<boolean | null>>; // Expondo o setter
+  setNome: Dispatch<SetStateAction<string>>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   curso: string;
-  setCurso: Dispatch<SetStateAction<string>>; // Expondo o setter
+  setCurso: Dispatch<SetStateAction<string>>;
+  teste: boolean;
+  setTeste: Dispatch<SetStateAction<boolean>>;
 }
 
 // Cria o contexto com valor inicial
@@ -30,6 +31,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+// Define os itens que estão presentes no tokem
 interface JwtPayload {
   matricula: string;
   name: string;
@@ -40,21 +42,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [matricula, setMatricula] = useState<string>("");
   const [nome, setNome] = useState<string>("");
   const [curso, setCurso] = useState<string>("");
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [teste, setTeste] = useState<boolean>(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Pegue o token de forma segura
-    if (token !== null) {
-      const teste = jwtDecode<JwtPayload>(token);
-      console.log(token);
-      setNome(teste.name);
-      setMatricula(teste.matricula);
-      setCurso(teste.curso);
-
-      console.log(teste);
+    if (teste) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decoded = jwtDecode<JwtPayload>(token);
+          if (decoded && decoded.matricula && decoded.name && decoded.curso) {
+            setNome(decoded.name);
+            setMatricula(decoded.matricula);
+            setCurso(decoded.curso);
+            setIsAuthenticated(true);
+          } else {
+            throw new Error("Payload inválido");
+          }
+        } catch (error) {
+          console.error("Token inválido ou malformado", error);
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
     }
-  }, []);
+  }, [teste]);
 
   return (
     <AuthContext.Provider
@@ -67,6 +80,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setCurso,
         isAuthenticated,
         setIsAuthenticated,
+        teste,
+        setTeste,
       }}
     >
       {children}

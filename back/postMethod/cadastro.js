@@ -26,10 +26,15 @@ const cadastrarUsuario = async (req, res) => {
         infos.matricula,
       ]);
 
+      console.log("Usuário cadastrado com sucesso")
+
       return res
         .status(200)
         .json({ message: "Usuário atualizado com sucesso!" });
     } else {
+
+      console.log("Usuário ja existente")
+
       return res
         .status(404)
         .json({ message: "Usuário não encontrado ou já está ativo" });

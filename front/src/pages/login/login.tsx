@@ -5,8 +5,12 @@ import logo from "../../assets/logoEngrenagem.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     matricula: "",
     senha: "",
@@ -31,6 +35,7 @@ export default function Home() {
         formData,
       );
       console.log("Resposta do servidor:", response.data);
+      navigate("/inicio");
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }
@@ -85,7 +90,7 @@ export default function Home() {
                 />
                 <Link
                   className="mt-2 text-xs text-blue-500"
-                  to="https://pbs.twimg.com/media/GUpZVNLXAAAia1R.jpg"
+                  to="/esqueceu"
                 >
                   Esqueceu a senha?
                 </Link>

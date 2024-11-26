@@ -61,7 +61,7 @@ export default function Disciplina({
         <div className="flex flex-col gap-[0.5rem]">
           <p className="font-bold">Situação</p>
           <p
-            className={`rounded-[0.4rem] bg-${disciplina.situacao === "Encerrado" ? "red" : "green"}-500 p-[0.3rem] font-bold text-white`}
+            className={`rounded-[0.4rem] ${disciplina.situacao === "Encerrado" ? "bg-red-500" : "bg-green-500"} p-[0.3rem] font-bold text-white`}
           >
             {disciplina.situacao}
           </p>

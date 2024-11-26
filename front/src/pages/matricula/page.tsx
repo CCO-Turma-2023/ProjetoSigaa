@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DiscMatricula from "../../components/subMenuMatriculas";
 
 export default function Matricula() {
   const [subMenuTurmasRecomendadas, setsubMenuTurmasRecomendadas] =
@@ -14,10 +15,11 @@ export default function Matricula() {
           <h1>Matrículas - 1° Semestre - 2025</h1>
         </div>
         <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
-        <div className="ml-4 flex w-1/4 flex-col gap-[0.5re] border-2 border-[#e3e3e3]">
-          <div className="m-4 bg-[#d0d2d3] p-2">
+        <div className="ml-4 flex w-2/6 flex-col gap-[0.5re] border-2 border-[#e3e3e3]">
+          <div className="bg-[#d0d2d3] p-2">
             <button className="text-xl/2">Turmas Recomendadas</button>
           </div>
+          <DiscMatricula />
           <div className="m-4 bg-[#d0d2d3] p-2">
             <button className="text-xl/2">Turmas Obrigatórias</button>
           </div>

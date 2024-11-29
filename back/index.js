@@ -13,8 +13,11 @@ app.use(
   })
 );
 
+
+
 // Middleware para processar o corpo das requisições como JSON
 app.use(express.json());
+
 
 // Rota de teste
 app.get("/", (req, res) => {

@@ -5,8 +5,23 @@ import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import CardsInicio from "../../components/cardsInicio";
 import MyCalendar from "../../components/calendario";
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Menu from "../../components/menu/index.tsx";
+
+interface user {
+  matricula: string,
+  name: string, 
+  email: string,
+  id: number,
+  iat: number
+}
 
 export default function Inicio() {
+  const navigate = useNavigate();
+  const[user,setUser] = useState<user | null>(null);
+
   const cards = [
     {
       icon: FaBook,
@@ -37,7 +52,36 @@ export default function Inicio() {
     },
   ];
 
+
+const config = {
+  headers: {
+      Authorization: "Bearer " + sessionStorage.getItem('token')
+  }
+}
+
+
+useEffect(() =>{
+    
+    async function validaAcesso(){
+        try {
+            const resposta = await axios.get('http://localhost:3200/users/autentica',config);
+            if(resposta.status === 201){
+              setUser(resposta.data.user)
+              console.log("Usuario autenticado");
+                 return;
+            }  
+            navigate("/");
+        } catch (error) {
+            navigate("/")
+        }
+    }
+    validaAcesso();
+},[]);
+
+
   return (
+    <div className="flex w-full">
+    <Menu />
     <div className="flex min-h-screen w-full flex-1 flex-col gap-6">
       <div className="flex w-full text-center text-white">
         <div className="justify-left ml-[3rem] mt-4 flex w-full pr-1 text-center">
@@ -63,6 +107,7 @@ export default function Inicio() {
         <Horarios></Horarios>
         <MyCalendar></MyCalendar>
       </div>
+    </div>
     </div>
   );
 }

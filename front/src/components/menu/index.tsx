@@ -7,13 +7,31 @@ import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
 import { useAuth } from "../../context.tsx";
+import { jwtDecode} from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
+interface user {
+  matricula: string,
+  name: string, 
+  email: string,
+  id: number,
+  iat: number
+}
+
+interface JwtPayload {
+  matricula: string,
+  name: string, 
+  email: string,
+  id: number,
+  iat: number
+}
 
 export default function Menu() {
-  const { matricula, nome, curso } = useAuth();
 
   const [userIcon, setUserIcon] = useState(userImage);
   const [isSelected, setSelected] = useState("");
   const [estado, setEstado] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     defineSelected(window.location.pathname);
@@ -32,7 +50,7 @@ export default function Menu() {
     }
 
     if (prop === "/") {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       console.log("token removido");
     }
 
@@ -40,6 +58,22 @@ export default function Menu() {
     setSelected(prop);
   };
 
+  const token = sessionStorage.getItem("token");
+  let usuario;
+
+  if(token){
+    try{
+    usuario = jwtDecode<JwtPayload>(token);
+    } catch (error) {
+      navigate("/");
+    }
+    console.log(usuario)
+  } else {
+    navigate("/");
+  }
+
+
+  
   return (
     <nav className="flex min-h-screen w-64 min-w-64 flex-col items-center gap-5 bg-[#00113D]">
       <div className="mt-4 flex w-full flex-col items-center justify-center gap-3">
@@ -47,9 +81,9 @@ export default function Menu() {
           <img src={userIcon} alt="userIcon" className="w-[80px]" />
         </div>
         <div className="flex h-36 w-full flex-col items-center justify-center gap-2 bg-[#00002b] p-[1rem] text-center text-sm font-bold">
-          <span className="text-white">{matricula}</span>
-          <span className="mt-2 text-white">{nome}</span>
-          <span className="mt-2 text-white">{curso}</span>
+          <span className="text-white">{usuario?.matricula}</span>
+          <span className="mt-2 text-white">{usuario?.name}</span>
+          <span className="mt-2 text-white">{usuario?.email}</span>
         </div>
       </div>
       <div className="h-1 w-5/6 rounded-full bg-white"></div>

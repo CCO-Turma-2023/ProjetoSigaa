@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context";
-import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -37,12 +35,12 @@ export default function Home() {
         "http://localhost:3200/users/login",
         formData,
       );
-
+      
       if (!response.data.status) {
         return;
       }
-
-      localStorage.setItem("token", response.data.token); // Armazena o token JWT
+      console.log("oi")
+      sessionStorage.setItem("token", response.data.token); // Armazena o token JWT
       navigate("/inicio");
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);

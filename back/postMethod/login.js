@@ -2,7 +2,8 @@ const pool = require("../db");
 
 const jwt = require("jsonwebtoken");
 
-const key = "1234";
+
+require('dotenv').config();
 
 const login = async (req, res) => {
   try {
@@ -31,7 +32,10 @@ const login = async (req, res) => {
         matricula: user.matricula,
         curso: user.curso,
       };
-      const token = jwt.sign(dados, key, { expiresIn: "1h" }); // Gera TOKEM
+
+      console.log("mil meu")
+
+      const token = jwt.sign(dados, process.env.TOKEN, {expiresIn: "10s"} ); // Gera TOKEM
       console.log("Login realizado com sucesso");
 
       return res.status(200).json({ token, status: true });
@@ -45,4 +49,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { login, key };
+module.exports = { login};

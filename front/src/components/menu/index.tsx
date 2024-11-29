@@ -6,19 +6,10 @@ import { HiAcademicCap } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
-import { useAuth } from "../../context.tsx";
 import { jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-interface user {
-  matricula: string,
-  name: string, 
-  email: string,
-  id: number,
-  iat: number
-}
-
-interface JwtPayload {
+interface User {
   matricula: string,
   name: string, 
   email: string,
@@ -32,6 +23,20 @@ export default function Menu() {
   const [isSelected, setSelected] = useState("");
   const [estado, setEstado] = useState(false);
   const navigate = useNavigate();
+
+  const token = sessionStorage.getItem("token");
+
+  let usuario;
+
+  if(token){
+    try{
+    usuario = jwtDecode<User>(token);
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    navigate("/");
+  }
 
   useEffect(() => {
     defineSelected(window.location.pathname);
@@ -58,22 +63,7 @@ export default function Menu() {
     setSelected(prop);
   };
 
-  const token = sessionStorage.getItem("token");
-  let usuario;
 
-  if(token){
-    try{
-    usuario = jwtDecode<JwtPayload>(token);
-    } catch (error) {
-      navigate("/");
-    }
-    console.log(usuario)
-  } else {
-    navigate("/");
-  }
-
-
-  
   return (
     <nav className="flex min-h-screen w-64 min-w-64 flex-col items-center gap-5 bg-[#00113D]">
       <div className="mt-4 flex w-full flex-col items-center justify-center gap-3">

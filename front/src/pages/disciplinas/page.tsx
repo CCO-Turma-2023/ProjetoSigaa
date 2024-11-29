@@ -8,37 +8,7 @@ export default function Turma() {
   const [turmasAtuais, setTurmasAtuais] = useState([]);
   const disciplinas = {};
 
-
-  const config = {
-  headers: {
-      Authorization: "Bearer " + sessionStorage.getItem('token')
-  }
-}
-
-
-useEffect(() =>{
-    
-    async function validaAcesso(){
-        try {
-            const resposta = await axios.get('http://localhost:3200/users/autentica',config);
-            if(resposta.status === 201){
-              console.log(resposta.data.user.matricula)
-              setUser(resposta.data.user)
-              console.log("Usuario autenticado");
-                 return;
-            }  
-            navigate("/");
-        } catch (error) {
-            navigate("/")
-        }
-    }
-    validaAcesso();
-},[]);
-
-
   return (
-    <div className="flex w-full">
-    <Menu />
     <div className="align-center flex h-screen w-full flex-1 flex-col justify-center bg-backgroundLinear">
       <div className="m-[2rem] h-[90%] w-[95%] overflow-x-auto bg-white p-3">
         <h1 className="m-[1rem] text-3xl">Turmas Atuais</h1>
@@ -49,6 +19,5 @@ useEffect(() =>{
         </div>
       </div>
       </div>
-    </div>
   );
 }

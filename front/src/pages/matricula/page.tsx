@@ -1,50 +1,14 @@
 import { useState, useEffect } from "react";
 import DiscMatricula from "../../components/subMenuMatriculas";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Menu from "../../components/menu/index.tsx";
 
 export default function Matricula() {
-  const navigate = useNavigate();
-  const[user,setUser] = useState<user | null>(null);
-
-
   const [subMenuTurmasRecomendadas, setsubMenuTurmasRecomendadas] =
     useState(false);
   const [subMenuTurmasObrigatorias, setsubMenuTurmasObrigatorias] =
     useState(false);
   const [subMenuTurmasOptativas, setsubMenuTurmasOptativas] = useState(false);
 
-
-  const config = {
-    headers: {
-        Authorization: "Bearer " + sessionStorage.getItem('token')
-    }
-  }
-  
-  
-  useEffect(() =>{
-      
-      async function validaAcesso(){
-          try {
-              const resposta = await axios.get('http://localhost:3200/users/autentica',config);
-              if(resposta.status === 201){
-                setUser(resposta.data.user)
-                console.log("Usuario autenticado");
-                   return;
-              }  
-              navigate("/");
-          } catch (error) {
-              navigate("/")
-          }
-      }
-      validaAcesso();
-  },[]);
-
-
   return (
-    <div className="flex w-full">
-    <Menu />
     <div className="align-center flex h-screen w-full flex-1 flex-col justify-center bg-backgroundLinear">
       <div className="ml-[2rem] flex h-[90%] w-[95%] flex-col bg-white">
         <div className="m-3 ml-2 text-2xl">
@@ -64,7 +28,6 @@ export default function Matricula() {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

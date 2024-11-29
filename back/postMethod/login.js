@@ -35,7 +35,7 @@ const login = async (req, res) => {
 
       console.log("mil meu")
 
-      const token = jwt.sign(dados, process.env.TOKEN, {expiresIn: "10s"} ); // Gera TOKEM
+      const token = jwt.sign(dados, process.env.TOKEN, {expiresIn: "30m"} ); // Gera TOKEM
       console.log("Login realizado com sucesso");
 
       return res.status(200).json({ token, status: true });

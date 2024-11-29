@@ -39,9 +39,11 @@ export default function Home() {
       if (!response.data.status) {
         return;
       }
-      console.log("oi")
+
       sessionStorage.setItem("token", response.data.token); // Armazena o token JWT
+
       navigate("/inicio");
+      
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import userImage from "../../assets/user.png";
-import { FaRegNewspaper } from "react-icons/fa";
 import { HiHome } from "react-icons/hi2";
 import { HiAcademicCap } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
@@ -14,7 +13,8 @@ interface User {
   name: string, 
   email: string,
   id: number,
-  iat: number
+  iat: number,
+  type: Number
 }
 
 export default function Menu() {
@@ -47,7 +47,7 @@ export default function Menu() {
       prop === "/disciplina" ||
       prop === "/turma" ||
       prop === "/historico" ||
-      prop === "/matricula"
+      prop === "/matricula"  
     ) {
       setEstado(!estado);
       setSelected("/disciplina");
@@ -85,6 +85,9 @@ export default function Menu() {
           defineSelected={defineSelected}
           isSelected={isSelected}
         />
+        
+        { usuario?.type === 0 ?
+        <>
         <BotoesNav
           rota={"/disciplina"}
           name={"Disciplinas"}
@@ -92,16 +95,17 @@ export default function Menu() {
           defineSelected={defineSelected}
           isSelected={isSelected}
         />
-
-        {estado && <SubMenu />}
-
+        {estado && <SubMenu />} </> :  
+        
         <BotoesNav
-          rota={"/indices"}
-          name={"Indices"}
-          icon={FaRegNewspaper}
-          defineSelected={defineSelected}
-          isSelected={isSelected}
-        />
+        rota={"/listarTurmas"}
+        name={"Criar Turmas"}
+        icon={HiAcademicCap}
+        defineSelected={defineSelected}
+        isSelected={isSelected}
+      />
+      }
+
         <BotoesNav
           rota={"/"}
           name={"Sair"}

@@ -12,7 +12,7 @@ export default function DiscMatricula() {
   };
 
   return (
-    <div className="flex border-[1px] border-[#e3e3e3]">
+    <div className="w-[25%] h-[8.5rem] flex border-[2px] border-[#e3e3e3]">
       <div className="flex flex-col">
         <div className="flex">
           <h2 className="ml-2 mt-1 text-[1.2rem] text-[#28c2c0]">
@@ -28,8 +28,7 @@ export default function DiscMatricula() {
             Obrigatória
           </div>
         </div>
-        <div className="mb-1 ml-3 mt-1 flex flex-col">
-          <p className="flex items-center gap-[0.2rem]"> </p>
+        <div className="w-full mb-1 ml-3 mt-1 flex">
           <div className="flex flex-col">
             {disc.horarios.map((horario, index) => {
               return (
@@ -38,6 +37,14 @@ export default function DiscMatricula() {
                 </span>
               );
             })}
+          </div>
+          <div className="w-1/4 ml-12 flex flex-col gap-1 justify-items-end justify-end">
+            <button className="w-full border border-xl rounded-lg bg-blue-400">
+              Editar
+            </button>
+            <button className="w-full border border-xl rounded-lg bg-red-500">
+              Remover
+            </button>
           </div>
         </div>
       </div>

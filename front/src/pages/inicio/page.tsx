@@ -5,32 +5,58 @@ import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import CardsInicio from "../../components/cardsInicio";
 import MyCalendar from "../../components/calendario";
+import { jwtDecode} from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
+interface User {
+  matricula: string,
+  name: string, 
+  email: string,
+  id: number,
+  iat: number,
+  type: Number,
+  curso: string
+}
 
 export default function Inicio() {
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
+
+  let usuario;
+
+  if(token){
+    try{
+    usuario = jwtDecode<User>(token);
+    } catch (error) {
+      navigate("/");
+    }
+  } else {
+    navigate("/");
+  }
+
 
   const cards = [
     {
       icon: FaBook,
       titulo: "Curso",
-      texto: "Ciência da Computação",
+      texto: usuario?.curso,
       color: "#4DC2DF",
     },
     {
       icon: FaGraduationCap,
       titulo: "Currículo",
-      texto: "2025-Atual",
+      texto: String(usuario?.matricula.substring(0, 4)) + " - " + String(Number(usuario?.matricula.substring(0, 4)) + 4),
       color: "#E37265",
     },
     {
       icon: FaUser,
       titulo: "Coordenador",
-      texto: "Nome: Rafael Frinhani",
+      texto: `Nome: Rafael Limas`,
       color: "#6DAC67",
     },
     {
       icon: FaUsers,
-      titulo: "Secretaria",
+      titulo: "PRG",
       texto: `<div class="flex flex-col">
           <span>Telefone:</span> 
           <span>Email:</span>

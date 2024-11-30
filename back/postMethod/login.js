@@ -31,6 +31,7 @@ const login = async (req, res) => {
         email: user.email,
         matricula: user.matricula,
         curso: user.curso,
+        type: user.type,
       };
 
       console.log("mil meu")

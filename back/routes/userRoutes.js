@@ -5,12 +5,14 @@ const { cadastrarUsuario } = require("../postMethod/cadastro"); // Importa a ló
 const { login } = require("../postMethod/login");
 const { recuperarSenha } = require("../postMethod/recuperarSenha");
 const {autenticarToken} = require("../auth/auth.js")
+const {pegarCurso} = require("../getMethod/pegarCurso.js")
 
 // Rota para cadastrar ou atualizar o usuário
 router.post("/cadastro", cadastrarUsuario);
 router.post("/login", login);
 router.post("/esqueceu", recuperarSenha);
 router.get("/autentica", autenticarToken);
+router.get("/pegarCurso", pegarCurso);
 
 
 module.exports = router;

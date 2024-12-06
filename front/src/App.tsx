@@ -11,6 +11,8 @@ import NotFound from "./pages/notfound/pages";
 import { AuthProvider } from "./context";
 import PrivateRoute from "./utils/privateRoute";
 import CriarTurma from "./pages/listarTurmas/page";
+import 'react-toastify/dist/ReactToastify.css'
+
 
 function App() {
   return (

@@ -1,10 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 export interface propsCriarTurma {
   onClose: (aux: boolean) => void;
 }
 
+// Variável não pode estar dentro do componente para não ser renderizada toda vez por causa
+// do useState
+let qtdAulas = 0;
 
 export default function CriarTurma({ onClose }: propsCriarTurma) {
   const dias = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
@@ -16,9 +20,19 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
   const [diaSelecionado, setDiaSelecionado] = useState("");
   const [horarioInicio, sethorarioInicio] = useState("");
   const [horarioFim, sethorarioFim] = useState("");
+  const [cargaHoraria, setCargaHoraria] = useState("");
 
+  console.log(qtdAulas);
 
   const removerHorario = (horario : string) => {
+    
+    const aux = horario.split(" ");
+
+    const indIni = horarios.indexOf(aux[2]) // Primerio horário
+    const indFim = horarios.indexOf(aux[4]) // Segundo horário
+    
+    qtdAulas -= (indFim - indIni);
+
     setHorariosSelecionados(horariosSelecionados.filter(i => i !== horario));
   }
 
@@ -38,18 +52,53 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
   }
 
 
-  const adicionarHorario = () => {
+  const alterarCargaHoraria = (e : React.ChangeEvent<HTMLSelectElement>) => {
+    setCargaHoraria(e.target.value);
+  }
 
+
+  const adicionarHorario = () => {
+    
     if (diaSelecionado === "" || horarioInicio === "" || horarioFim === "") {
+      toast.warning("Preencha os Campos")
       return;
     }
+
+    if (cargaHoraria === "") {
+      toast.warning("Selecione uma carga horária")
+      return;
+    }
+
+    const indIni = horarios.indexOf(horarioInicio)
+    const indFim = horarios.indexOf(horarioFim)
+
+    if (indFim - indIni <= 0) {
+      toast.warning("Horários Inválidos")
+      return;
+    }
+
+    if (indFim - indIni + qtdAulas > Number(cargaHoraria)/32) {
+      toast.warning("Carga horária máxima já atingida")
+      return;
+    }
+
+    const horario = diaSelecionado + "  " + horarioInicio + " | " + horarioFim;
+
+    if (horariosSelecionados.includes(horario)) {
+      toast.warning("Horário já Selecionado");
+      return;
+    }
+
+    qtdAulas += indFim - indIni;
 
     setHorariosSelecionados([...horariosSelecionados, diaSelecionado + "  " + horarioInicio + " | " + horarioFim]);
   }
 
+
   const opcoesDias = [];
   for (let i in dias)
     opcoesDias.push(<option value={dias[i]}>{dias[i]}</option>)
+
   const opcoesHorarios = []
   for (let i in horarios)
     opcoesHorarios.push(<option value={horarios[i]}>{horarios[i]}</option>)
@@ -69,7 +118,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
               
               <div>
                 <label htmlFor="cargaHoraria">Carga Horária</label>  
-                <select className="ml-2 bg-gray border-[2px] border-black rounded-xl" name="cargaHoraria" id="cargaHoraria">    
+                <select onChange={alterarCargaHoraria} className="ml-2 bg-gray border-[2px] border-black rounded-xl" name="cargaHoraria" id="cargaHoraria">    
                   <option value="" disabled selected>Selecione uma opção</option>
                   <option value="32">32</option>
                   <option value="64">64</option>

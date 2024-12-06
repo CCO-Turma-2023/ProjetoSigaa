@@ -1,22 +1,15 @@
-import { PropsDisciplina } from "../disciplina";
 import { FaRegCircle } from "react-icons/fa";
+import { PropsDisciplina } from "../disciplina";
+import { propTurmas } from "../../pages/listarTurmas/page";
 
-export default function DiscMatricula() {
-  const disc: PropsDisciplina = {
-    codigo: "CRSC03",
-    nome: "ARQUITETURA DE COMPUTADORES I",
-    periodo: "1º Semestre",
-    ano: "2025",
-    horarios: ["Terça-Feira - 13:30 - 15:20", "Quinta-Feira - 15:20 - 17:35"],
-    situacao: "Encerrado",
-  };
-
+export default function DiscMatricula({ disc }: { disc: propTurmas }) {
+  console.log("teste", disc);
   return (
-    <div className="w-[25%] h-[8.5rem] flex border-[2px] border-[#e3e3e3]">
+    <div className="flex h-[8.5rem] w-[25%] border-[2px] border-[#e3e3e3]">
       <div className="flex flex-col">
         <div className="flex">
           <h2 className="ml-2 mt-1 text-[1.2rem] text-[#28c2c0]">
-            {disc.codigo} -
+            {disc.sigla} -
           </h2>
           <p className="ml-1 mt-2">{disc.nome}</p>
         </div>
@@ -28,7 +21,7 @@ export default function DiscMatricula() {
             Obrigatória
           </div>
         </div>
-        <div className="w-full mb-1 ml-3 mt-1 flex">
+        <div className="mb-1 ml-3 mt-1 flex w-full">
           <div className="flex flex-col">
             {disc.horarios.map((horario, index) => {
               return (
@@ -38,11 +31,11 @@ export default function DiscMatricula() {
               );
             })}
           </div>
-          <div className="w-1/4 ml-12 flex flex-col gap-1 justify-items-end justify-end">
-            <button className="w-full border border-xl rounded-lg bg-blue-400">
+          <div className="ml-12 flex w-1/4 flex-col justify-end justify-items-end gap-1">
+            <button className="border-xl w-full rounded-lg border bg-blue-400">
               Editar
             </button>
-            <button className="w-full border border-xl rounded-lg bg-red-500">
+            <button className="border-xl w-full rounded-lg border bg-red-500">
               Remover
             </button>
           </div>

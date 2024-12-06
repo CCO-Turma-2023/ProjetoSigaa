@@ -5,69 +5,68 @@ import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import CardsInicio from "../../components/cardsInicio";
 import MyCalendar from "../../components/calendario";
-import { jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios, { AxiosRequestConfig } from "axios";
 
 interface User {
-  matricula: string,
-  name: string, 
-  email: string,
-  id: number,
-  iat: number,
-  type: Number,
-  curso: string
+  matricula: string;
+  name: string;
+  email: string;
+  id: number;
+  iat: number;
+  type: Number;
+  curso: string;
 }
-
-
 
 export default function Inicio() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
-  let usuario : User;
-  const [curso, setCurso] = useState({curso: "",
+  let usuario: User;
+  const [curso, setCurso] = useState({
+    curso: "",
     sigla: "",
     codigo: "",
-    coordenador: ""
-  })
+    coordenador: "",
+  });
 
-  if(token){
-    try{
-    usuario = jwtDecode<User>(token);
+  if (token) {
+    try {
+      usuario = jwtDecode<User>(token);
     } catch (error) {
       navigate("/");
-      return <></>
+      return <></>;
     }
   } else {
     navigate("/");
-    return <></>
+    return <></>;
   }
 
   const config: AxiosRequestConfig = {
     headers: {
-        curso: usuario.curso,
-    }
+      curso: usuario.curso,
+    },
   };
 
   useEffect(() => {
     const pegarCurso = async () => {
       try {
-        const response = await axios.get("http://localhost:3200/users/pegarCurso",
-        config,)
-        setCurso(response.data)
-        
-        setLoading(false);
+        const response = await axios.get(
+          "http://localhost:3200/users/pegarCurso",
+          config,
+        );
+        setCurso(response.data);
 
+        setLoading(false);
       } catch (error) {
-        console.log("Erro ao pegar curso")
+        console.log("Erro ao pegar curso");
       }
     };
     pegarCurso();
   }, []);
-
 
   if (loading) {
     return <></>;
@@ -104,7 +103,7 @@ export default function Inicio() {
   ];
 
   return (
-    <div className="flex min-h-screen w-full flex-1 flex-col gap-6">
+    <div className="flex min-h-screen w-full flex-1 flex-col gap-6 bg-backgroundLinear">
       <div className="flex w-full text-center text-white">
         <div className="justify-left ml-[3rem] mt-4 flex w-full pr-1 text-center">
           <h1 className="text-4xl">{usuario.curso} (Graduação)</h1>

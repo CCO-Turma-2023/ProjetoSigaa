@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes"); // Importa as rotas
+const turmaRoutes = require("./routes/turmaRoutes"); // Importa as rotas
 
 const app = express();
 
@@ -13,11 +14,8 @@ app.use(
   })
 );
 
-
-
 // Middleware para processar o corpo das requisições como JSON
 app.use(express.json());
-
 
 // Rota de teste
 app.get("/", (req, res) => {
@@ -26,6 +24,7 @@ app.get("/", (req, res) => {
 
 // Usando as rotas de usuários
 app.use("/users", userRoutes); // Chama as rotas de cadastro
+app.use("/turmas", turmaRoutes); // Chama as rotas de cadastro
 
 // Inicia o servidor
 const PORT = 3200;

@@ -100,25 +100,27 @@ export default function MyCalendar() {
   };
 
   return (
-    <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[45rem] lg:text-[0.9rem]">
-      {selectedEvent && (
-        <DialogData
-          title={selectedEvent.title}
-          description={selectedEvent.description}
-          eventDate={selectedEvent.eventDate}
-          onClose={() => setSelectedEvent(null)}
+    <div>
+      <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[45rem] lg:text-[0.9rem]">
+        {selectedEvent && (
+          <DialogData
+            title={selectedEvent.title}
+            description={selectedEvent.description}
+            eventDate={selectedEvent.eventDate}
+            onClose={() => setSelectedEvent(null)}
+          />
+        )}
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          editable={true}
+          selectable={true}
+          datesSet={handleDatesSet}
+          events={events}
+          eventClick={handleEventClick}
+          locale={ptBR}
         />
-      )}
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        editable={true}
-        selectable={true}
-        datesSet={handleDatesSet}
-        events={events}
-        eventClick={handleEventClick}
-        locale={ptBR}
-      />
+      </div>{" "}
     </div>
   );
 }

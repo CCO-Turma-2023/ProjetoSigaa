@@ -4,12 +4,13 @@ import { FaRegCircle } from "react-icons/fa";
 import DialogTrancarCurso from "../dialogTrancamento";
 
 export interface PropsDisciplina {
-  codigo: string;
   nome: string;
   periodo: string;
   ano: string;
   horarios: string[];
   situacao: string;
+  professor: string;
+  sigla: string;
 }
 
 export default function Disciplina({
@@ -17,10 +18,10 @@ export default function Disciplina({
 }: {
   disciplina: PropsDisciplina;
 }) {
-  const [dialogTrancamentos, setDialogTracanmento] = useState(false);
+  const [dialogTrancamentos, setDialogTrancamento] = useState(false);
 
   const solicitarTrancamento = (index: boolean) => {
-    setDialogTracanmento(index);
+    setDialogTrancamento(index);
   };
 
   return (
@@ -34,7 +35,7 @@ export default function Disciplina({
         ></DialogTrancarCurso>
       )}
       <div className="flex">
-        <h2 className="mb-[1rem] text-xl font-bold">{disciplina.codigo}</h2>
+        <h2 className="mb-[1rem] text-xl font-bold">{disciplina.sigla}</h2>
         <h2 className="mb-[1rem] ml-[0.4rem] text-xl"> - {disciplina.nome}</h2>
       </div>
       <div className="flex w-full gap-[6rem]">

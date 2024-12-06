@@ -9,10 +9,11 @@ export interface propTurmas {
   sigla: string;
   situacao: string;
   professor: string;
-  ano: string;
+  ano: Number;
   horarios: string[];
   participantes: string;
   periodo: string;
+  id: Number;
 }
 
 export default function CriarTurma() {
@@ -24,15 +25,12 @@ export default function CriarTurma() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
-      console.log("Turmas recebidas:", response.data.turmas);
-
-      console.log("Turmas recebidas:", response.data.turmas);
-      // Certifique-se de que `response.data.turmas` é um array
-      if (Array.isArray(response.data.turmas)) {
-        setTurmas(response.data.turmas); // Armazena as turmas diretamente
-      } else {
-        console.error("Formato de dados inválido: não é um array");
+      for (let i = 0; i < response.data.turmas.length; i++) {
+        response.data.turmas[0].horarios = response.data.turmas[0].horarios.split(",");
       }
+
+      setTurmas(response.data.turmas);
+      
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }

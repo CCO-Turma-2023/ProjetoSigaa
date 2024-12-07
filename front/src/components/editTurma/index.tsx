@@ -1,34 +1,37 @@
 import { useState } from "react";
 import axios from "axios";
+import { propTurmas } from "../../pages/listarTurmas/page";
 import { toast } from 'react-toastify';
 
-export interface propsCriarTurma {
-  onClose: (aux: boolean, pegarTurmasNovamente: boolean) => void;
-}
 
-// Variável não pode estar dentro do componente para não ser renderizada toda vez por causa
-// do useState
-let qtdAulas = 0;
 
-export default function CriarTurma({ onClose }: propsCriarTurma) {
+
+export default function editarTurma({ onClose, turma }: {onClose: (aux: boolean) => void; turma: propTurmas}) {
   const dias = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
   const horariosInicio = ["7:00", "7:55", "8:50", "10:10", "11:05", "13:30", "14:25", "15:45", "16:40", "17:35",
                           "19:00", "19:50", "21:00", "21:50", "22:40"];
   const horariosTermino = ["7:55", "8:50", "9:45", "11:05", "12:00", "14:25", "15:20", "16:40", "17:35", "18:30",
                            "19:50", "20:40", "21:50", "22:40", "23:30"];
                     
-  const [horariosSelecionados, setHorariosSelecionados] = useState<string[]>([]);
+  const [horariosSelecionados, setHorariosSelecionados] = useState<string[]>(turma.horarios);
   const [diaSelecionado, setDiaSelecionado] = useState("");
   const [horarioInicio, sethorarioInicio] = useState("");
   const [horarioFim, sethorarioFim] = useState("");
-  const [cargaHoraria, setCargaHoraria] = useState("");
-  const [periodo, setPeriodo] = useState("1");
-  const [vagas, setVagas] = useState("10");
-  const [sigla, setSigla] = useState("");
-  const [nomeDisciplina, setNomeDisciplina] = useState("");
-  const [professor, setProfessor] = useState("");
-  const [obrigatoria, setObrigatoria] = useState(false);
+  const [cargaHoraria, setCargaHoraria] = useState(turma.cargaHoraria);
+  const [periodo, setPeriodo] = useState(turma.periodo);
+  const [vagas, setVagas] = useState(turma.Vagas);
+  const [sigla, setSigla] = useState(turma.sigla);
+  const [nomeDisciplina, setNomeDisciplina] = useState(turma.nome);
+  const [professor, setProfessor] = useState(turma.professor);
+  const [obrigatoria, setObrigatoria] = useState(() => {
+    if(turma.periodo){
+        return true
+    }else{
+        return false
+    }
+  });
 
+  const [qtdAulas, setQtdAulas] = useState(turma.qtdAulas);
 
   const resetarValores = () => {
     setHorariosSelecionados([]);
@@ -36,7 +39,9 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     sethorarioInicio("");
     sethorarioFim("");
     setCargaHoraria("");
-    qtdAulas = 0;
+    setQtdAulas(0);
+
+    console.log(qtdAulas)
   }
 
 
@@ -47,7 +52,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     const indIni = horariosInicio.indexOf(aux[2]) // Primerio horário
     const indFim = horariosTermino.indexOf(aux[4]) // Segundo horário
     
-    qtdAulas -= (indFim - indIni + 1);
+    setQtdAulas(prevQtdAulas => prevQtdAulas - (indFim - indIni + 1));
 
     setHorariosSelecionados(horariosSelecionados.filter(i => i !== horario));
   }
@@ -144,6 +149,8 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     const indIni = horariosInicio.indexOf(horarioInicio)
     const indFim = horariosTermino.indexOf(horarioFim)
 
+    console.log(qtdAulas)
+
     if (indFim - indIni < 0) {
       toast.warning("Horários Inválidos")
       return;
@@ -161,7 +168,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
       return;
     }
 
-    qtdAulas += indFim - indIni + 1;
+    setQtdAulas(prevQtdAulas => prevQtdAulas + indFim - indIni + 1);
 
     setHorariosSelecionados([...horariosSelecionados, horario]);
 
@@ -171,7 +178,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
   }
 
 
-  const adicionarTurma = async (e : React.ChangeEvent<HTMLFormElement>) => {
+  const editarTurma = async (e : React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     
     if (!professor || !nomeDisciplina || !sigla) {
@@ -189,6 +196,8 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
       return;
     }
 
+    console.log(cargaHoraria)
+
     const data = {
       periodo: obrigatoria ? periodo : "0",
       professor: professor,
@@ -201,11 +210,11 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     }
 
     try {
-      const response = await axios.post ("http://localhost:3200/turmas/adicionarTurma/", data);
+      const response = await axios.put (`http://localhost:3200/turmas/atualizarTurma/${turma.id}`, data);
 
-      toast.success("Turma Criada com Sucesso");
-
-      onClose(false, true)
+      toast.success("Turma Editada com Sucesso");
+      
+      onClose(false)
 
     } catch(errors) {
       console.log("Erro ao criar a turma");
@@ -230,21 +239,21 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     <div className="absolute -top-0 right-1/2 flex h-[100vh] w-[100vw] translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.7)]">
       <div className="h-[70%] w-[50%] rounded-[1rem] bg-white">
           <h1 className="rounded-t-[0.5rem] bg-green-700 p-[1rem] text-start text-3xl text-white">
-            Criar turma
+            Editar turma
           </h1>
           <div className="m-[2rem] flex flex-col gap-[1rem]">
-            <form onSubmit={adicionarTurma} className="flex flex-col gap-[1rem] border-[1px] border-black rounded-[1rem] p-[1rem]">
+            <form onSubmit={editarTurma} className="flex flex-col gap-[1rem] border-[1px] border-black rounded-[1rem] p-[1rem]">
               <div className="flex gap-[0.5rem]">
                 <label className="w-[10%]" htmlFor="sigla">Sigla</label>
-                <input onChange={alterarCamposDisciplina} className="border-[1px] w-[39%] border-black" type="text" name="sigla" id="sigla" />
+                <input onChange={alterarCamposDisciplina} value={sigla} className="border-[1px] w-[39%] border-black" type="text" name="sigla" id="sigla" />
               </div>
               <div className="flex gap-[0.5rem]">
                 <label className="w-[10%]" htmlFor="nomeDisc">Nome</label>
-                <input onChange={alterarCamposDisciplina} className="border-[1px] w-[39%] border-black" type="text" name="nomeDisc" id="nomeDisc" />
+                <input onChange={alterarCamposDisciplina} value={nomeDisciplina} className="border-[1px] w-[39%] border-black" type="text" name="nomeDisc" id="nomeDisc" />
               </div>
               <div className="flex gap-[0.5rem]">
                 <label className="w-[10%]" htmlFor="prof">Professor</label>
-                <input onChange={alterarCamposDisciplina} className="border-[1px] w-[39%] border-black" type="text" name="prof" id="prof" />
+                <input onChange={alterarCamposDisciplina} value={professor} className="border-[1px] w-[39%] border-black" type="text" name="prof" id="prof" />
               </div>
               <div className="flex gap-[0.5rem]">
                 <label className="w-[10%]" htmlFor="vagas">Vagas</label>
@@ -264,7 +273,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
               
               <div>
                 <label htmlFor="cargaHoraria">Carga Horária</label>  
-                <select onChange={alterarCargaHoraria} className="ml-2 bg-gray border-[2px] border-black rounded-xl" name="cargaHoraria" id="cargaHoraria">    
+                <select onChange={alterarCargaHoraria} value={cargaHoraria} className="ml-2 bg-gray border-[2px] border-black rounded-xl" name="cargaHoraria" id="cargaHoraria">    
                   <option value="" disabled selected>Selecione uma opção</option>
                   <option value="32">32</option>
                   <option value="64">64</option>
@@ -310,14 +319,14 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
               </div>
               }
               <div className="flex justify-center mt-4">
-                <button className="bg-blue-500 w-[15%] rounded-[0.5rem]" type="submit">Criar</button>
+                <button className="bg-blue-500 w-[15%] rounded-[0.5rem]" type="submit">Editar</button>
               </div>
 
             </form>
                 <button
                   className="w-[10%] rounded-[0.5rem] bg-red-500"
                   onClick={() => {
-                    onClose(false, false);
+                    onClose(false);
                   }}
                 >
                   {" "}

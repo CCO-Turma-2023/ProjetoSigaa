@@ -1,11 +1,38 @@
 import { FaRegCircle } from "react-icons/fa";
-import { PropsDisciplina } from "../disciplina";
 import { propTurmas } from "../../pages/listarTurmas/page";
+import EditarTurma from "../../components/editTurma";
+import axios from "axios"
+import { toast } from 'react-toastify';
+import { useState } from "react";
 
-export default function DiscMatricula({ disc }: { disc: propTurmas }) {
+export default function DiscMatricula({disc, onClose }: { disc: propTurmas; onClose: (aux: boolean, pegarTurmasNovamente: boolean) => void}) {
+  const [flag, setFlag] = useState(false)
+  
   console.log("teste", disc);
+
+  const deleteTurma = async (id:Number) =>{
+    try{
+
+      const response = await axios.delete(`http://localhost:3200/turmas/removerTurma/${id}`)
+
+      toast.success("Turma Removida com Sucesso");
+
+      onClose(false, true)
+
+    }catch(error){
+      console.log("Não foi possivel remover a turma")
+
+    }
+  }
+
+  const edit = (aux: boolean) => {
+    setFlag(aux);
+    onClose(false, true)
+  };
+
   return (
     <div className="flex h-[8.5rem] w-[21%] border-[2px] border-[#e3e3e3]">
+      <div>{flag && <EditarTurma onClose={edit} turma = {disc} />}</div>
       <div className="flex flex-col">
         <div className="flex">
           <h2 className="ml-2 mt-1 text-[1.2rem] text-[#28c2c0]">
@@ -35,10 +62,10 @@ export default function DiscMatricula({ disc }: { disc: propTurmas }) {
             })}
           </div>
           <div className="ml-4 mb-4 flex w-1/4 flex-col justify-end justify-items-end gap-1">
-            <button className="border-xl w-full rounded-lg border bg-blue-400">
+            <button onClick={() => edit(true)} className="border-xl w-full rounded-lg border bg-blue-400">
               Editar
             </button>
-            <button className="border-xl w-full rounded-lg border bg-red-500">
+            <button onClick = {() => deleteTurma(disc.id)}className="border-xl w-full rounded-lg border bg-red-500">
               Remover
             </button>
           </div>

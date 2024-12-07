@@ -10,7 +10,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173", // Permitir apenas o front-end em localhost:5173
-    methods: ["GET", "POST"], // Permitir apenas certos métodos HTTP
+    methods: ["GET", "POST", "DELETE", "PUT"], // Permitir apenas certos métodos HTTP
   })
 );
 

@@ -2,7 +2,6 @@ import axios from "axios";
 import DiscMatricula from "../../components/subMenuMatriculas";
 import { useEffect, useState } from "react";
 import CriaTurma from "../../components/CriarTurma";
-import { PropsDisciplina } from "../../components/disciplina";
 
 export interface propTurmas {
   nome: string;
@@ -13,6 +12,9 @@ export interface propTurmas {
   horarios: string[];
   participantes: string;
   periodo: string;
+  cargaHoraria: string,
+  Vagas: string,
+  qtdAulas: number,
   id: Number;
 }
 
@@ -25,11 +27,11 @@ export default function CriarTurma() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
-      console.log(response)
       for (let i = 0; i < response.data.turmas.length; i++) {
         response.data.turmas[i].horarios = response.data.turmas[i].horarios.split(",");
         response.data.turmas[i].horarios.pop(response.data.turmas[i].horarios.length - 1);
       }
+
 
       setTurmas(response.data.turmas);
       
@@ -61,7 +63,7 @@ export default function CriarTurma() {
           <div className="max-h-[60%] min-h-[60%] overflow-auto">
             <div className="flex w-full flex-row flex-wrap justify-center gap-[2rem]">
               {turmas.map((turma, index) => (
-                <DiscMatricula key={index} disc={turma} />
+                <DiscMatricula key={index} disc={turma} onClose={fechar} />
               ))}
             </div>
           </div>

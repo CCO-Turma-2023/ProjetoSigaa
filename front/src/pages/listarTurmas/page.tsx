@@ -27,6 +27,7 @@ export default function CriarTurma() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
+      console.log("SALVE", response.data.turmas);
       for (let i = 0; i < response.data.turmas.length; i++) {
         response.data.turmas[i].horarios =
           response.data.turmas[i].horarios.split(",");

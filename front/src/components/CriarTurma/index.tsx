@@ -256,7 +256,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
 
   return (
     <div className="absolute -top-0 right-1/2 flex h-[100vh] w-[100vw] translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.7)]">
-      <div className="h-[70%] w-[50%] rounded-[1rem] bg-white">
+      <div className="h-[73%] w-[50%] rounded-[1rem] bg-white">
         <h1 className="rounded-t-[0.5rem] bg-green-700 p-[1rem] text-start text-3xl text-white">
           Criar turma
         </h1>

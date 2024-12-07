@@ -1,41 +1,51 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/headerInicio";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const schema = yup.object().shape({
-  nome: yup.string().required("O nome é obrigatório."),
-  email: yup
-    .string()
-    .email("Insira um email válido.")
-    .required("O email é obrigatório."),
-  matricula: yup.string().required("O número de matrícula é obrigatório."),
-  senha: yup
-    .string()
-    .required("A senha é obrigatória.")
-    .min(8, "A senha deve ter pelo menos 8 caracteres.")
-    .matches(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula.")
-    .matches(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula.")
-    .matches(/\d/, "A senha deve conter pelo menos um número.")
-    .matches(
-      /[@$!%*?&]/,
-      "A senha deve conter pelo menos um caractere especial.",
-    ),
-  confirmarSenha: yup
-    .string()
-    .oneOf([yup.ref("senha"), null], "As senhas não correspondem.")
-    .required("A confirmação de senha é obrigatória."),
-});
+const schema = z
+  .object({
+    nome: z.string().nonempty("O nome é obrigatório."),
+    email: z
+      .string()
+      .email("Insira um email válido.")
+      .nonempty("O email é obrigatório."),
+    matricula: z.string().nonempty("O número de matrícula é obrigatório."),
+    senha: z
+      .string()
+      .min(8, "A senha deve ter pelo menos 8 caracteres.")
+      .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula.")
+      .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula.")
+      .regex(/\d/, "A senha deve conter pelo menos um número.")
+      .regex(
+        /[@$!%*?&]/,
+        "A senha deve conter pelo menos um caractere especial.",
+      ),
+    confirmarSenha: z
+      .string()
+      .nonempty("A confirmação de senha é obrigatória."),
+  })
+  .superRefine((data, ctx) => {
+    if (data.senha !== data.confirmarSenha) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["confirmarSenha"], // Define onde o erro será exibido
+        message: "As senhas não correspondem.",
+      });
+    }
+  });
 
 export default function Cadastro() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: any) => {
     try {
@@ -43,8 +53,15 @@ export default function Cadastro() {
         "http://localhost:3200/users/cadastro",
         data,
       );
+      if (response.data.status) {
+        toast.success("Conta criada com sucesso!");
+        navigate("/");
+      } else {
+        toast.error("Dados já utilizados ou incorretos!");
+      }
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
+      toast.error("Erro ao enviar os dados!");
       console.error("Erro ao enviar os dados:", error);
     }
   };
@@ -72,8 +89,8 @@ export default function Cadastro() {
                   id="nome"
                   placeholder="Digite o Nome"
                 />
-                {errors.nome && (
-                  <p className="text-red-500">{errors.nome.message}</p>
+                {errors.nome?.message && (
+                  <p className="text-red-500">{String(errors.nome.message)}</p>
                 )}
 
                 {/* Email */}
@@ -88,8 +105,8 @@ export default function Cadastro() {
                   id="email"
                   placeholder="Digite o Email"
                 />
-                {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                {errors.email?.message && (
+                  <p className="text-red-500">{String(errors.email.message)}</p>
                 )}
 
                 {/* Matrícula */}
@@ -104,8 +121,10 @@ export default function Cadastro() {
                   id="matricula"
                   placeholder="Número de Matrícula"
                 />
-                {errors.matricula && (
-                  <p className="text-red-500">{errors.matricula.message}</p>
+                {errors.matricula?.message && (
+                  <p className="text-red-500">
+                    {String(errors.matricula.message)}
+                  </p>
                 )}
 
                 {/* Senha */}
@@ -120,8 +139,8 @@ export default function Cadastro() {
                   id="senha"
                   placeholder="Digite a Senha"
                 />
-                {errors.senha && (
-                  <p className="text-red-500">{errors.senha.message}</p>
+                {errors.senha?.message && (
+                  <p className="text-red-500">{String(errors.senha.message)}</p>
                 )}
 
                 {/* Confirmar Senha */}
@@ -136,9 +155,9 @@ export default function Cadastro() {
                   id="confirmarSenha"
                   placeholder="Digite a Senha"
                 />
-                {errors.confirmarSenha && (
+                {errors.confirmarSenha?.message && (
                   <p className="text-red-500">
-                    {errors.confirmarSenha.message}
+                    {String(errors.confirmarSenha.message)}
                   </p>
                 )}
               </div>

@@ -14,6 +14,15 @@ const cadastrarUsuario = async (req, res) => {
     ]);
 
     if (rows.length === 1 && rows[0].status === 0) {
+      const [verifyEmail] = await pool.query(
+        "SELECT * FROM users WHERE email = ?",
+        [infos.email]
+      );
+
+      if (verifyEmail.length === 1) {
+        return res.status(200).json({ status: false });
+      }
+
       // Se o usuário for encontrado e inativo, atualiza as informações
       const updateQuery =
         "UPDATE users SET name = ?, senha = ?, email = ?, status = ? WHERE matricula = ?";
@@ -28,15 +37,11 @@ const cadastrarUsuario = async (req, res) => {
 
       console.log("Usuário cadastrado com sucesso");
 
-      return res
-        .status(200)
-        .json({ message: "Usuário atualizado com sucesso!" });
+      return res.status(200).json({ status: true });
     } else {
       console.log("Usuário ja existente");
 
-      return res
-        .status(404)
-        .json({ message: "Usuário não encontrado ou já está ativo" });
+      return res.status(200).json({ status: false });
     }
   } catch (err) {
     console.error("Erro ao processar o cadastro:", err);

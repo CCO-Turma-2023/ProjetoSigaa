@@ -36,6 +36,7 @@ export default function Matricula() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
+      console.log(response.data.turmas);
       for (let i = 0; i < response.data.turmas.length; i++) {
         response.data.turmas[i].horarios =
           response.data.turmas[i].horarios.split(",");
@@ -43,7 +44,7 @@ export default function Matricula() {
           response.data.turmas[i].horarios.length - 1,
         );
       }
-
+      console.log(response.data.turmas);
       setTurmas(response.data.turmas);
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
@@ -66,9 +67,9 @@ export default function Matricula() {
           <h1>Matrículas - 1° Semestre - 2025</h1>
         </div>
         <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
-        <div className="ml-4 flex w-3/6 flex-col gap-[0.5rem] border-2 border-[#8a8c8c]">
+        <div className="ml-4 flex w-3/6 flex-col gap-[0.1rem] border-2 border-[#8a8c8c]">
           <div>
-            <div className="min-h-3/4 flex w-full justify-between bg-[#d0d2d3]">
+            <div className="flex w-full justify-between bg-[#d0d2d3]">
               <button
                 onClick={() => {
                   mudaFlag("Obg");
@@ -80,7 +81,7 @@ export default function Matricula() {
               </button>
             </div>
             {flagObg && (
-              <div className="flex h-5/6 flex-col overflow-auto">
+              <div className="flex max-h-[200px] flex-col overflow-y-auto">
                 {turmas.map((turma, index) => {
                   return (
                     <>
@@ -107,7 +108,7 @@ export default function Matricula() {
             </button>
           </div>
           {flagOpt && (
-            <div className="flex h-5/6 flex-col overflow-auto">
+            <div className="flex max-h-[200px] flex-col overflow-y-auto">
               {turmas.map((turma, index) => {
                 return (
                   <>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/headerInicio";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Senha() {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ export default function Senha() {
         "http://localhost:3200/users/esqueceu",
         formData,
       );
+      toast.success("Email enviado!");
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);

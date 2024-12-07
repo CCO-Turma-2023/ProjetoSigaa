@@ -1,5 +1,5 @@
 import axios from "axios";
-import DiscMatricula from "../../components/subMenuMatriculas";
+import DiscMatricula from "../../components/subMenuCriarTurmas";
 import { useEffect, useState } from "react";
 import CriaTurma from "../../components/CriarTurma";
 
@@ -12,9 +12,9 @@ export interface propTurmas {
   horarios: string[];
   participantes: string;
   periodo: string;
-  cargaHoraria: string,
-  Vagas: string,
-  qtdAulas: number,
+  cargaHoraria: string;
+  vagas: string;
+  qtdAulas: number;
   id: Number;
 }
 
@@ -28,13 +28,14 @@ export default function CriarTurma() {
         "http://localhost:3200/turmas/pegarTurma/",
       );
       for (let i = 0; i < response.data.turmas.length; i++) {
-        response.data.turmas[i].horarios = response.data.turmas[i].horarios.split(",");
-        response.data.turmas[i].horarios.pop(response.data.turmas[i].horarios.length - 1);
+        response.data.turmas[i].horarios =
+          response.data.turmas[i].horarios.split(",");
+        response.data.turmas[i].horarios.pop(
+          response.data.turmas[i].horarios.length - 1,
+        );
       }
 
-
       setTurmas(response.data.turmas);
-      
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }

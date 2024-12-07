@@ -35,7 +35,7 @@ export default function Home() {
         "http://localhost:3200/users/login",
         formData,
       );
-      
+
       if (!response.data.status) {
         return;
       }
@@ -43,7 +43,6 @@ export default function Home() {
       sessionStorage.setItem("token", response.data.token); // Armazena o token JWT
 
       navigate("/inicio");
-      
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
     }
@@ -110,19 +109,11 @@ export default function Home() {
 
             <div className="flex h-1 w-[90%] rounded-full bg-zinc-300"></div>
 
-            <div className="flex w-[90%] justify-between">
-              <div className="text-center">
-                <p className="font-bold">Professor ou Funcionário</p>
-                <Link className="text-blue-500" to="/cadastro">
-                  Cadastrar-se
-                </Link>
-              </div>
-              <div className="text-center">
-                <p className="font-bold">Aluno</p>
-                <Link className="text-blue-500" to="/cadastro">
-                  Cadastrar-se
-                </Link>
-              </div>
+            <div className="text-center">
+              <p className="font-bold">Aluno</p>
+              <Link className="text-blue-500" to="/cadastro">
+                Cadastrar-se
+              </Link>
             </div>
           </div>
         </div>

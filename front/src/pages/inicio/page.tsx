@@ -103,7 +103,7 @@ export default function Inicio() {
   ];
 
   return (
-    <div className="flex min-h-screen w-full flex-1 flex-col gap-6 bg-backgroundLinear">
+    <div className="flex h-full w-full flex-1 flex-col gap-6 bg-backgroundLinear">
       <div className="flex w-full text-center text-white">
         <div className="justify-left ml-[3rem] mt-4 flex w-full pr-1 text-center">
           <h1 className="text-4xl">{usuario.curso} (Graduação)</h1>

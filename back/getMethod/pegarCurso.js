@@ -3,24 +3,24 @@ const pool = require("../db");
 const pegarCurso = async (req, res) => {
   try {
     const curso = req.headers.curso;
-    console.log(curso)
+    console.log(curso);
     // Verifica se o usuário já existe e está inativo
     const [rows] = await pool.query("SELECT * FROM cursos WHERE curso = ?", [
       curso,
     ]);
-    console.log(rows)
     if (rows.length === 1) {
-
       console.log("Curso encontrado");
 
       return res
         .status(200)
-        .json({ curso : curso, sigla : rows[0].sigla, codigo : rows[0].codigo, coordenador : rows[0].coordenador });
+        .json({
+          curso: curso,
+          sigla: rows[0].sigla,
+          codigo: rows[0].codigo,
+          coordenador: rows[0].coordenador,
+        });
     } else {
-
-      return res
-        .status(404)
-        .json({ message: "Curso não encontrado" });
+      return res.status(404).json({ message: "Curso não encontrado" });
     }
   } catch (err) {
     console.error("Erro ao pegar o curso:", err);

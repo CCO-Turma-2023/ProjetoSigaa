@@ -67,7 +67,7 @@ export default function Matricula() {
         </div>
         <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
         <div className="ml-4 flex w-3/6 flex-col gap-[0.5rem] border-2 border-[#8a8c8c]">
-          <div className="h-full w-full">
+          <div>
             <div className="min-h-3/4 flex w-full justify-between bg-[#d0d2d3]">
               <button
                 onClick={() => {

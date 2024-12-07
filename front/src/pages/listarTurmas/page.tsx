@@ -2,6 +2,10 @@ import axios from "axios";
 import DiscMatricula from "../../components/subMenuCriarTurmas";
 import { useEffect, useState } from "react";
 import CriaTurma from "../../components/CriarTurma";
+import { User } from "../../pages/inicio/page"
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 
 export interface propTurmas {
   nome: string;
@@ -15,10 +19,12 @@ export interface propTurmas {
   cargaHoraria: string;
   vagas: string;
   qtdAulas: number;
+  curso: string;
   id: Number;
 }
 
 export default function CriarTurma() {
+  const navigate = useNavigate();
   const [flag, setFlag] = useState(false);
   const [turmas, setTurmas] = useState<propTurmas[]>([]);
 
@@ -46,6 +52,22 @@ export default function CriarTurma() {
     getTurma();
   }, []);
 
+  const token = sessionStorage.getItem("token");
+  let usuario: User;
+
+  if (token) {
+    try {
+      usuario = jwtDecode<User>(token);
+    } catch (error) {
+      navigate("/");
+      return <></>;
+    }
+  } else {
+    navigate("/");
+    return <></>;
+  }
+
+
   const fechar = (aux: boolean, pegarTurmasNovamente: boolean) => {
     setFlag(aux);
     if (pegarTurmasNovamente) {
@@ -64,9 +86,13 @@ export default function CriarTurma() {
           <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
           <div className="max-h-[60%] min-h-[60%] overflow-auto">
             <div className="flex w-full flex-row flex-wrap justify-center gap-[2rem]">
-              {turmas.map((turma, index) => (
-                <DiscMatricula key={index} disc={turma} onClose={fechar} />
-              ))}
+              {turmas.map((turma, index) => ( <>
+                { turma.curso === usuario.curso ?
+                <DiscMatricula key={index} disc={turma} onClose={fechar} /> : <></>
+                }
+                </>
+                ))
+              }
             </div>
           </div>
           <div className="mb-2 flex h-1/4 w-full flex-col items-center justify-center gap-[2rem] text-center">

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { User } from "../../pages/inicio/page"
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export interface propsCriarTurma {
   onClose: (aux: boolean, pegarTurmasNovamente: boolean) => void;
@@ -11,6 +14,7 @@ export interface propsCriarTurma {
 let qtdAulas = 0;
 
 export default function CriarTurma({ onClose }: propsCriarTurma) {
+  const navigate = useNavigate();
   const dias = [
     "Domingo",
     "Segunda-Feira",
@@ -68,6 +72,23 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
   const [nomeDisciplina, setNomeDisciplina] = useState("");
   const [professor, setProfessor] = useState("");
   const [obrigatoria, setObrigatoria] = useState(false);
+
+
+  const token = sessionStorage.getItem("token");
+  let usuario: User;
+
+  if (token) {
+    try {
+      usuario = jwtDecode<User>(token);
+    } catch (error) {
+      navigate("/");
+      return <></>;
+    }
+  } else {
+    navigate("/");
+    return <></>;
+  }
+
 
   const resetarValores = () => {
     setHorariosSelecionados([]);
@@ -222,6 +243,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
       vagas: vagas,
       horarios: horariosSelecionados,
       cargaHoraria: cargaHoraria,
+      curso: usuario.curso,
     };
 
     try {

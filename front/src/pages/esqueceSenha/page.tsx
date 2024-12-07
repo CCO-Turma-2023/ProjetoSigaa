@@ -21,6 +21,12 @@ export default function Senha() {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
+
+    if (formData.email === "" || formData.matricula === "") {
+      toast.warning("Campos Vazios\n");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:3200/users/esqueceu",
@@ -29,7 +35,7 @@ export default function Senha() {
       toast.success("Email enviado!");
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
-      console.error("Erro ao enviar os dados:", error);
+      toast.error("Dados Incorretos");
     }
   };
 

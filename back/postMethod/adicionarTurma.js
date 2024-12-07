@@ -12,7 +12,7 @@ const adicionarTurma = async (req, res) => {
     console.log(horarios);
     // Se o usuário for encontrado e inativo, atualiza as informações
     const updateQuery =
-      "INSERT INTO turmas SET nome = ?, sigla = ?, professor = ?, vagas = ?, ano = ?, horarios = ?, periodo = ?, participantes = ?, cargaHoraria = ?";
+      "INSERT INTO turmas SET nome = ?, sigla = ?, professor = ?, vagas = ?, ano = ?, horarios = ?, periodo = ?, participantes = ?, cargaHoraria = ?, curso = ?";
 
     pool.query(updateQuery, [
       infos.nomeDisciplina,
@@ -24,6 +24,7 @@ const adicionarTurma = async (req, res) => {
       infos.periodo,
       "",
       infos.cargaHoraria,
+      infos.curso
     ]);
 
     console.log("Turma inserida com sucesso");

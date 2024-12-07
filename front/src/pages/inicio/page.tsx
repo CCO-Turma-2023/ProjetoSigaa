@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios, { AxiosRequestConfig } from "axios";
 
-interface User {
+export interface User {
   matricula: string;
   name: string;
   email: string;
@@ -81,8 +81,8 @@ export default function Inicio() {
     },
     {
       icon: FaGraduationCap,
-      titulo: "Currículo",
-      texto: "a",
+      titulo: "Período Letivo",
+      texto: "2024.2",
       color: "#E37265",
     },
     {

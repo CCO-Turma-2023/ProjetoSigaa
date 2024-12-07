@@ -14,11 +14,14 @@ export default function DiscMatricula({ disc }: { disc: propTurmas }) {
           <p className="ml-1 mt-2">{disc.nome}</p>
         </div>
         <div className="flex">
-          <div className="w-2/8 ml-3 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
-          {disc.periodo}º Semestre 
-          </div>
-          <div className="w-2/8 ml-1 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
-            Obrigatória
+          {disc.periodo ?
+            <div className="w-2/8 ml-3 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
+              {disc.periodo}º Semestre
+            </div>
+            : <></>
+          }
+          <div className="w-2/8 ml-2 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
+            {disc.periodo ? "Obrigatória" : "Optativa"}
           </div>
         </div>
         <div className="w-full mb-2 ml-3 mt-1 flex w-full">

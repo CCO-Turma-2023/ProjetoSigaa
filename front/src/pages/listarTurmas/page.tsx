@@ -25,8 +25,10 @@ export default function CriarTurma() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
+      console.log(response)
       for (let i = 0; i < response.data.turmas.length; i++) {
-        response.data.turmas[0].horarios = response.data.turmas[0].horarios.split(",");
+        response.data.turmas[i].horarios = response.data.turmas[i].horarios.split(",");
+        response.data.turmas[i].horarios.pop(response.data.turmas[i].horarios.length - 1);
       }
 
       setTurmas(response.data.turmas);
@@ -40,8 +42,11 @@ export default function CriarTurma() {
     getTurma();
   }, []);
 
-  const fechar = (aux: boolean) => {
+  const fechar = (aux: boolean, pegarTurmasNovamente: boolean) => {
     setFlag(aux);
+    if (pegarTurmasNovamente) {
+      getTurma();
+    }
   };
 
   return (
@@ -64,7 +69,7 @@ export default function CriarTurma() {
             <div className="ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
             <button
               onClick={() => {
-                fechar(true);
+                fechar(true, false);
               }}
               className="border-xl h-[4rem] w-[10%] rounded-lg border bg-[#1f73f7]"
             >

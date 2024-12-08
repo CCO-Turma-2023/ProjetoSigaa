@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios, { AxiosRequestConfig } from "axios";
 import DecodificarToken from "../../utils/tokenDecode";
+import Solicitacoes from "../../components/solicitacoes"
 
 export interface User {
   matricula: string;
@@ -118,7 +119,7 @@ export default function Inicio() {
       </div>
       <div className="h-3 w-full bg-[#00002B]"></div>
       <div className="flex w-full items-center justify-center gap-16 sm:flex-col lg:flex-row">
-        <Horarios></Horarios>
+        {usuario.type === 0 ? <Horarios></Horarios> : <Solicitacoes curso={usuario.curso} /> }
         <MyCalendar></MyCalendar>
       </div>
     </div>

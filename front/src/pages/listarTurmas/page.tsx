@@ -18,6 +18,7 @@ export interface propTurmas {
   periodo: string;
   cargaHoraria: string;
   vagas: string;
+  solicitacoes: string[];
   qtdAulas: number;
   curso: string;
   id: Number;

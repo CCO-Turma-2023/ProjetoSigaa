@@ -59,6 +59,9 @@ export default function DiscMatricula({
           <div className="w-2/8 ml-2 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
             {disc.periodo ? "Obrigatória" : "Optativa"}
           </div>
+          <div className="w-2/8 ml-1 mt-1 bg-[#e3e3e3] pl-[0.3rem] pr-[0.3rem] font-bold">
+            {String(disc.curso) === "Ciência da Computação" ? "CCO" : String(disc.curso) === "Sistema da Informação" ? "SIN" : "MAT"}
+          </div>
         </div>
         <div className="mb-2 ml-3 mt-1 flex w-full">
           <div className="mt-2 flex w-full flex-col">

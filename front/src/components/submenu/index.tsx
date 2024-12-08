@@ -55,9 +55,6 @@ export default function SubMenu() {
           to="/listarTurmas"
           className="flex items-center gap-[0.5rem]"
         >
-          {" "}
-          {caminho === "/listarTurmas" ? <FaCircle /> : <FaRegCircle />} Criar
-          Turmas
         </Link>
       )}
     </div>

@@ -110,6 +110,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     setHorariosSelecionados(horariosSelecionados.filter((i) => i !== horario));
   };
 
+
   const alterarValor = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const id = e.target.id;
     const valor = e.target.value;
@@ -123,14 +124,17 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     }
   };
 
+
   const alterarObrigatoria = () => {
     setObrigatoria(!obrigatoria);
   };
+
 
   const alterarCargaHoraria = (e: React.ChangeEvent<HTMLSelectElement>) => {
     resetarValores();
     setCargaHoraria(e.target.value);
   };
+
 
   const alterarPeriodo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
@@ -148,6 +152,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     setPeriodo(e.target.value);
   };
 
+
   const alterarVagas = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
 
@@ -164,6 +169,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     setVagas(e.target.value);
   };
 
+
   const alterarCamposDisciplina = (e: React.ChangeEvent<HTMLInputElement>) => {
     const id = e.target.id;
     const valor = e.target.value;
@@ -176,6 +182,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
       setNomeDisciplina(valor);
     }
   };
+
 
   const adicionarHorario = () => {
     if (diaSelecionado === "" || horarioInicio === "" || horarioFim === "") {
@@ -216,6 +223,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     sethorarioInicio("");
     sethorarioFim("");
   };
+
 
   const adicionarTurma = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -260,6 +268,7 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
     }
   };
 
+  
   const opcoesDias = [];
   for (let i in dias)
     opcoesDias.push(<option value={dias[i]}>{dias[i]}</option>);

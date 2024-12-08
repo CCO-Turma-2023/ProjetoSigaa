@@ -4,27 +4,8 @@ import { propTurmas } from "../listarTurmas/page";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import axios from "axios";
 
-const disc: propTurmas = {
-  nome: "Arquitetura de Computadores II",
-  sigla: "CRSC03",
-  situacao: "a",
-  professor: "Minoru",
-  ano: 2025,
-  horarios: ["Segunda-Feira 15:20-17:35"],
-  participantes: "",
-  periodo: "2",
-  cargaHoraria: "32",
-  vagas: "30",
-  qtdAulas: 2,
-  id: 1,
-};
 
 export default function Matricula() {
-  const [subMenuTurmasRecomendadas, setsubMenuTurmasRecomendadas] =
-    useState(false);
-  const [subMenuTurmasObrigatorias, setsubMenuTurmasObrigatorias] =
-    useState(false);
-  const [subMenuTurmasOptativas, setsubMenuTurmasOptativas] = useState(false);
 
   const [turmas, setTurmas] = useState<propTurmas[]>([]);
 
@@ -36,7 +17,7 @@ export default function Matricula() {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
       );
-      console.log(response.data.turmas);
+
       for (let i = 0; i < response.data.turmas.length; i++) {
         response.data.turmas[i].horarios =
           response.data.turmas[i].horarios.split(",");
@@ -44,7 +25,7 @@ export default function Matricula() {
           response.data.turmas[i].horarios.length - 1,
         );
       }
-      console.log(response.data.turmas);
+
       setTurmas(response.data.turmas);
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);

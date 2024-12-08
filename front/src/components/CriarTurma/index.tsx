@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { User } from "../../pages/inicio/page"
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import DecodificarToken from "../../utils/tokenDecode";
 
 export interface propsCriarTurma {
   onClose: (aux: boolean, pegarTurmasNovamente: boolean) => void;
@@ -74,21 +74,12 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
   const [obrigatoria, setObrigatoria] = useState(false);
 
 
-  const token = sessionStorage.getItem("token");
-  let usuario: User;
+  let usuario: User | null = DecodificarToken();
 
-  if (token) {
-    try {
-      usuario = jwtDecode<User>(token);
-    } catch (error) {
-      navigate("/");
-      return <></>;
-    }
-  } else {
+  if (usuario === null) {
     navigate("/");
     return <></>;
   }
-
 
   const resetarValores = () => {
     setHorariosSelecionados([]);
@@ -260,11 +251,16 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
         data,
       );
 
+      if (!response.status) {
+        toast.error("Houve um erro ao criar a turma");
+        return;
+      }
+
       toast.success("Turma Criada com Sucesso");
 
       onClose(false, true);
     } catch (errors) {
-      console.log("Erro ao criar a turma");
+      toast.error("Houve um erro ao criar a turma");
     }
   };
 

@@ -68,6 +68,7 @@ export default function Cadastro() {
     return;
   }
 
+  
   const validaUsuario = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -89,6 +90,7 @@ export default function Cadastro() {
     // Campos Válidos   
     onSubmit(data); 
   }
+
 
   const onSubmit = async (data: any) => {
     try {

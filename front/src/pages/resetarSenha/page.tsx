@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ResetarSenha = () => {
@@ -14,24 +14,26 @@ const ResetarSenha = () => {
     const verifyToken = async () => {
       if (!token) {
         navigate("/");
-      } else {
-        try {
-          const response = await axios.get(
-            "http://localhost:3200/users/checkToken",
-            {
-              data: token,
-            },
-          );
-
-          if (response.data.status) {
-          }
-        } catch (error) {
-          console.log("teste");
-        }
       }
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3200/users/checkToken",
+          {
+            data: token,
+          },
+        );
+
+        if (response.data.status) {
+        }
+      } catch (error) {
+        console.log("teste");
+      }
+
     };
     verifyToken();
   }, []);
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

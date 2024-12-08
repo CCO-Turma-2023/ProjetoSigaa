@@ -14,13 +14,16 @@ export default function DiscMatricula({
 }) {
   const [flag, setFlag] = useState(false);
 
-  console.log("teste", disc);
-
   const deleteTurma = async (id: Number) => {
     try {
       const response = await axios.delete(
         `http://localhost:3200/turmas/removerTurma/${id}`,
       );
+
+      if (!response.status) {
+        toast.error("Houve um erro ao remover a turma");
+        return;
+      }
 
       toast.success("Turma Removida com Sucesso");
 

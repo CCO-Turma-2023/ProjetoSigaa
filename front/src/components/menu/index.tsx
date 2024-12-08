@@ -5,8 +5,8 @@ import { HiAcademicCap } from "react-icons/hi2";
 import BotoesNav from "../botoesNav";
 import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
-import { jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import DecodificarToken from "../../utils/tokenDecode";
 
 interface User {
   matricula: string,
@@ -19,23 +19,16 @@ interface User {
 
 export default function Menu() {
 
-  const [userIcon, setUserIcon] = useState(userImage);
+  const userIcon = userImage;
   const [isSelected, setSelected] = useState("");
   const [estado, setEstado] = useState(false);
   const navigate = useNavigate();
 
-  const token = sessionStorage.getItem("token");
+  let usuario: User | null = DecodificarToken();
 
-  let usuario;
-
-  if(token){
-    try{
-    usuario = jwtDecode<User>(token);
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
+  if (usuario === null) {
     navigate("/");
+    return <></>;
   }
 
   useEffect(() => {
@@ -56,7 +49,6 @@ export default function Menu() {
 
     if (prop === "/") {
       sessionStorage.removeItem("token");
-      console.log("token removido");
     }
 
     setEstado(false);

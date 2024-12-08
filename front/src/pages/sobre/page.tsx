@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "../../components/headerInicio";
 import Membro from "../../components/membro";
-import { useAuth } from "../../context";
 
 export default function Sobre() {
   const [membros] = useState([

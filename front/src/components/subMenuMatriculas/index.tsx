@@ -1,7 +1,6 @@
 import { propTurmas } from "../../pages/listarTurmas/page";
 import { FaRegCircle } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import axios from "axios";
+
 
 export default function DiscSolMatricula({ disc }: { disc: propTurmas }) {
   return (

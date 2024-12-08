@@ -5,10 +5,10 @@ import { FaUser } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 import CardsInicio from "../../components/cardsInicio";
 import MyCalendar from "../../components/calendario";
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios, { AxiosRequestConfig } from "axios";
+import DecodificarToken from "../../utils/tokenDecode";
 
 export interface User {
   matricula: string;
@@ -22,10 +22,8 @@ export interface User {
 
 export default function Inicio() {
   const navigate = useNavigate();
-  const token = sessionStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
-  let usuario: User;
   const [curso, setCurso] = useState({
     curso: "",
     sigla: "",
@@ -33,14 +31,9 @@ export default function Inicio() {
     coordenador: "",
   });
 
-  if (token) {
-    try {
-      usuario = jwtDecode<User>(token);
-    } catch (error) {
-      navigate("/");
-      return <></>;
-    }
-  } else {
+  let usuario: User | null = DecodificarToken();
+
+  if (usuario === null) {
     navigate("/");
     return <></>;
   }

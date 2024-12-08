@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CriaTurma from "../../components/CriarTurma";
 import { User } from "../../pages/inicio/page"
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import DecodificarToken from "../../utils/tokenDecode"
 
 
 export interface propTurmas {
@@ -52,17 +52,10 @@ export default function CriarTurma() {
     getTurma();
   }, []);
 
-  const token = sessionStorage.getItem("token");
-  let usuario: User;
 
-  if (token) {
-    try {
-      usuario = jwtDecode<User>(token);
-    } catch (error) {
-      navigate("/");
-      return <></>;
-    }
-  } else {
+  let usuario: User | null = DecodificarToken();
+
+  if (usuario === null) {
     navigate("/");
     return <></>;
   }

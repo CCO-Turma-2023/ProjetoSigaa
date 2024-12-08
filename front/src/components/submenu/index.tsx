@@ -2,8 +2,8 @@ import { useState } from "react";
 import { FaRegCircle } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import DecodificarToken from "../../utils/tokenDecode";
 
 interface User {
   matricula: string;
@@ -22,21 +22,12 @@ export default function SubMenu() {
     setCaminho(caminhoAtual);
   };
 
-  const token = sessionStorage.getItem("token");
+  let usuario: User | null = DecodificarToken();
 
-  let usuario;
-
-  if (token) {
-    try {
-      usuario = jwtDecode<User>(token);
-    } catch (error) {
-      navigate("/");
-    }
-  } else {
+  if (usuario === null) {
     navigate("/");
+    return <></>;
   }
-
-  console.log(usuario);
 
   return (
     <div className="flex flex-col gap-[0.5rem] bg-[#001858] p-[0.5rem] pl-[2rem] text-white">

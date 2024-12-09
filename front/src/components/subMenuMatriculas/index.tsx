@@ -7,6 +7,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
+let horariosC: string[] = [];
+
 export default function DiscSolMatricula({
   disc,
   getSolicitacoes,
@@ -25,8 +27,6 @@ export default function DiscSolMatricula({
     return <></>;
   }
 
-  const [horariosC, setHorariosC] = useState<string[]>([]);
-
   const getTurma = async () => {
     try {
       const response = await axios.get(
@@ -43,66 +43,66 @@ export default function DiscSolMatricula({
 
       let novosHorarios: string[] = [];
       for (let i in response.data.turmas) {
-        const sol = String(response.data.turmas[i].solicitacoes).split(",")
-        for(let j in sol){
-          if(usuario.matricula === sol[j]){
-            novosHorarios.push(...response.data.turmas[i].horarios)
+        const sol = String(response.data.turmas[i].solicitacoes).split(",");
+        for (let j in sol) {
+          if (usuario.matricula === sol[j]) {
+            novosHorarios.push(...response.data.turmas[i].horarios);
           }
         }
       }
 
-      console.log("Salve", novosHorarios);
-
-      setHorariosC(novosHorarios);
-
+      horariosC = [...novosHorarios];
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }
   };
 
-   useEffect(() => {
-      getTurma();
-   }, []);
+  useEffect(() => {
+    getTurma();
+  }, []);
 
-  const processarHorarios = (horarios: string[]): { dia: string; inicio: string; fim: string }[] => {
+  const processarHorarios = (
+    horarios: string[],
+  ): { dia: string; inicio: string; fim: string }[] => {
     return horarios.map((horario) => {
-      const [dia, horas] = horario.split("  "); 
-      const [inicio, fim] = horas.split(" - "); 
+      const [dia, horas] = horario.split("  ");
+      const [inicio, fim] = horas.split(" - ");
       return { dia: dia.trim(), inicio: inicio.trim(), fim: fim.trim() };
     });
   };
 
   const verificaColisao = (Horarios: string[]) => {
+    const novosHorarios = processarHorarios(Horarios);
 
-    const novosHorarios = processarHorarios(Horarios)
-
-    const novosHorariosC = processarHorarios(horariosC)
+    const novosHorariosC = processarHorarios(horariosC);
 
     for (const novoHorario of novosHorarios) {
       for (const horarioExistente of novosHorariosC) {
         if (novoHorario.dia === horarioExistente.dia) {
           const novoInicio = parseFloat(novoHorario.inicio.replace(":", "."));
           const novoFim = parseFloat(novoHorario.fim.replace(":", "."));
-          const existenteInicio = parseFloat(horarioExistente.inicio.replace(":", "."));
-          const existenteFim = parseFloat(horarioExistente.fim.replace(":", "."));
-          
+          const existenteInicio = parseFloat(
+            horarioExistente.inicio.replace(":", "."),
+          );
+          const existenteFim = parseFloat(
+            horarioExistente.fim.replace(":", "."),
+          );
+
           if (
-            (novoInicio >= existenteInicio && novoInicio < existenteFim) || 
-            (novoFim > existenteInicio && novoFim <= existenteFim) || 
-            (novoInicio <= existenteInicio && novoFim >= existenteFim) 
+            (novoInicio >= existenteInicio && novoInicio < existenteFim) ||
+            (novoFim > existenteInicio && novoFim <= existenteFim) ||
+            (novoInicio <= existenteInicio && novoFim >= existenteFim)
           ) {
-            return true; 
+            return true;
           }
         }
       }
     }
-    return false; 
+    return false;
   };
 
-
   const solicitarMatricula = async () => {
-    
-    if(verificaColisao(disc.horarios)){
+    if (verificaColisao(disc.horarios)) {
       toast.error("Conflito de horários detectado!");
       return;
     }
@@ -112,7 +112,6 @@ export default function DiscSolMatricula({
       id: disc.id,
     };
 
-    
     try {
       const response = await axios.put(
         "http://localhost:3200/turmas/adicionarSolicitacao/",
@@ -125,17 +124,16 @@ export default function DiscSolMatricula({
       }
 
       toast.success("Solicitação adicionada");
-      
-      getSolicitacoes();
-  
-      setHorariosC((prevHorarios) => [...prevHorarios, ...disc.horarios]);
 
-      console.log(horariosC)
+      const aux = horariosC;
+
+      getSolicitacoes();
+
+      horariosC = [...aux, ...disc.horarios];
     } catch (error) {
       toast.error("Erro ao adicionar solicitação");
     }
   };
-
 
   const removerSolicitao = async () => {
     const data = {
@@ -155,13 +153,12 @@ export default function DiscSolMatricula({
       }
 
       toast.success("Solicitação removida");
-      
+
       getSolicitacoes();
 
-      setHorariosC((prevHorarios) => prevHorarios.filter(
-        (horarioExistente) => !disc.horarios.includes(horarioExistente)
-      ));
-
+      horariosC = horariosC.filter(
+        (horarioExistente) => !disc.horarios.includes(horarioExistente),
+      );
     } catch (error) {
       toast.error("Erro ao adicionar solicitação");
     }

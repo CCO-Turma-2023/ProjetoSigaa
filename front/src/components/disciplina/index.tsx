@@ -1,23 +1,9 @@
-"use client";
 import { useState } from "react";
 import { FaRegCircle } from "react-icons/fa";
 import DialogTrancarCurso from "../dialogTrancamento";
+import { propTurmas } from "../../pages/listarTurmas/page";
 
-export interface PropsDisciplina {
-  nome: string;
-  periodo: string;
-  ano: string;
-  horarios: string[];
-  situacao: string;
-  professor: string;
-  sigla: string;
-}
-
-export default function Disciplina({
-  disciplina,
-}: {
-  disciplina: PropsDisciplina;
-}) {
+export default function Disciplina({ disciplina }: { disciplina: propTurmas }) {
   const [dialogTrancamentos, setDialogTrancamento] = useState(false);
 
   const solicitarTrancamento = (index: boolean) => {
@@ -30,7 +16,7 @@ export default function Disciplina({
         <DialogTrancarCurso
           curso={disciplina.nome}
           periodo={disciplina.periodo}
-          ano={disciplina.ano}
+          ano={String(disciplina.ano)}
           onClose={solicitarTrancamento}
         ></DialogTrancarCurso>
       )}
@@ -42,11 +28,11 @@ export default function Disciplina({
         <div className="flex flex-col gap-[0.5rem]">
           <p className="font-bold">Período/Ano</p>
           <p>
-            {disciplina.periodo}/{disciplina.ano}
+            {disciplina.periodo}/{String(disciplina.ano)}
           </p>
         </div>
 
-        <div className="flex flex-col gap-[0.5rem]">
+        <div className="flex w-1/6 flex-col gap-[0.5rem]">
           <p className="font-bold">Horário</p>
           <p className="flex items-center gap-[0.2rem]"> </p>
           <div className="flex flex-col">
@@ -62,9 +48,9 @@ export default function Disciplina({
         <div className="flex flex-col gap-[0.5rem]">
           <p className="font-bold">Situação</p>
           <p
-            className={`rounded-[0.4rem] ${disciplina.situacao === "Encerrado" ? "bg-red-500" : "bg-green-500"} p-[0.3rem] font-bold text-white`}
+            className={`rounded-[0.4rem] bg-green-500 p-[0.3rem] font-bold text-white`}
           >
-            {disciplina.situacao}
+            {"Deferido"}
           </p>
         </div>
 

@@ -3,6 +3,18 @@ const pool = require("../db");
 const removerSolicitacoes = async (req, res) => {
   const { matricula, id } = req.body;
 
+  const status = await removerSolAlunoTurma(matricula, id);
+
+  if (status === 200) {
+    return res
+      .status(200)
+      .json({ message: "Turma e Aluno atualizados removidos" });
+  } else {
+    return res.status(500).json({ message: "Erro no servidor" });
+  }
+};
+
+const removerSolAlunoTurma = async (matricula, id) => {
   const queryTurma = `
       UPDATE turmas 
       SET solicitacoes = TRIM(BOTH ',' FROM REPLACE(solicitacoes, ?, ''))
@@ -18,13 +30,11 @@ const removerSolicitacoes = async (req, res) => {
 
     await pool.query(queryAluno, [id, matricula]);
 
-    return res
-      .status(200)
-      .json({ message: "Turma e Aluno atualizados removidos" });
+    return 200;
   } catch (errors) {
     console.error("Erro ao remover solicitações:", errors);
-    return res.status(500).json({ message: "Erro no servidor" });
+    return 500;
   }
 };
 
-module.exports = { removerSolicitacoes };
+module.exports = { removerSolicitacoes, removerSolAlunoTurma };

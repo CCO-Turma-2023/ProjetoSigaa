@@ -5,17 +5,16 @@ import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export default function DiscSolMatricula({
   disc,
   getSolicitacoes,
   solicitada,
-  turmas,
 }: {
   disc: propTurmas;
   getSolicitacoes: () => void;
   solicitada: boolean;
-  turmas: propTurmas[];
 }) {
   const navigate = useNavigate();
 
@@ -26,12 +25,94 @@ export default function DiscSolMatricula({
     return <></>;
   }
 
+  const [horariosC, setHorariosC] = useState<string[]>([]);
+
+  const getTurma = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3200/turmas/pegarTurma/",
+      );
+
+      for (let i = 0; i < response.data.turmas.length; i++) {
+        response.data.turmas[i].horarios =
+          response.data.turmas[i].horarios.split(",");
+        response.data.turmas[i].horarios.pop(
+          response.data.turmas[i].horarios.length - 1,
+        );
+      }
+
+      let novosHorarios: string[] = [];
+      for (let i in response.data.turmas) {
+        const sol = String(response.data.turmas[i].solicitacoes).split(",")
+        for(let j in sol){
+          if(usuario.matricula === sol[j]){
+            novosHorarios.push(...response.data.turmas[i].horarios)
+          }
+        }
+      }
+
+      console.log("Salve", novosHorarios);
+
+      setHorariosC(novosHorarios);
+
+    } catch (error) {
+      console.error("Erro ao requisitar turmas:", error);
+    }
+  };
+
+   useEffect(() => {
+      getTurma();
+   }, []);
+
+  const processarHorarios = (horarios: string[]): { dia: string; inicio: string; fim: string }[] => {
+    return horarios.map((horario) => {
+      const [dia, horas] = horario.split("  "); 
+      const [inicio, fim] = horas.split(" - "); 
+      return { dia: dia.trim(), inicio: inicio.trim(), fim: fim.trim() };
+    });
+  };
+
+  const verificaColisao = (Horarios: string[]) => {
+
+    const novosHorarios = processarHorarios(Horarios)
+
+    const novosHorariosC = processarHorarios(horariosC)
+
+    for (const novoHorario of novosHorarios) {
+      for (const horarioExistente of novosHorariosC) {
+        if (novoHorario.dia === horarioExistente.dia) {
+          const novoInicio = parseFloat(novoHorario.inicio.replace(":", "."));
+          const novoFim = parseFloat(novoHorario.fim.replace(":", "."));
+          const existenteInicio = parseFloat(horarioExistente.inicio.replace(":", "."));
+          const existenteFim = parseFloat(horarioExistente.fim.replace(":", "."));
+          
+          if (
+            (novoInicio >= existenteInicio && novoInicio < existenteFim) || 
+            (novoFim > existenteInicio && novoFim <= existenteFim) || 
+            (novoInicio <= existenteInicio && novoFim >= existenteFim) 
+          ) {
+            return true; 
+          }
+        }
+      }
+    }
+    return false; 
+  };
+
+
   const solicitarMatricula = async () => {
+    
+    if(verificaColisao(disc.horarios)){
+      toast.error("Conflito de horários detectado!");
+      return;
+    }
+
     const data = {
       matricula: usuario.matricula,
       id: disc.id,
     };
 
+    
     try {
       const response = await axios.put(
         "http://localhost:3200/turmas/adicionarSolicitacao/",
@@ -44,11 +125,17 @@ export default function DiscSolMatricula({
       }
 
       toast.success("Solicitação adicionada");
+      
       getSolicitacoes();
+  
+      setHorariosC((prevHorarios) => [...prevHorarios, ...disc.horarios]);
+
+      console.log(horariosC)
     } catch (error) {
       toast.error("Erro ao adicionar solicitação");
     }
   };
+
 
   const removerSolicitao = async () => {
     const data = {
@@ -68,7 +155,13 @@ export default function DiscSolMatricula({
       }
 
       toast.success("Solicitação removida");
+      
       getSolicitacoes();
+
+      setHorariosC((prevHorarios) => prevHorarios.filter(
+        (horarioExistente) => !disc.horarios.includes(horarioExistente)
+      ));
+
     } catch (error) {
       toast.error("Erro ao adicionar solicitação");
     }

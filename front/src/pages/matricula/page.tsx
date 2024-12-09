@@ -114,7 +114,6 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                            turmas={turmas}
                           />
                         ) : (
                           <></>
@@ -148,7 +147,7 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                            turmas={turmas}
+                         
                           />
                         ) : (
                           <></>
@@ -181,7 +180,7 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                            turmas={turmas}
+                          
                           />
                         ) : (
                           <></>
@@ -210,7 +209,7 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                            turmas={turmas}
+                           
                           />
                         ) : (
                           <></>

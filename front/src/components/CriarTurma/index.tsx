@@ -210,6 +210,8 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
 
     setHorariosSelecionados([...horariosSelecionados, horario]);
 
+    console.log(horariosSelecionados)
+
     setDiaSelecionado("");
     sethorarioInicio("");
     sethorarioFim("");

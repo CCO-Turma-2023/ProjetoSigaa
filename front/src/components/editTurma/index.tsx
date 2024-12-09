@@ -78,6 +78,8 @@ export default function editarTurma({
     String(cargaHoraria) === "64" ? 4 : 2,
   );
 
+  console.log(turma.vagas)
+
   const resetarValores = () => {
     setHorariosSelecionados([]);
     setDiaSelecionado("");

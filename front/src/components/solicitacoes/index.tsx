@@ -21,7 +21,10 @@ export default function Solicitacoes( {curso} : {curso : string}) {
           for (let i = 0; i < response.data.turmas.length; i++) {
             response.data.turmas[i].horarios = response.data.turmas[i].horarios.split(",");
             response.data.turmas[i].horarios.pop(response.data.turmas[i].horarios.length - 1);
-            response.data.turmas[i].solicitacoes = response.data.turmas[i].solicitacoes.split(",");
+            if(response.data.turmas[i].solicitacoes){
+                response.data.turmas[i].solicitacoes = response.data.turmas[i].solicitacoes.split(",");
+            }
+            
           }
           
           setTurmas(response.data.turmas);
@@ -53,7 +56,6 @@ export default function Solicitacoes( {curso} : {curso : string}) {
               solicitacoes: turma.solicitacoes,
             },
           };
-          console.log(turma.solicitacoes);
         try {
             const response = await axios.get("http://localhost:3200/users/pegarAluno/", config)
 
@@ -70,7 +72,7 @@ export default function Solicitacoes( {curso} : {curso : string}) {
 
     }
 
-
+    
     return (
         <div className="w-[45%] h-full bg-[rgba(0,17,61,1)]">
             <h1 className="m-2 text-white text-2xl">Solicitações de Matrícula</h1>
@@ -79,7 +81,7 @@ export default function Solicitacoes( {curso} : {curso : string}) {
            <div className="ml-2 flex w-2/3 flex-col gap-[0.1rem] max-h-[450px] bg-white overflow-auto">
             {turmas.map( (turma, index) => {
                 return (<div className= "w-full h-full" key={index}>
-                    {turma.curso === curso && turma.solicitacoes[0] !== "" && 
+                    {turma.curso === curso && turma.solicitacoes != null && turma.solicitacoes[0] !== undefined && 
                         <>
                             <div className="flex w-full justify-between">
                                 <button

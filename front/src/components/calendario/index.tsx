@@ -6,18 +6,36 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import ptBR from "@fullcalendar/core/locales/pt-br";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import DialogData from "../dialog";
+import DecodificarToken from "../../utils/tokenDecode";
+import { User } from "../../pages/inicio/page";
+import DialogCriarEvento from "../dialogCriarEvento";
+
+interface Event {
+  title: string; // Título do evento
+  date: string; // Data no formato ISO (YYYY-MM-DD)
+  color: string; // Cor do evento
+  extendedProps?: {
+    description?: string; // Descrição do evento (opcional)
+  };
+}
 
 export default function MyCalendar() {
+  const [fecharComponente, setFecharComponente] = useState(true);
+  const [dataEscolhida, setDataEscolhida] = useState<string>("");
   const [events, setEvents] = useState<any[]>([]);
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear(),
   );
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
 
+  let usuario: User | null = DecodificarToken();
+
+  // Pegar API e DB
   const fetchHolidays = useCallback(async (year: number) => {
     try {
+      // Obter feriados
       const response = await axios.get(
         `https://brasilapi.com.br/api/feriados/v1/${year}`,
       );
@@ -31,37 +49,25 @@ export default function MyCalendar() {
         },
       }));
 
-      const extraEvents = [
-        {
-          title: "Entrega Trabalho Web",
-          date: "2024-12-04",
-          color: "blue",
-          extendedProps: {
-            description: "!!!!!",
-          },
+      const config: AxiosRequestConfig = {
+        headers: {
+          curso: usuario?.curso,
         },
-        {
-          title: "Treinamento",
-          date: "2024-12-05",
-          color: "green",
-          extendedProps: {
-            description: "Sessão de treinamento sobre novas ferramentas.",
-          },
-        },
-        {
-          title: "Prova 2",
-          date: "2024-12-05",
-          color: "green",
-          extendedProps: {
-            description: "Prova de revisão.",
-          },
-        },
-      ];
+      };
 
-      // Combina os eventos e remove duplicados (com base em título e data)
-      const allEvents = [...holidayEvents, ...extraEvents];
+      const pegarEventos = await axios.get(
+        "http://localhost:3200/eventos/pegarEventos",
+        config,
+      );
 
-      // Atualiza os eventos sem duplicação, verificando título e data
+      let allEvents;
+
+      if (pegarEventos.data) {
+        allEvents = [...holidayEvents, ...pegarEventos.data];
+      } else {
+        allEvents = [...holidayEvents];
+      }
+
       setEvents((prevEvents) => [
         ...prevEvents.filter(
           (event) =>
@@ -72,16 +78,30 @@ export default function MyCalendar() {
         ),
         ...allEvents,
       ]);
+
+      // Atualizar localStorage
+      localStorage.setItem("events", JSON.stringify(allEvents));
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
     }
   }, []);
 
+  // Ano atual e manter no localstorage as datas já obtidas
   useEffect(() => {
-    // Carrega os feriados e eventos extras ao inicializar ou quando o ano mudar
-    fetchHolidays(currentYear);
-  }, [currentYear, fetchHolidays]);
+    const storedEvents = localStorage.getItem("events");
+    if (storedEvents) {
+      setEvents(JSON.parse(storedEvents));
+    } else {
+      fetchHolidays(currentYear);
+    }
+  }, [fetchHolidays]);
 
+  // Caso mudar de ano
+  useEffect(() => {
+    fetchHolidays(currentYear);
+  }, [currentYear]);
+
+  // Pegar um ano novo
   const handleDatesSet = (arg: any) => {
     const newYear = new Date(arg.start).getFullYear();
     if (newYear !== currentYear) {
@@ -89,6 +109,7 @@ export default function MyCalendar() {
     }
   };
 
+  // Visualizar evento
   const handleEventClick = (info: any) => {
     const { title, extendedProps, start } = info.event;
     const description = extendedProps?.description || "Nenhuma descrição";
@@ -99,8 +120,30 @@ export default function MyCalendar() {
     setSelectedEvent({ title, description, eventDate });
   };
 
+  // Criar evento no dia
+  const handleDateClick = (info: any) => {
+    if (usuario?.type === 1) {
+      console.log("teste:", info);
+      setDataEscolhida(info.dateStr);
+      setFecharComponente(false);
+    }
+  };
+
+  const adicionarEventos = (infos: any) => {
+    console.log("Adicionando turmas:", infos);
+    setEvents((eventosAntigos) => [...eventosAntigos, infos]);
+  };
+
   return (
     <div>
+      {!fecharComponente && (
+        <DialogCriarEvento
+          fecharComponente={setFecharComponente}
+          adicionarEventos={adicionarEventos}
+          data={dataEscolhida}
+          curso={usuario?.curso}
+        />
+      )}
       <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[45rem] lg:text-[0.9rem]">
         {selectedEvent && (
           <DialogData
@@ -118,6 +161,7 @@ export default function MyCalendar() {
           datesSet={handleDatesSet}
           events={events}
           eventClick={handleEventClick}
+          dateClick={handleDateClick}
           locale={ptBR}
         />
       </div>{" "}

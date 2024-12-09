@@ -16,8 +16,6 @@ const recuperarSenha = async (req, res) => {
   try {
     const { email, matricula } = req.body;
 
-    console.log(req.body);
-
     // Usar await com o pool configurado para Promises
     const [rows] = await pool.query("SELECT * FROM users WHERE matricula = ?", [
       matricula,

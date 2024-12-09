@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes"); // Importa as rotas
 const turmaRoutes = require("./routes/turmaRoutes"); // Importa as rotas
+const eventosRoutes = require("./routes/eventos"); // Importa as rotas
+const { pegarEventos } = require("./getMethod/pegarEventos");
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.get("/", (req, res) => {
 // Usando as rotas de usuários
 app.use("/users", userRoutes); // Chama as rotas de cadastro
 app.use("/turmas", turmaRoutes); // Chama as rotas de cadastro
+app.use("/eventos", eventosRoutes); // Chama as rotas de eventos
 
 // Inicia o servidor
 const PORT = 3200;

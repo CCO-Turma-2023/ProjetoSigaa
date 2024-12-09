@@ -9,16 +9,15 @@ import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
 
 interface User {
-  matricula: string,
-  name: string, 
-  email: string,
-  id: number,
-  iat: number,
-  type: Number
+  matricula: string;
+  name: string;
+  email: string;
+  id: number;
+  iat: number;
+  type: Number;
 }
 
 export default function Menu() {
-
   const userIcon = userImage;
   const [isSelected, setSelected] = useState("");
   const [estado, setEstado] = useState(false);
@@ -40,7 +39,7 @@ export default function Menu() {
       prop === "/disciplina" ||
       prop === "/turma" ||
       prop === "/historico" ||
-      prop === "/matricula"  
+      prop === "/matricula"
     ) {
       setEstado(!estado);
       setSelected("/disciplina");
@@ -49,12 +48,12 @@ export default function Menu() {
 
     if (prop === "/") {
       sessionStorage.removeItem("token");
+      localStorage.removeItem("events");
     }
 
     setEstado(false);
     setSelected(prop);
   };
-
 
   return (
     <nav className="flex min-h-screen w-64 min-w-64 flex-col items-center gap-5 bg-[#00113D]">
@@ -77,26 +76,27 @@ export default function Menu() {
           defineSelected={defineSelected}
           isSelected={isSelected}
         />
-        
-        { usuario?.type === 0 ?
-        <>
-        <BotoesNav
-          rota={"/disciplina"}
-          name={"Disciplinas"}
-          icon={HiAcademicCap}
-          defineSelected={defineSelected}
-          isSelected={isSelected}
-        />
-        {estado && <SubMenu />} </> :  
-        
-        <BotoesNav
-        rota={"/listarTurmas"}
-        name={"Criar Turmas"}
-        icon={HiAcademicCap}
-        defineSelected={defineSelected}
-        isSelected={isSelected}
-      />
-      }
+
+        {usuario?.type === 0 ? (
+          <>
+            <BotoesNav
+              rota={"/disciplina"}
+              name={"Disciplinas"}
+              icon={HiAcademicCap}
+              defineSelected={defineSelected}
+              isSelected={isSelected}
+            />
+            {estado && <SubMenu />}{" "}
+          </>
+        ) : (
+          <BotoesNav
+            rota={"/listarTurmas"}
+            name={"Criar Turmas"}
+            icon={HiAcademicCap}
+            defineSelected={defineSelected}
+            isSelected={isSelected}
+          />
+        )}
 
         <BotoesNav
           rota={"/"}

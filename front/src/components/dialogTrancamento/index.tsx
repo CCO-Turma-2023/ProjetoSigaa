@@ -17,7 +17,7 @@ export default function DialogTrancarCurso({
 
   const enviarSolicitacao = (e: React.MouseEvent) => {
     e.preventDefault(); // Evita o reload da página
-    console.log("Enviando solicitação de trancamento",);
+    console.log("Enviando solicitação de trancamento");
   };
 
   const fecharTrancamento = (e: React.MouseEvent) => {
@@ -26,10 +26,10 @@ export default function DialogTrancarCurso({
   };
 
   return (
-    <div className="absolute -top-0 right-1/2 flex h-[100vh] w-[100vw] translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.7)]">
+    <div className="absolute right-1/2 top-0 flex h-screen w-screen translate-x-1/2 items-center justify-center bg-[rgba(0,0,0,0.7)]">
       <div className="flex h-[20rem] w-[40rem] flex-col items-center justify-between rounded-[1rem] bg-white">
-        <div className="bg-red-500 w-[100%] rounded-t-[1rem]">
-          <h2 className="text-left text-xl p-[1rem] text-white ">
+        <div className="w-[100%] rounded-t-[1rem] bg-red-500">
+          <h2 className="p-[1rem] text-left text-xl text-white">
             Solicitar cancelamento de turma
           </h2>
         </div>
@@ -37,17 +37,25 @@ export default function DialogTrancarCurso({
           <p className="pb-[2rem]">
             Deseja realmente solicitar o cancelamento da turma ?
           </p>
-          <p><span className="font-bold">Disciplina: </span>{curso}</p>
-          <p><span className="font-bold">Periodo/Ano: </span> {periodo}/{ano}</p>
+          <p>
+            <span className="font-bold">Disciplina: </span>
+            {curso}
+          </p>
+          <p>
+            <span className="font-bold">Periodo/Ano: </span> {periodo}/{ano}
+          </p>
         </div>
-        <div className="flex gap-4 bg-red-500 w-[100%] rounded-b-[1rem] justify-end p-[0.5rem]">
+        <div className="flex w-[100%] justify-end gap-4 rounded-b-[1rem] bg-red-500 p-[0.5rem]">
           <button
             onClick={fecharTrancamento}
-            className="bg-white p-2 text-black rounded-[0.5rem] border-[1px] border-black"
+            className="rounded-[0.5rem] border-[1px] border-black bg-white p-2 text-black"
           >
             Cancelar
           </button>
-          <button onClick={enviarSolicitacao} className="bg-red-700 p-2 rounded-[0.5rem] text-white">
+          <button
+            onClick={enviarSolicitacao}
+            className="rounded-[0.5rem] bg-red-700 p-2 text-white"
+          >
             Confirmar
           </button>
         </div>

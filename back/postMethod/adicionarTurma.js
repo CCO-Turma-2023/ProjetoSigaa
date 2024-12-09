@@ -9,7 +9,7 @@ const adicionarTurma = async (req, res) => {
     for (i in infos.horarios) {
       horarios += infos.horarios[i] + ",";
     }
-    console.log(horarios);
+
     // Se o usuário for encontrado e inativo, atualiza as informações
     const updateQuery =
       "INSERT INTO turmas SET nome = ?, sigla = ?, professor = ?, vagas = ?, ano = ?, horarios = ?, periodo = ?, participantes = ?, cargaHoraria = ?, curso = ?";
@@ -24,7 +24,7 @@ const adicionarTurma = async (req, res) => {
       infos.periodo,
       "",
       infos.cargaHoraria,
-      infos.curso
+      infos.curso,
     ]);
 
     console.log("Turma inserida com sucesso");

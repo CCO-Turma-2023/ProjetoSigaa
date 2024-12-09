@@ -20,8 +20,6 @@ const login = async (req, res) => {
 
     const user = rows[0]; // Pegar o primeiro (e único) resultado
 
-    console.log(user);
-
     // Validar a senha
     if (user.senha === senha) {
       const dados = {

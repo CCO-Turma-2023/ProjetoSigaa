@@ -19,10 +19,17 @@ export default function Matricula() {
   const navigate = useNavigate();
 
   let usuario: User | null = DecodificarToken();
+  let userTurmas: string[] = [];
 
   if (usuario === null) {
     navigate("/");
     return <></>;
+  } 
+
+  if (usuario.turmas !== "" && !usuario.turmas.includes(",")) {
+    userTurmas = [usuario.turmas];
+  } else if (usuario.turmas !== "") {
+    userTurmas = usuario.turmas.split(',');
   }
 
   const getTurma = async () => {
@@ -106,7 +113,7 @@ export default function Matricula() {
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {String(turma.periodo) !== "0" &&
+                        {!userTurmas.includes(String(turma.id)) && String(turma.periodo) !== "0" &&
                         turma.curso === usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
@@ -139,7 +146,7 @@ export default function Matricula() {
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {String(turma.periodo) === "0" &&
+                        {!userTurmas.includes(String(turma.id)) && String(turma.periodo) === "0" &&
                         turma.curso === usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
@@ -173,7 +180,7 @@ export default function Matricula() {
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {turma.curso !== usuario.curso &&
+                        {!userTurmas.includes(String(turma.id)) && turma.curso !== usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
                             solicitada={false}
@@ -203,7 +210,7 @@ export default function Matricula() {
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {solicitacoes.includes(String(turma.id)) ? (
+                        {!userTurmas.includes(String(turma.id)) && solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
                             solicitada={true}
                             getSolicitacoes={getSolicitacoes}

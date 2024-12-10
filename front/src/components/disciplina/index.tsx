@@ -2,13 +2,25 @@ import { useState } from "react";
 import { FaRegCircle } from "react-icons/fa";
 import DialogTrancarCurso from "../dialogTrancamento";
 import { propTurmas } from "../../pages/listarTurmas/page";
+import { User } from "../../pages/inicio/page"
+import { useNavigate } from "react-router-dom";
+import DecodificarToken from "../../utils/tokenDecode";
 
 export default function Disciplina({ disciplina }: { disciplina: propTurmas }) {
   const [dialogTrancamentos, setDialogTrancamento] = useState(false);
+  const navigate = useNavigate();
 
   const solicitarTrancamento = (index: boolean) => {
     setDialogTrancamento(index);
   };
+
+  let usuario: User | null = DecodificarToken();
+
+  if (usuario === null) {
+    navigate("/");
+    return <></>;
+  }
+
 
   return (
     <div className="border-[1px] border-black p-[1rem]">
@@ -28,7 +40,8 @@ export default function Disciplina({ disciplina }: { disciplina: propTurmas }) {
         <div className="flex flex-col gap-[0.5rem]">
           <p className="font-bold">Período/Ano</p>
           <p>
-            {disciplina.periodo}/{String(disciplina.ano)}
+            {Number(disciplina.periodo) !== 0 && usuario.curso === disciplina.curso ? disciplina.periodo
+             : Number(disciplina.periodo) === 0 ? "Optativa" : "Eletiva"}/{String(disciplina.ano)}
           </p>
         </div>
 

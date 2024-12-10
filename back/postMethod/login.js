@@ -30,6 +30,7 @@ const login = async (req, res) => {
         curso: user.curso,
         type: user.type,
         turmas: user.turmas,
+        solicitacoes: user.solicitacoes,
       };
 
       const token = jwt.sign(dados, process.env.TOKEN, { expiresIn: "30m" }); // Gera TOKEM

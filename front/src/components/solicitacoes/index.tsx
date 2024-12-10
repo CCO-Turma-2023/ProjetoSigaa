@@ -94,7 +94,6 @@ export default function Solicitacoes({ curso }: { curso: string }) {
         data,
       );
 
-      console.log(response);
       toast.success("Aluno deferido com sucesso");
       setTemSolicitacoes(false);
       getTurma();

@@ -146,44 +146,48 @@ export default function MyCalendar() {
   };
 
   return (
-    <div>
-      {!fecharComponente && (
-        <DialogCriarEvento
-          fecharComponente={setFecharComponente}
-          adicionarEventos={adicionarEventos}
-          data={dataEscolhida}
-          curso={usuario?.curso}
-        />
-      )}
-      {!fecharComponenteEditavel && (
-        <DialogEditarEvento
-          fecharComponenteEditavel={setFecharComponenteEditavel}
-          evento={editarEvento}
-          todosEvents={events}
-          setEvents={setEvents}
-        />
-      )}
-      <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[45rem] lg:text-[0.9rem]">
-        {selectedEvent && (
-          <DialogData
-            title={selectedEvent.title}
-            description={selectedEvent.description}
-            eventDate={selectedEvent.eventDate}
-            onClose={() => setSelectedEvent(null)}
+    <div className="m-[3rem]">
+      <h1 className="text-white font-bold text-2xl mb-[1rem]">Calendário</h1>
+      <div>
+        {!fecharComponente && (
+          <DialogCriarEvento
+            fecharComponente={setFecharComponente}
+            adicionarEventos={adicionarEventos}
+            data={dataEscolhida}
+            curso={usuario?.curso}
           />
         )}
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          editable={true}
-          selectable={true}
-          datesSet={handleDatesSet}
-          events={events}
-          eventClick={handleEventClick}
-          dateClick={handleDateClick}
-          locale={ptBR}
-        />
-      </div>{" "}
+        {!fecharComponenteEditavel && (
+          <DialogEditarEvento
+            fecharComponenteEditavel={setFecharComponenteEditavel}
+            evento={editarEvento}
+            todosEvents={events}
+            setEvents={setEvents}
+          />
+        )}
+        <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[40rem] lg:text-[0.9rem]">
+          {selectedEvent && (
+            <DialogData
+              title={selectedEvent.title}
+              description={selectedEvent.description}
+              eventDate={selectedEvent.eventDate}
+              onClose={() => setSelectedEvent(null)}
+            />
+          )}
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            editable={true}
+            selectable={true}
+            datesSet={handleDatesSet}
+            events={events}
+            eventClick={handleEventClick}
+            dateClick={handleDateClick}
+            locale={ptBR}
+          />
+        </div>{" "}
+      </div>
     </div>
+    
   );
 }

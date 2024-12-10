@@ -21,15 +21,16 @@ const deferirAluno = async (req, res) => {
 
   const queryAluno = `
       UPDATE users 
-      SET turmas = 
+      SET turmasDef = 
           CASE 
-              WHEN turmas IS NULL OR turmas = '' THEN ?
-              ELSE CONCAT(turmas, ',', ?)
+              WHEN turmasDef IS NULL OR turmasDef = '' THEN ?
+              ELSE CONCAT(turmasDef, ',', ?)
           END 
       WHERE matricula = ?`;
 
   try {
     await pool.query(queryTurma, [aluno.matricula, aluno.matricula, turma.id]);
+    
     await pool.query(queryAluno, [turma.id, turma.id, aluno.matricula]);
 
     return res.status(200).json({ message: "Turma e Aluno atualizados" });

@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS \`users\` (
   \`solicitacoes\` longtext DEFAULT NULL,
   \`reset_token\` varchar(128) DEFAULT NULL,
   \`reset_token_expires\` timestamp NULL DEFAULT NULL,
-  \`turmas\` longtext DEFAULT NULL,
+  \`turmasDef\` longtext DEFAULT NULL,
+  \`turmasIn\` longtext DEFAULT NULL,
   PRIMARY KEY (\`id\`),
   UNIQUE KEY \`email\` (\`email\`),
   UNIQUE KEY \`matricula\` (\`matricula\`)
@@ -78,10 +79,10 @@ ON DUPLICATE KEY UPDATE
 `;
 
 const insertUsersSQL = `
-INSERT INTO \`users\` (\`id\`, \`name\`, \`senha\`, \`email\`, \`matricula\`, \`type\`, \`curso\`, \`solicitacoes\`, \`reset_token\`, \`reset_token_expires\`, \`turmas\`) VALUES
-  (5, 'Phyllipe de Souza Lima', 'Senha123@', 'coordsin@gmail.com', '2009001', 1, 'Sistema da Informação', NULL, NULL, NULL, NULL),
-  (6, 'Rafael Frinhani', 'Senha123@', 'coordcco@gmail.com','1998001', 1, 'Ciência da Computação', NULL, NULL, NULL, NULL),
-  (10, 'Fernando Pereira Micena', 'Senha123@', 'coordmat@gmail.com', '2009002', 1, 'Matemática Bacharelado', NULL, NULL, NULL, NULL)
+INSERT INTO \`users\` (\`id\`, \`name\`, \`senha\`, \`email\`, \`matricula\`, \`type\`, \`curso\`, \`solicitacoes\`, \`reset_token\`, \`reset_token_expires\`, \`turmasDef\`, \`turmasIn\`) VALUES
+  (5, 'Phyllipe de Souza Lima', 'Senha123@', 'coordsin@gmail.com', '2009001', 1, 'Sistema da Informação', NULL, NULL, NULL, NULL, NULL),
+  (6, 'Rafael Frinhani', 'Senha123@', 'coordcco@gmail.com','1998001', 1, 'Ciência da Computação', NULL, NULL, NULL, NULL, NULL),
+  (10, 'Fernando Pereira Micena', 'Senha123@', 'coordmat@gmail.com', '2009002', 1, 'Matemática Bacharelado', NULL, NULL, NULL, NULL, NULL)
 ON DUPLICATE KEY UPDATE 
   \`name\`=VALUES(\`name\`), 
   \`senha\`=VALUES(\`senha\`), 
@@ -92,7 +93,8 @@ ON DUPLICATE KEY UPDATE
   \`solicitacoes\` = IF(\`solicitacoes\` IS NULL OR \`solicitacoes\` = '', VALUES(\`solicitacoes\`), \`solicitacoes\`),
   \`reset_token\`=VALUES(\`reset_token\`),
   \`reset_token_expires\`=VALUES(\`reset_token_expires\`),
-  \`turmas\` = IF(\`turmas\` IS NULL OR \`turmas\` = '', VALUES(\`turmas\`), \`turmas\`);
+  \`turmasDef\` = IF(\`turmasDef\` IS NULL OR \`turmasDef\` = '', VALUES(\`turmasDef\`), \`turmasDef\`),
+  \`turmasIn\` = IF(\`turmasIn\` IS NULL OR \`turmasIn\` = '', VALUES(\`turmasIn\`), \`turmasIn\`);
 `;
 
 const insertTurmasSQL = `

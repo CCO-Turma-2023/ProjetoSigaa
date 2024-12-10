@@ -15,21 +15,29 @@ export default function Matricula() {
   const [flagObg, setFlagObg] = useState(false);
   const [flagOpt, setFlagOpt] = useState(false);
   const [flagEle, setFlagEle] = useState(false);
+  const [flagIn, setFlagIn] = useState(false);
 
   const navigate = useNavigate();
 
   let usuario: User | null = DecodificarToken();
   let userTurmas: string[] = [];
+  let userTurmasIn :string[] = []
 
   if (usuario === null) {
     navigate("/");
     return <></>;
   } 
 
-  if (usuario.turmas && usuario.turmas !== "" && !usuario.turmas.includes(",")) {
-    userTurmas = [usuario.turmas];
-  } else if (usuario.turmas && usuario.turmas !== "") {
-    userTurmas = usuario.turmas.split(',');
+  if (usuario.turmasDef && usuario.turmasDef !== "" && !usuario.turmasDef.includes(",")) {
+    userTurmas = [usuario.turmasDef];
+  } else if (usuario.turmasDef && usuario.turmasDef !== "") {
+    userTurmas = usuario.turmasDef.split(',');
+  }
+
+  if (usuario.turmasIn && usuario.turmasIn !== "" && !usuario.turmasIn.includes(",")) {
+    userTurmasIn = [usuario.turmasIn];
+  } else if (usuario.turmasIn && usuario.turmasIn !== "") {
+    userTurmasIn = usuario.turmasIn.split(',');
   }
 
   const getTurma = async () => {
@@ -45,7 +53,7 @@ export default function Matricula() {
           response.data.turmas[i].horarios.length - 1,
         );
       }
-
+      
       setTurmas(response.data.turmas);
     } catch (error) {
     }
@@ -82,6 +90,7 @@ export default function Matricula() {
   const mudaFlag = (tipo: string) => {
     if (tipo === "Obg") setFlagObg(!flagObg);
     else if (tipo === "Opt") setFlagOpt(!flagOpt);
+    else if(tipo === "In") setFlagIn(!flagIn);
     else setFlagEle(!flagEle);
   };
 
@@ -107,11 +116,11 @@ export default function Matricula() {
                 </button>
               </div>
               {flagObg && (
-                <div className="flex max-h-[200px] flex-col overflow-y-auto">
+                <div className="flex max-h-[135px] flex-col overflow-y-auto">
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {!userTurmas.includes(String(turma.id)) && String(turma.periodo) !== "0" &&
+                        {!userTurmas.includes(String(turma.id)) && !userTurmasIn.includes(String(turma.id)) && String(turma.periodo) !== "0" &&
                         turma.curso === usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
@@ -119,6 +128,7 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
+                            In={false}
                           />
                         ) : (
                           <></>
@@ -140,11 +150,11 @@ export default function Matricula() {
                 </button>
               </div>
               {flagOpt && (
-                <div className="flex max-h-[200px] flex-col overflow-y-auto">
+                <div className="flex max-h-[135px] flex-col overflow-y-auto">
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {!userTurmas.includes(String(turma.id)) && String(turma.periodo) === "0" &&
+                        {(!userTurmas.includes(String(turma.id)) && !userTurmasIn.includes(String(turma.id))) && String(turma.periodo) === "0" &&
                         turma.curso === usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
@@ -152,7 +162,7 @@ export default function Matricula() {
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                         
+                            In={false}
                           />
                         ) : (
                           <></>
@@ -174,18 +184,18 @@ export default function Matricula() {
                 </button>
               </div>
               {flagEle && (
-                <div className="flex max-h-[200px] flex-col overflow-y-auto">
+                <div className="flex max-h-[135px] flex-col overflow-y-auto">
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {!userTurmas.includes(String(turma.id)) && turma.curso !== usuario.curso &&
+                        {(!userTurmas.includes(String(turma.id)) && !userTurmasIn.includes(String(turma.id))) && turma.curso !== usuario.curso &&
                         !solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
                             solicitada={false}
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                          
+                            In={false}
                           />
                         ) : (
                           <></>
@@ -196,6 +206,38 @@ export default function Matricula() {
                 </div>
               )}
             </div>
+            <div className=" ml-16 min-h-1/6 flex w-full justify-between mt-[10%] bg-[#d0d2d3] border-[1px] border-black">
+                <button
+                  onClick={() => {
+                    mudaFlag("In");
+                  }}
+                  className="min-h-3/4 ml-2 flex w-full items-center justify-between p-[0.5rem] text-xl"
+                >
+                  <span>Turmas Indeferidas</span>
+                  <MdKeyboardArrowDown />
+                </button>
+              </div>
+              {flagIn && (
+                <div className="ml-16 w-full flex max-h-[135px] flex-col overflow-y-auto">
+                  {turmas.map((turma, index) => {
+                    return (
+                      <>
+                        {(userTurmasIn.includes(String(turma.id))) ? (
+                          <DiscSolMatricula
+                            solicitada={false}
+                            getSolicitacoes={getSolicitacoes}
+                            key={index}
+                            disc={turma}
+                            In={true}
+                          />
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    );
+                  })}
+                </div>
+              )}
           </div>
           <div className="mr-16 flex h-[98%] w-[42%] flex-col border border-[2px] border-[#8a8c8c] pb-[1rem]">
             <div className="flex h-[6%] w-full items-center bg-[#d0d2d3] p-[1rem] text-center text-xl">
@@ -208,13 +250,13 @@ export default function Matricula() {
                   {turmas.map((turma, index) => {
                     return (
                       <>
-                        {!userTurmas.includes(String(turma.id)) && solicitacoes.includes(String(turma.id)) ? (
+                        {(!userTurmas.includes(String(turma.id)) && !userTurmasIn.includes(String(turma.id))) && solicitacoes.includes(String(turma.id)) ? (
                           <DiscSolMatricula
                             solicitada={true}
                             getSolicitacoes={getSolicitacoes}
                             key={index}
                             disc={turma}
-                           
+                            In={false}
                           />
                         ) : (
                           <></>

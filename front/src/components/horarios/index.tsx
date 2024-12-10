@@ -66,7 +66,7 @@ export default function Horarios() {
 
       const config: AxiosRequestConfig = {
         headers: {
-          ids: usuario.turmas,
+          ids: usuario.turmasDef,
         },
       };
 
@@ -291,22 +291,26 @@ export default function Horarios() {
   }
 
   return (
-    <div className="flex items-center justify-center border border-white bg-[rgba(0,17,61,1)] p-3 text-xs">
-      <div className="flex">
-        <div className="flex flex-col">
-          <DiasSemana dia={"Horário"} />
-          {horarios.map((osHorarios, index) => {
-            return <DiasSemana key={index} dia={osHorarios} />;
+    <div >
+      <h1 className="text-white font-bold text-2xl mb-[1rem]">Grade Horária</h1>
+      <div className="flex items-center justify-center border border-white bg-[rgba(0,17,61,1)] p-3 text-xs">
+        <div className="flex">
+          <div className="flex flex-col">
+            <DiasSemana dia={"Horário"} />
+            {horarios.map((osHorarios, index) => {
+              return <DiasSemana key={index} dia={osHorarios} />;
+            })}
+          </div>
+          {diasSemanas.map((horario, index) => {
+            return (
+              <div key={index} className="flex flex-col">
+                {horario}
+              </div>
+            );
           })}
         </div>
-        {diasSemanas.map((horario, index) => {
-          return (
-            <div key={index} className="flex flex-col">
-              {horario}
-            </div>
-          );
-        })}
       </div>
     </div>
+    
   );
 }

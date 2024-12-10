@@ -23,7 +23,7 @@ export default function Turma() {
 
       const config: AxiosRequestConfig = {
         headers: {
-          ids: usuario.turmas,
+          ids: usuario.turmasDef,
         },
       };
       console.log(usuario);

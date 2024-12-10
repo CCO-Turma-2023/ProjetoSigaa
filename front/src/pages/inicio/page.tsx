@@ -20,7 +20,8 @@ export interface User {
   type: Number;
   curso: string;
   solicitacoes: string;
-  turmas: string;
+  turmasDef: string;
+  turmasIn: string;
 }
 
 export default function Inicio() {

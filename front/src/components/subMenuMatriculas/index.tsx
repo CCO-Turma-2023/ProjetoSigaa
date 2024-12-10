@@ -13,10 +13,12 @@ export default function DiscSolMatricula({
   disc,
   getSolicitacoes,
   solicitada,
+  In
 }: {
   disc: propTurmas;
   getSolicitacoes: () => void;
   solicitada: boolean;
+  In : boolean
 }) {
   const navigate = useNavigate();
 
@@ -218,21 +220,23 @@ export default function DiscSolMatricula({
         </div>
       </div>
       <div>
-        {!solicitada ? (
+        {!solicitada && !In ? (
           <button
             className="ml-12 rounded-[1rem] bg-green-500 p-[0.5rem] font-bold text-white"
             onClick={solicitarMatricula}
           >
             Solicitar Matricula
           </button>
-        ) : (
+        ) : !In ? (
           <button
             className="ml-12 rounded-[1rem] bg-red-500 p-[0.5rem] font-bold text-white"
             onClick={removerSolicitao}
           >
             Remover Matricula
           </button>
-        )}
+        ) :
+        <> </>
+        }
       </div>
     </div>
   );

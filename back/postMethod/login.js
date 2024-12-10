@@ -33,7 +33,8 @@ const login = async (req, res) => {
         matricula: user.matricula,
         curso: user.curso,
         type: user.type,
-        turmas: user.turmas,
+        turmasDef: user.turmasDef,
+        turmasIn: user.turmasIn,
         solicitacoes: user.solicitacoes,
       };
 

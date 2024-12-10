@@ -17,7 +17,7 @@ interface User {
 const rotasCoordenador = ["/listarTurmas"];
 
 // Rotas que são exclusivas à alunos
-const rotasAluno = ["/matricula"];
+const rotasAluno = ["/matricula", "/turma"];
 
 const PrivateRoute = () => {
   const { validaAcesso, isAuthenticated, loading } = useContext(AuthContext);

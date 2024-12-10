@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               10.4.32-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6908
+-- Servidor:                     127.0.0.1
+-- Versão do servidor:           10.4.32-MariaDB - mariadb.org binary distribution
+-- OS do Servidor:               Win64
+-- HeidiSQL Versão:              12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for bdUsers
+-- Copiando estrutura do banco de dados para bdusers
 CREATE DATABASE IF NOT EXISTS `bdusers` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `bdUsers`;
+USE `bdusers`;
 
--- Dumping structure for table bdUsers.calendario
+-- Copiando estrutura para tabela bdusers.calendario
 CREATE TABLE IF NOT EXISTS `calendario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS `calendario` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table bdUsers.calendario: ~2 rows (approximately)
+-- Copiando dados para a tabela bdusers.calendario: ~2 rows (aproximadamente)
 INSERT INTO `calendario` (`id`, `title`, `date`, `color`, `description`, `curso`) VALUES
 	(32, 'Ano Novo', '2024-12-31', '#005799', 'Virada do Ano', 'Sistema da Informação'),
 	(56, 'Entrega de Web', '2024-12-11', '#000000', 'Entregar o Trabalho de Programação Web', 'Ciência da Computação');
 
--- Dumping structure for table bdUsers.cursos
+-- Copiando estrutura para tabela bdusers.cursos
 CREATE TABLE IF NOT EXISTS `cursos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sigla` varchar(255) NOT NULL,
@@ -46,13 +46,13 @@ CREATE TABLE IF NOT EXISTS `cursos` (
   KEY `curso` (`curso`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table bdUsers.cursos: ~3 rows (approximately)
+-- Copiando dados para a tabela bdusers.cursos: ~3 rows (aproximadamente)
 INSERT INTO `cursos` (`id`, `sigla`, `codigo`, `curso`, `coordenador`) VALUES
 	(1, 'CCO', '001', 'Ciência da Computação', 'Rafael Frinhani'),
 	(2, 'SIN', '002', 'Sistema da Informação', 'Phyllipe de Souza Lima'),
-	(3, 'MAT', '003', 'Matemática', 'Fernando Pereira Micena');
+	(3, 'MAT', '003', 'Matemática Bacharelado', 'Fernando Pereira Micena');
 
--- Dumping structure for table bdUsers.turmas
+-- Copiando estrutura para tabela bdusers.turmas
 CREATE TABLE IF NOT EXISTS `turmas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
@@ -69,18 +69,18 @@ CREATE TABLE IF NOT EXISTS `turmas` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table bdUsers.turmas: ~8 rows (approximately)
+-- Copiando dados para a tabela bdusers.turmas: ~8 rows (aproximadamente)
 INSERT INTO `turmas` (`id`, `nome`, `sigla`, `participantes`, `professor`, `vagas`, `ano`, `horarios`, `periodo`, `cargaHoraria`, `curso`, `solicitacoes`) VALUES
-	(40, 'Inteligência Artificial', 'CMC01', '', 'Isabella Drumond', 60, 2024, 'Terça-Feira  13:30 - 15:20,Quinta-Feira  13:30 - 15:20,', 5, 64, 'Ciência da Computação', '2004'),
-	(41, 'Cálculo A', 'MAT00A', '2004', 'Juan Valentin', 110, 2024, 'Segunda-Feira  7:55 - 12:00,', 1, 64, 'Matemática Bacharelado', '2004'),
-	(42, 'Sistemas Operacionais', 'SRC02', '2004', 'Carlos Minoru', 60, 2024, 'Quarta-Feira  13:30 - 15:20,Quinta-Feira  15:45 - 17:35,', 3, 64, 'Sistema da Informação', ''),
+	(40, 'Inteligência Artificial', 'CMC01', '', 'Isabella Drumond', 60, 2024, 'Terça-Feira  13:30 - 15:20,Quinta-Feira  13:30 - 15:20,', 5, 64, 'Ciência da Computação', ''),
+	(41, 'Cálculo A', 'MAT00A', '', 'Juan Valentin', 110, 2024, 'Segunda-Feira  7:55 - 12:00,', 1, 64, 'Matemática Bacharelado', ''),
+	(42, 'Sistemas Operacionais', 'SRC02', '', 'Carlos Minoru', 60, 2024, 'Quarta-Feira  13:30 - 15:20,Quinta-Feira  15:45 - 17:35,', 3, 64, 'Sistema da Informação', ''),
 	(43, 'Banco de Dados I', 'SPAD01', '', 'Melise Vieira', 70, 2024, 'Segunda-Feira  15:45 - 17:35,Quarta-Feira  7:55 - 9:45,', 5, 64, 'Sistema da Informação', ''),
-	(44, 'Desenvolvimento de Jogos', 'SDES01', '2004', 'Phyllipe Lima', 30, 2024, 'Quinta-Feira  19:00 - 20:40,Terça-Feira  21:00 - 22:40,', 0, 64, 'Sistema da Informação', ''),
+	(44, 'Desenvolvimento de Jogos', 'SDES01', '', 'Phyllipe Lima', 30, 2024, 'Quinta-Feira  19:00 - 20:40,Terça-Feira  21:00 - 22:40,', 0, 64, 'Sistema da Informação', ''),
 	(45, 'Economia da Informação', 'SECO01', '', 'José Arnaldo', 40, 2024, 'Quinta-Feira  13:30 - 15:20,', 0, 32, 'Sistema da Informação', ''),
-	(46, 'Sistemas Embarcados', 'CRSC02', '2004', 'Luiz Olmes', 1, 2024, 'Quarta-Feira  7:55 - 12:00,', 3, 64, 'Sistema da Informação', ''),
-	(47, 'Programação Lógica Funcional', 'PRSC03', '2004', 'Isabela Neves', 60, 2024, 'Segunda-Feira  13:30 - 15:20,Sexta-Feira  13:30 - 15:20,', 2, 64, 'Sistema da Informação', '');
+	(46, 'Sistemas Embarcados', 'CRSC02', '', 'Luiz Olmes', 1, 2024, 'Quarta-Feira  7:55 - 12:00,', 3, 64, 'Sistema da Informação', ''),
+	(47, 'Programação Lógica Funcional', 'PRSC03', '', 'Isabela Neves', 60, 2024, 'Segunda-Feira  13:30 - 15:20,Sexta-Feira  13:30 - 15:20,', 2, 64, 'Sistema da Informação', '');
 
--- Dumping structure for table bdUsers.users
+-- Copiando estrutura para tabela bdusers.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -97,20 +97,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `matricula` (`matricula`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table bdUsers.users: ~11 rows (approximately)
+-- Copiando dados para a tabela bdusers.users: ~3 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `senha`, `email`, `status`, `matricula`, `type`, `curso`, `solicitacoes`, `reset_token`, `reset_token_expires`, `turmas`) VALUES
-	(2, 'Marcio Morelo', 'Senha123@', 'marcioMorelo@gmail.com', 1, '2002', 0, 'Sistema da Informação', '', NULL, NULL, NULL),
-	(3, 'Joao Aparecido', 'Senha123@', 'soulmaste58@gmail.com', 1, '2003', 0, 'Sistema da Informação', '', NULL, NULL, NULL),
-	(4, 'Caio Mendes Ribeiro da Rosa', 'Caio123@', 'caioribeirorosa@hotmail.com', 1, '2004', 0, 'Sistema da Informação', '40,,41', NULL, NULL, '46,41,47,42,44'),
 	(5, 'Phyllipe de Souza Lima', 'Senha123@', 'coordsin@gmail.com', 1, '2009001', 1, 'Sistema da Informação', '', NULL, NULL, NULL),
 	(6, 'Rafael Frinhani', 'Senha123@', 'coordcco@gmail.com', 1, '1998001', 1, 'Ciência da Computação', '', NULL, NULL, NULL),
-	(10, 'Fernando Pereira Micena', 'Senha123@', 'coordmat@gmail.com', 1, '2009002', 1, 'Matemática Bacharelado', '', NULL, NULL, NULL),
-	(11, 'Davi Dias', 'Senha123@', 'davi@gmail.com', 1, '2001', 0, 'Ciência da Computação', '', NULL, NULL, NULL),
-	(12, 'Gabriel Alves', 'Senha123@', ' gabriel@gmail.com', 1, '2000', 0, 'Sistema da Informação', '', NULL, NULL, NULL),
-	(13, 'Tiago Reis', 'Senha123@', 'tiago@gmail.com', 1, '2005', 0, 'Sistema da Informação', '', NULL, NULL, NULL),
-	(14, 'Paulo Tejano', 'Senha123@', 'pauloteste@gmail.com', 1, '1999', 0, 'Sistema da Informação', '', NULL, NULL, NULL);
+	(10, 'Fernando Pereira Micena', 'Senha123@', 'coordmat@gmail.com', 1, '2009002', 1, 'Matemática Bacharelado', '', NULL, NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

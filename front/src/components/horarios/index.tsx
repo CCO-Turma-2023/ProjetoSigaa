@@ -69,7 +69,8 @@ export default function Horarios() {
           ids: usuario.turmas,
         },
       };
-      console.log(usuario);
+
+      
       try {
         const response = await axios.get(
           "http://localhost:3200/users/pegarTurmas",

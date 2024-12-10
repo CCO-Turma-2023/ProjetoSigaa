@@ -8,6 +8,10 @@ const login = async (req, res) => {
   try {
     const { matricula, senha } = req.body;
 
+    if(matricula === "" || senha === ""){
+      return res.status(200).json({ status: false, message: "Campo Vazio"});
+    }
+
     // Usar await com o pool configurado para Promises
     const [rows] = await pool.query("SELECT * FROM users WHERE matricula = ?", [
       matricula,
@@ -15,7 +19,7 @@ const login = async (req, res) => {
 
     // Verificar se o usuário existe
     if (rows.length === 0) {
-      return res.status(404).send("Usuário não encontrado");
+      return res.status(200).json({ status: false, message: "Usuário ou senha incorretos"});
     }
 
     const user = rows[0]; // Pegar o primeiro (e único) resultado
@@ -37,7 +41,7 @@ const login = async (req, res) => {
 
       return res.status(200).json({ token, status: true });
     } else {
-      return res.status(200).send({ status: false });
+      return res.status(200).json({ status: false, message: "Usuário ou senha incorretos"});
     }
   } catch (error) {
     console.error("Erro ao consultar o banco de dados:", error.message);

@@ -25,13 +25,12 @@ const cadastrarUsuario = async (req, res) => {
       const matricula = "2024" + (Number(qtd[0]["COUNT(*)"] % 10000)).toString().padStart(4, "0");
 
       const updateQuery =
-        "INSERT INTO users SET name = ?, senha = ?, email = ?, status = ?, matricula = ?, curso = ?, type = ?";
+        "INSERT INTO users SET name = ?, senha = ?, email = ?, matricula = ?, curso = ?, type = ?";
 
       pool.query(updateQuery, [
         infos.nome,
         infos.senha,
         infos.email,
-        1, // status ativo
         matricula,
         infos.curso,
         0,

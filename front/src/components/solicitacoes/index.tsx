@@ -76,9 +76,14 @@ export default function Solicitacoes({ curso }: { curso: string }) {
   const deferirMatricula = async (aluno: User, turma: propTurmas) => {
     const data = { aluno: aluno, turma: turma };
 
-    const v = turma.participantes.split(",").length;
-
-    if (v > Number(turma.vagas)) {
+    let v;
+    if(turma.participantes === null){
+      v = 0
+    }else{
+      v = turma.participantes.split(",").length;
+    }
+    
+    if (v >= Number(turma.vagas)) {
       toast.error("Turma lotada");
       return;
     }

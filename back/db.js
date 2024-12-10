@@ -4,7 +4,12 @@ const {
   createDatabaseSQL,
   createCursosTableSQL,
   createUsersTableSQL,
+  createTurmasTableSQL,
+  createCalendarioTableSQL,
   insertCursosSQL,
+  insertUsersSQL,
+  insertTurmasSQL,
+  insertCalendarioSQL
 } = require("./bd/bd"); // Importando as queries do arquivo bd.js
 
 // Configuração do pool de conexões
@@ -30,13 +35,31 @@ async function initializeDatabase() {
     await connection.query(createCursosTableSQL);
     console.log("Tabela cursos criada.");
 
+     // Insere os dados na tabela cursos
+    await connection.query(insertCursosSQL);
+
     // Cria a tabela users
     await connection.query(createUsersTableSQL);
     console.log("Tabela users criada.");
 
-    // Insere os dados na tabela cursos
-    await connection.query(insertCursosSQL);
-    console.log("Dados inseridos na tabela cursos.");
+    //Inserir na tabela Users 
+    await connection.query(insertUsersSQL);
+
+     // Cria a tabela turmas
+    await connection.query(createTurmasTableSQL);
+    console.log("Tabela turmas criada.");
+ 
+     //Inserir na tabela turmas 
+    await connection.query(insertTurmasSQL);
+
+      // Cria a tabela calendario
+    await connection.query(createCalendarioTableSQL);
+    console.log("Tabela calendário criada.");
+  
+      //Inserir na tabela calendario 
+    await connection.query(insertCalendarioSQL);
+   
+    console.log("Dados inseridos no Banco.");
   } catch (error) {
     console.error("Erro ao configurar o banco de dados:", error);
   } finally {

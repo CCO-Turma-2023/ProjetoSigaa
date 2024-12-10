@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export default function Home() {
       );
 
       if (!response.data.status) {
+        toast.error(response.data.message)
         return;
       }
 
@@ -44,6 +46,7 @@ export default function Home() {
 
       navigate("/inicio");
     } catch (error) {
+      console.log()
       console.error("Erro ao enviar os dados:", error);
     }
   };

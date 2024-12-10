@@ -71,13 +71,11 @@ export default function DiscSolMatricula({
   const processarHorarios = (
     horarios: string[],
   ): { dia: string; inicio: string; fim: string }[] => {
-    console.log(horarios)
+
     return horarios.map((horario) => {
-      console.log(horario)
+
       const [dia, horas] = horario.split("  ");
-      console.log("dfjgkjdfkg", dia)
       const [inicio, fim] = horas.split(" - ")
-      console.log("dsfiihd", inicio, fim)
    
       return { dia: dia.trim(), inicio: inicio.trim(), fim: fim.trim() };
     });
@@ -85,8 +83,6 @@ export default function DiscSolMatricula({
 
   const verificaColisao = (Horarios: string[]) => {
     const novosHorarios = processarHorarios(Horarios);
-
-    
 
     const novosHorariosC = processarHorarios(horariosC);
 

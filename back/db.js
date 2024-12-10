@@ -8,7 +8,6 @@ const {
   createCalendarioTableSQL,
   insertCursosSQL,
   insertUsersSQL,
-  insertTurmasSQL,
   insertCalendarioSQL
 } = require("./bd/bd"); // Importando as queries do arquivo bd.js
 
@@ -48,9 +47,6 @@ async function initializeDatabase() {
      // Cria a tabela turmas
     await connection.query(createTurmasTableSQL);
     console.log("Tabela turmas criada.");
- 
-     //Inserir na tabela turmas 
-    await connection.query(insertTurmasSQL);
 
       // Cria a tabela calendario
     await connection.query(createCalendarioTableSQL);

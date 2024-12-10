@@ -5,6 +5,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
 import { propTurmas } from "../../pages/listarTurmas/page.tsx";
+import { toast } from "react-toastify";
 
 export default function Horarios() {
   const dias = [

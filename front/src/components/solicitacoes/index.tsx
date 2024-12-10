@@ -31,6 +31,7 @@ export default function Solicitacoes({ curso }: { curso: string }) {
       }
 
       setTurmas(response.data.turmas);
+      setFlag("");
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }
@@ -96,7 +97,7 @@ export default function Solicitacoes({ curso }: { curso: string }) {
 
       toast.success("Aluno deferido com sucesso");
       setTemSolicitacoes(false);
-      getTurma();
+      await getTurma();
     } catch (errors) {
       console.error("Erro no Servidor");
     }
@@ -113,9 +114,10 @@ export default function Solicitacoes({ curso }: { curso: string }) {
 
       toast.success("Aluno indeferido");
       setTemSolicitacoes(false);
-      getTurma();
+      await getTurma();
+      pegarAlunos(turma);
     } catch (errors) {
-      console.error("Erro ao indeferij a matrícula");
+      console.error("Erro ao indeferir a matrícula");
     }
   };
 

@@ -97,30 +97,6 @@ ON DUPLICATE KEY UPDATE
   \`turmasIn\` = IF(\`turmasIn\` IS NULL OR \`turmasIn\` = '', VALUES(\`turmasIn\`), \`turmasIn\`);
 `;
 
-const insertTurmasSQL = `
-INSERT INTO \`turmas\` (\`id\`, \`nome\`, \`sigla\`, \`participantes\`, \`professor\`, \`vagas\`, \`ano\`, \`horarios\`, \`periodo\`, \`cargaHoraria\`, \`curso\`, \`solicitacoes\`) VALUES
-  (40, 'Inteligência Artificial', 'CMC01', NULL, 'Isabella Drumond', 60, 2024, 'Terça-Feira  13:30 - 15:20,Quinta-Feira  13:30 - 15:20,', 5, 64, 'Ciência da Computação', NULL),
-  (41, 'Cálculo A', 'MAT00A', NULL, 'Juan Valentin', 110, 2024, 'Segunda-Feira  7:55 - 12:00,', 1, 64, 'Matemática Bacharelado', NULL),
-  (42, 'Sistemas Operacionais', 'SRC02', NULL, 'Carlos Minoru', 60, 2024, 'Quarta-Feira  13:30 - 15:20,Quinta-Feira  15:45 - 17:35,', 3, 64, 'Sistema da Informação', NULL),
-  (43, 'Banco de Dados I', 'SPAD01', NULL, 'Melise Vieira', 70, 2024, 'Segunda-Feira  15:45 - 17:35,Quarta-Feira  7:55 - 9:45,', 5, 64, 'Sistema da Informação', NULL),
-  (44, 'Desenvolvimento de Jogos', 'SDES01', NULL, 'Phyllipe Lima', 30, 2024, 'Quinta-Feira  19:00 - 20:40,Terça-Feira  21:00 - 22:40,', 0, 64, 'Sistema da Informação', NULL),
-  (45, 'Economia da Informação', 'SECO01', NULL, 'José Arnaldo', 40, 2024, 'Quinta-Feira  13:30 - 15:20,', 0, 32, 'Sistema da Informação', NULL),
-  (46, 'Sistemas Embarcados', 'CRSC02', NULL, 'Luiz Olmes', 1, 2024, 'Quarta-Feira  7:55 - 12:00,', 3, 64, 'Sistema da Informação', NULL),
-  (47, 'Programação Lógica Funcional', 'PRSC03', NULL, 'Isabela Neves', 60, 2024, 'Segunda-Feira  13:30 - 15:20,Sexta-Feira  13:30 - 15:20,', 2, 64, 'Sistema da Informação', NULL)
-ON DUPLICATE KEY UPDATE 
-  \`nome\`=VALUES(\`nome\`), 
-  \`sigla\`=VALUES(\`sigla\`), 
-  \`participantes\` = IF(\`participantes\` IS NULL OR \`participantes\` = '', VALUES(\`participantes\`), \`participantes\`),
-  \`professor\`=VALUES(\`professor\`),
-  \`vagas\`=VALUES(\`vagas\`),
-  \`ano\`=VALUES(\`ano\`),
-  \`horarios\`=VALUES(\`horarios\`),
-  \`periodo\`=VALUES(\`periodo\`),
-  \`cargaHoraria\`=VALUES(\`cargaHoraria\`),
-  \`curso\`=VALUES(\`curso\`),
-  \`solicitacoes\` = IF(\`solicitacoes\` IS NULL OR \`solicitacoes\` = '', VALUES(\`solicitacoes\`), \`solicitacoes\`);
-`;
-
 const insertCalendarioSQL = `
 INSERT INTO \`calendario\` (\`id\`, \`title\`, \`date\`, \`color\`, \`description\`, \`curso\`) VALUES
   (32, 'Ano Novo', '2024-12-31', '#005799', 'Virada do Ano', 'Sistema da Informação'),
@@ -140,7 +116,6 @@ module.exports = {
   createTurmasTableSQL,
   insertCursosSQL,
   insertUsersSQL,
-  insertTurmasSQL,
   createCalendarioTableSQL,
   insertCalendarioSQL,
 };

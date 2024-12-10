@@ -5,7 +5,7 @@ para uso da aplicação, as tecnologias e linguagens de programação utilizadas
 
 ## Sumário
 - [Sobre](#sobre)
-- [Instalação](#instala)
+- [Instalação](#instalação)
 - [Tecnologias](#tecnologias)
 - [Autores](#autores)
 
@@ -35,7 +35,7 @@ Ao logar no sistema, as funcionalidades disponíveis para o aluno serão:
 - Visualizar turmas nas quais o aluno teve a solicitação de matrícula deferida
 - Visualizar grade horária das matérias nas quais o aluno está matriculado
 
-## Instala
+## Instalação
 ### Passo 1:
 Execute um gitclone no seu terminal.
 

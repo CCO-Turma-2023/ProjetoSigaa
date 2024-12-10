@@ -26,9 +26,9 @@ export default function Matricula() {
     return <></>;
   } 
 
-  if (usuario.turmas !== "" && !usuario.turmas.includes(",")) {
+  if (usuario.turmas && usuario.turmas !== "" && !usuario.turmas.includes(",")) {
     userTurmas = [usuario.turmas];
-  } else if (usuario.turmas !== "") {
+  } else if (usuario.turmas && usuario.turmas !== "") {
     userTurmas = usuario.turmas.split(',');
   }
 
@@ -48,7 +48,6 @@ export default function Matricula() {
 
       setTurmas(response.data.turmas);
     } catch (error) {
-      console.error("Erro ao requisitar turmas:", error);
     }
   };
 
@@ -72,7 +71,6 @@ export default function Matricula() {
 
       setSolicitacoes(response.data.solicitacoes.split(","));
     } catch (errors) {
-      toast.error("Erro ao pegar as solicitações");
     }
   };
 

@@ -67,4 +67,4 @@ const recuperarSenha = async (req, res) => {
   }
 };
 
-module.exports = { recuperarSenha };
+module.exports = { recuperarSenha, transporter };

@@ -12,8 +12,7 @@ const schema = z
       .string()
       .email("Insira um email válido.")
       .nonempty("O email é obrigatório."),
-    matricula: z.string().nonempty("O número de matrícula é obrigatório.")
-      .regex(/[0-9]/, "A matrícula deve ser composta por números"),
+    curso: z.string().nonempty("O curso é obrigatório."),
     senha: z
       .string()
       .min(8, "A senha deve ter pelo menos 8 caracteres.")
@@ -43,9 +42,13 @@ export default function Cadastro() {
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [matricula, setMatricula] = useState("");
+  const [curso, setCurso] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+
+  const alterarValorSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurso(e.target.value);
+  }
 
 
   const alterarValorInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,8 +60,6 @@ export default function Cadastro() {
       setNome(valor);
     } else if (id === "email") {
       setEmail(valor);
-    } else if (id === "matricula") {
-      setMatricula(valor)
     } else if (id === "senha") {
       setSenha(valor);
     } else {
@@ -75,7 +76,7 @@ export default function Cadastro() {
     const data = {
       nome: nome,
       email: email,
-      matricula: matricula,
+      curso: curso,
       senha: senha,
       confirmarSenha: confirmarSenha,
     }
@@ -149,16 +150,15 @@ export default function Cadastro() {
                 />
 
                 <label className="font mt-4" htmlFor="matricula">
-                  Nº Matricula
+                  Curso
                 </label>
-                <input
-                  style={{ backgroundColor: "rgb(212, 212, 216)" }}
-                  className="w-1/2 rounded-3xl text-center"
-                  type="text"
-                  id="matricula"
-                  placeholder="Número de Matrícula"
-                  onChange={alterarValorInput}
-                />
+                <select onChange={alterarValorSelect} style={{ backgroundColor: "rgb(212, 212, 216)" }} name="curso" id="curso" className="w-1/2 rounded-3xl text-center">
+                <option value="" disabled selected>Selecione uma opção</option>
+                  <option value="Ciência da Computação">Ciência da Computação</option>
+                  <option value="Sistema da Informação">Sistema da Informação</option>
+                  <option value="Matemática Bacharelado">Matemática Bacharelado</option>
+                </select>
+
 
                 <label className="mt-4" htmlFor="senha">
                   Senha

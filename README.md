@@ -35,7 +35,7 @@ Ao logar no sistema, as funcionalidades disponíveis para o aluno serão:
 - Visualizar turmas nas quais o aluno teve a solicitação de matrícula deferida
 - Visualizar grade horária das matérias nas quais o aluno está matriculado
 
-## Instalação e Utilização
+## Instalação e Utilização {#instalacao-e-utilizacao}
 ### Passo 1:
 Execute um gitclone no seu terminal.
 

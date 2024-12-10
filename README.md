@@ -5,7 +5,7 @@ para uso da aplicação, as tecnologias e linguagens de programação utilizadas
 
 ## Sumário
 - [Sobre](#sobre)
-- [Instalação e Utilização](#instalacao-e-utilização)
+- [Instalação e Utilização](#instalacao-e-utilizacao)
 - [Tecnologias](#tecnologias)
 - [Autores](#autores)
 

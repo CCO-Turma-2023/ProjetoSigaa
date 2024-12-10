@@ -4,7 +4,6 @@ const pegarCurso = async (req, res) => {
   try {
     const curso = req.headers.curso;
 
-    // Verifica se o usuário já existe e está inativo
     const [rows] = await pool.query("SELECT * FROM cursos WHERE curso = ?", [
       curso,
     ]);

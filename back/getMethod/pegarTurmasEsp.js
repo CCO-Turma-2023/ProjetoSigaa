@@ -3,8 +3,6 @@ const pool = require("../db");
 const pegarTurmasEspecificas = async (req, res) => {
   const { ids } = req.headers;
 
-  console.log(ids);
-
   if (!ids || ids.trim() === "") {
     return res.status(404).json({ message: "Não há nenhuma turma" });
   }
@@ -17,8 +15,6 @@ const pegarTurmasEspecificas = async (req, res) => {
   } else {
     idsV = ids.split(",").map((id) => id.trim()); // Divide e remove espaços extras
   }
-
-  console.log("IDs recebidos:", idsV);
 
   try {
     // Realiza a consulta com os IDs

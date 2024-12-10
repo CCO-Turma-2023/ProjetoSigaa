@@ -34,11 +34,9 @@ const login = async (req, res) => {
       };
 
       const token = jwt.sign(dados, process.env.TOKEN, { expiresIn: "30m" }); // Gera TOKEM
-      console.log("Login realizado com sucesso");
 
       return res.status(200).json({ token, status: true });
     } else {
-      console.log("Senha incorreta");
       return res.status(200).send({ status: false });
     }
   } catch (error) {

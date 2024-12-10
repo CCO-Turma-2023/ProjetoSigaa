@@ -27,8 +27,6 @@ const adicionarTurma = async (req, res) => {
       infos.curso,
     ]);
 
-    console.log("Turma inserida com sucesso");
-
     return res.status(200).json({ message: "Usuário atualizado com sucesso!" });
   } catch (err) {
     console.error("Erro ao processar o cadastro:", err);

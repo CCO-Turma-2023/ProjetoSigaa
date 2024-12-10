@@ -4,8 +4,6 @@ const { removerSolAlunoTurma } = require("./removerSolicitacao");
 const deferirAluno = async (req, res) => {
   const { aluno, turma } = req.body;
 
-  console.log(turma, aluno);
-
   const status = await removerSolAlunoTurma(aluno.matricula, turma.id);
 
   if (status === 500) {
@@ -32,7 +30,6 @@ const deferirAluno = async (req, res) => {
 
   try {
     await pool.query(queryTurma, [aluno.matricula, aluno.matricula, turma.id]);
-    console.log("oi");
     await pool.query(queryAluno, [turma.id, turma.id, aluno.matricula]);
 
     return res.status(200).json({ message: "Turma e Aluno atualizados" });

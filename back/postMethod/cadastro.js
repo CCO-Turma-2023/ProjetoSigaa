@@ -37,8 +37,6 @@ const cadastrarUsuario = async (req, res) => {
         0,
       ]);
 
-      console.log("Usuário cadastrado com sucesso");
-
       const resposta = await transporter.sendMail({
         from: '"DTI - SIGAA UNIFEI" <servidormaluco5@gmail.com>',
         to: infos.email, // destinatário

@@ -58,8 +58,6 @@ const recuperarSenha = async (req, res) => {
           `,
     });
 
-    console.log("Message sent: %s", info.messageId);
-
     return res.status(200).send("Email enviado");
   } catch (error) {
     console.error("Erro ao consultar o banco de dados:", error.message);

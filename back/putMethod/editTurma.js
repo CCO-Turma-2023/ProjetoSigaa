@@ -29,8 +29,6 @@ const atualizarTurma = async (req, res) => {
       id,
     ]);
 
-    console.log("Turma editada com sucesso");
-
     return res.status(200).json({ message: "Turma editada com sucesso!" });
   } catch (error) {
     console.error("Erro ao atualizar turma:", error);

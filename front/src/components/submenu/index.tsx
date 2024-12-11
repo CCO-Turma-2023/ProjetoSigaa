@@ -4,15 +4,7 @@ import { FaCircle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
-
-interface User {
-  matricula: string;
-  name: string;
-  email: string;
-  id: number;
-  iat: number;
-  type: Number;
-}
+import {User} from "../../pages/inicio/page"
 
 export default function SubMenu() {
   const [caminho, setCaminho] = useState(window.location.pathname);
@@ -39,24 +31,15 @@ export default function SubMenu() {
         {" "}
         {caminho === "/turma" ? <FaCircle /> : <FaRegCircle />} Turmas Atuais
       </Link>
-      {usuario && usuario.type === 0 ? (
-        <Link
-          onClick={() => mudaSelecionado("/matricula")}
-          to="/matricula"
-          className="flex items-center gap-[0.5rem]"
-        >
-          {" "}
-          {caminho === "/matricula" ? <FaCircle /> : <FaRegCircle />}{" "}
-          Solicitação de Matricula
-        </Link>
-      ) : (
-        <Link
-          onClick={() => mudaSelecionado("/listarTurmas")}
-          to="/listarTurmas"
-          className="flex items-center gap-[0.5rem]"
-        >
-        </Link>
-      )}
+      <Link
+        onClick={() => mudaSelecionado("/matricula")}
+        to="/matricula"
+        className="flex items-center gap-[0.5rem]"
+      >
+        {" "}
+        {caminho === "/matricula" ? <FaCircle /> : <FaRegCircle />}{" "}
+        Solicitação de Matricula
+      </Link>
     </div>
   );
 }

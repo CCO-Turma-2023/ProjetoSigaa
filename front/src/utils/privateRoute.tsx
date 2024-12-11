@@ -2,18 +2,9 @@ import {useContext, useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthContext } from "../context";
 import Menu from "../components/menu"
-import { jwtDecode} from "jwt-decode";
+import DecodificarToken from "../utils/tokenDecode"
+import { User } from "../pages/inicio/page"
 
-interface User {
-  matricula: string,
-  name: string, 
-  email: string,
-  id: number,
-  iat: number,
-  type: Number
-}
-
- 
 const rotasCoordenador = ["/listarTurmas"];
 
 // Rotas que são exclusivas à alunos
@@ -24,7 +15,6 @@ const PrivateRoute = () => {
   const location = useLocation()
 
   const rota = location.pathname;
-  let usuario;
 
   useEffect(() => {
     validaAcesso(); 
@@ -34,42 +24,26 @@ const PrivateRoute = () => {
     return <div>Carregando...</div>; 
   }
 
-  const token = sessionStorage.getItem("token");
-
-  // Verificando se há token
-  if (token){
-    try {
-      usuario = jwtDecode<User>(token);
-    } catch (error) {
-      return (
-        <Navigate to="/" replace />
-      );
-    }
-  } else {
-    return (
-      <Navigate to="/" replace />
-    );
+  if(!isAuthenticated){
+    return <Navigate to="/" replace /> 
   }
 
+  let usuario: User | null = DecodificarToken();
 
-  if (!rotasCoordenador.includes(rota) && usuario.type !== 1) {
-    return isAuthenticated ? (
+  if (!rotasCoordenador.includes(rota) && usuario?.type !== 1) {
+    return(
       <div className="flex">
         <Menu />
         <Outlet />
       </div>
-    ) : (
-      <Navigate to="/" replace /> 
-    );
+    )
   }
 
   // Verificando se não é coordenador
-  if (usuario.type !== 1) {
-    return isAuthenticated ? (
+  if (usuario?.type !== 1) {
+    return(
       <Navigate to="/inicio" replace /> 
-    ) : (
-      <Navigate to="/" replace /> 
-    );
+    )
   }
 
   // Caso não seja um rota exclusiva para aluno

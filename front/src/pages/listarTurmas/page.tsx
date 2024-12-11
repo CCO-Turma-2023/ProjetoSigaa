@@ -25,6 +25,10 @@ export interface propTurmas {
 }
 
 export default function CriarTurma() {
+  const data = new Date()
+  const ano = data.getFullYear()
+  const mes = (data.getMonth() + 1)
+
   const navigate = useNavigate();
   const [flag, setFlag] = useState(false);
   const [turmas, setTurmas] = useState<propTurmas[]>([]);
@@ -75,7 +79,7 @@ export default function CriarTurma() {
       <div className="align-center flex h-screen w-full flex-1 flex-col justify-center">
         <div className="ml-[2rem] flex h-[90%] w-[95%] flex-col bg-white">
           <div className="m-[1rem] ml-[2rem] flex text-3xl">
-            <h1> 1° Semestre - 2025</h1>
+            <h1> {`${mes <= 7 ? 1 : 2}º Semestre - ${ano}`}</h1>
           </div>
           <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
           <div className="max-h-[60%] min-h-[60%] overflow-auto">

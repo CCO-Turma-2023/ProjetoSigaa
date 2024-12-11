@@ -4,7 +4,6 @@ import unifei from "../../assets/unifeiImagem.jpg";
 import logo from "../../assets/logoEngrenagem.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 

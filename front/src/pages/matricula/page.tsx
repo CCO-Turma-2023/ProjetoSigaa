@@ -12,6 +12,10 @@ export default function Matricula() {
   const [turmas, setTurmas] = useState<propTurmas[]>([]);
   const [solicitacoes, setSolicitacoes] = useState<string[]>([]);
 
+  const data = new Date()
+  const ano = data.getFullYear()
+  const mes = (data.getMonth() + 1)
+
   const [flagObg, setFlagObg] = useState(false);
   const [flagOpt, setFlagOpt] = useState(false);
   const [flagEle, setFlagEle] = useState(false);
@@ -98,7 +102,7 @@ export default function Matricula() {
     <div className="align-center flex w-full flex-1 flex-col justify-center bg-backgroundLinear">
       <div className="ml-[2rem] flex h-[90%] w-[95%] flex-col bg-white">
         <div className="m-3 ml-2 text-3xl">
-          <h1>Matrículas - 1° Semestre - 2025</h1>
+          <h1>{`Matrículas: ${mes <= 7 ? 1 : 2}º Semestre - ${ano}`}</h1>
         </div>
         <div className="mb-3 ml-4 flex h-[3px] w-[97%] bg-[#d0d2d3]"></div>
         <div className="flex h-full w-full justify-between gap-[2rem] overflow-auto">

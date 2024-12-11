@@ -7,15 +7,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
-
-interface User {
-  matricula: string;
-  name: string;
-  email: string;
-  id: number;
-  iat: number;
-  type: Number;
-}
+import {User} from "../../pages/inicio/page"
 
 export default function Menu() {
   const userIcon = userImage;
@@ -38,7 +30,6 @@ export default function Menu() {
     if (
       prop === "/disciplina" ||
       prop === "/turma" ||
-      prop === "/historico" ||
       prop === "/matricula"
     ) {
       setEstado(!estado);

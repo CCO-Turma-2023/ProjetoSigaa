@@ -26,6 +26,9 @@ export interface User {
 
 export default function Inicio() {
   const navigate = useNavigate();
+  const data = new Date()
+  const ano = data.getFullYear()
+  const mes = (data.getMonth() + 1)
   const [loading, setLoading] = useState(true);
 
   const [curso, setCurso] = useState({
@@ -79,7 +82,7 @@ export default function Inicio() {
     {
       icon: FaGraduationCap,
       titulo: "Período Letivo",
-      texto: "2024.2",
+      texto: `${ano}.${mes <= 7 ? 1 : 2}`,
       color: "#E37265",
     },
     {

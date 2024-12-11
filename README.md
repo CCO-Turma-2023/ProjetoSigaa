@@ -45,19 +45,50 @@ Ao logar no sistema, as funcionalidades disponíveis para o aluno serão:
 
 ### Passo 1:
 
-git clone https://github.com/CCO-Turma-2023/ProjetoSigaa.git
+Crie uma pasta chamada "ProjetoSigaa" onde desejar.
 
 ### Passo 2:
 
-Execute "cd ProjetoSigaa", após isso, precisará de dois terminais:
+- Instalar XAMPP (https://sourceforge.net/projects/xampp/)
+- Instalar HeidiSQL (https://www.heidisql.com/download.php)
+- Instalar GIT (https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git)
+- Instalar NodeJS (https://nodejs.org/pt/download/prebuilt-installer)
 
 ### Passo 3:
 
-1º Terminal: Execute "cd front", utilize "npm i" para instalar as dependências e utilize "npm run dev" para executar o projeto.
+Abra o XAMPP e clique em "start" na opção "MySQL".
 
-### Passo 4 (Final):
+### Passo 4:
 
-2º Terminal: Execute "cd back", utilize "npm i" para instalar as dependências, crie um banco de dados chamado "bdUsers" e execute "nodemon index.js" para executar o backend do projeto.
+- Abra o HeidiSQL
+- Clique na opção "Nova" e digite "bdUsers"
+- Após criada a sessão com o nome "bdUsers", clique em "abrir"
+- Após abrir, clique com o botão direito em "bdUsers", vá para "novo" e clique em "banco de dados"
+- Crie um banco de dados com o nome "bdusers"
+
+### Passo 5:
+
+- Crie um terminal
+- Execute: "git clone https://github.com/CCO-Turma-2023/ProjetoSigaa.git"
+- Execute "cd ProjetoSigaa" para ir para a pasta do projeto.
+
+Após isso, serão necessários dois terminais.
+
+### Passo 5:
+
+1º Terminal: 
+- Execute "cd front" para ir para a pasta do Front End
+- Execute "npm i" para instalar as dependências necessárias para o projeto
+- Execute "npm run dev" para executar a aplicação.
+
+### Passo 6 (Final):
+
+2º Terminal: 
+- Execute "cd back" para ir para a pasta do Back End
+- Execute "npm i" para instalar as dependências necessárias para o projeto
+- Execute "npm i -g nodemon" para fazer a ligação da aplicação com o Back End no NodeJS
+- Execute "nodemon index.js" para executar toda a lógica de Back End da aplicação
+- Clique no link para abrir o Local Host
 
 ## Tecnologias
 

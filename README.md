@@ -74,14 +74,14 @@ Abra o XAMPP e clique em "start" na opção "MySQL".
 
 Após isso, serão necessários dois terminais.
 
-### Passo 5:
+### Passo 6:
 
 1º Terminal: 
 - Execute "cd front" para ir para a pasta do Front End
 - Execute "npm i" para instalar as dependências necessárias para o projeto
 - Execute "npm run dev" para executar a aplicação.
 
-### Passo 6 (Final):
+### Passo 7 (Final):
 
 2º Terminal: 
 - Execute "cd back" para ir para a pasta do Back End

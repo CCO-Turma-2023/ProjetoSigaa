@@ -199,9 +199,29 @@ export default function CriarTurma({ onClose }: propsCriarTurma) {
       return;
     }
 
+    
     const horario = diaSelecionado + "  " + horarioInicio + " - " + horarioFim;
 
-    if (horariosSelecionados.includes(horario)) {
+    const [dia, horas] = horario.split("  ");
+    const [inicio, fim] = horas.split(" - ")
+    let horarioRepetido = false;
+
+    for (let i in horariosSelecionados) {
+      const [diaS, horasS] = horariosSelecionados[i].split("  ");
+      const [inicioS, fimS] = horasS.split(" - ");
+
+      if (diaS !== dia) continue;
+
+      if ((inicio >= inicioS && inicio < fimS) ||
+          (fim > inicioS && fim <= fimS) ||
+          (inicio <= inicioS && fim >= fimS)) 
+      {
+        horarioRepetido = true;
+        break;
+      }
+    }
+
+    if (horarioRepetido || horariosSelecionados.includes(horario)) {
       toast.warning("Horário já Selecionado");
       return;
     }

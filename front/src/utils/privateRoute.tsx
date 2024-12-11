@@ -23,7 +23,7 @@ const PrivateRoute = () => {
   const { validaAcesso, isAuthenticated, loading } = useContext(AuthContext);
   const location = useLocation()
 
-  const rota = window.location.pathname;
+  const rota = location.pathname;
   let usuario;
 
   useEffect(() => {

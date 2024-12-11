@@ -103,6 +103,11 @@ export default function Solicitacoes({ curso }: { curso: string }) {
         data,
       );
 
+      if (!response.status) {
+        toast.error("Houve um erro ao deferir o aluno.");
+        return;
+      }
+
       toast.success("Aluno deferido com sucesso");
       setTemSolicitacoes(false);
       getTurma(turma);
@@ -119,6 +124,11 @@ export default function Solicitacoes({ curso }: { curso: string }) {
         "http://localhost:3200/turmas/indeferir",
         data,
       );
+
+      if (!response.status) {
+        toast.error("Houve um erro ao indeferir o aluno.");
+        return;
+      }
 
       toast.success("Aluno indeferido");
       setTemSolicitacoes(false);

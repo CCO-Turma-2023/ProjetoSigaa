@@ -37,6 +37,7 @@ const schema = z
     }
   });
 
+
 export default function Cadastro() {
   const navigate = useNavigate();
 

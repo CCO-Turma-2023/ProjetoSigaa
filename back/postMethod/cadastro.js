@@ -6,10 +6,6 @@ const cadastrarUsuario = async (req, res) => {
   try {
     const infos = req.body;
 
-    if (infos.senha !== infos.confirmarSenha) {
-      return res.status(400).json({ message: "Senhas não coincidem" });
-    }
-
     // Verifica se o email já existe e está inativo
     const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [
       infos.email,
@@ -22,7 +18,7 @@ const cadastrarUsuario = async (req, res) => {
 
       const [qtd] = await pool.query(qtdQuery);
       
-      const matricula = "2024" + (Number(qtd[0]["COUNT(*)"] % 10000)).toString().padStart(4, "0");
+      const matricula = String(new Date().getFullYear()) + (Number(qtd[0]["COUNT(*)"] % 10000)).toString().padStart(4, "0");
 
       const updateQuery =
         "INSERT INTO users SET name = ?, senha = ?, email = ?, matricula = ?, curso = ?, type = ?";

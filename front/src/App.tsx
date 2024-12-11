@@ -8,7 +8,6 @@ import Senha from "./pages/esqueceSenha/page";
 import Matricula from "./pages/matricula/page";
 import NotFound from "./pages/notfound/pages";
 
-import { AuthProvider } from "./context";
 import PrivateRoute from "./utils/privateRoute";
 import CriarTurma from "./pages/listarTurmas/page";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +16,6 @@ import ResetarSenha from "./pages/resetarSenha/page";
 function App() {
   return (
     <Router>
-      <AuthProvider>
         <div className="h-full w-full bg-backgroundLinear">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -35,7 +33,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
-      </AuthProvider>
     </Router>
   );
 }

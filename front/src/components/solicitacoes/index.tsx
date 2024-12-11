@@ -11,7 +11,7 @@ export default function Solicitacoes({ curso }: { curso: string }) {
   const [alunos, setAlunos] = useState<User[]>([]);
   const [temSolicitacoes, setTemSolicitacoes] = useState(false);
 
-  const getTurma = async () => {
+  const getTurma = async (turma? : propTurmas) => {
     try {
       const response = await axios.get(
         "http://localhost:3200/turmas/pegarTurma/",
@@ -28,10 +28,13 @@ export default function Solicitacoes({ curso }: { curso: string }) {
             response.data.turmas[i].solicitacoes.split(",");
           if (response.data.turmas[i].curso === curso) setTemSolicitacoes(true);
         }
-      }
 
+        if(response.data.turmas[i].sigla === turma?.sigla){
+          pegarAlunos(response.data.turmas[i])
+        }
+
+      }
       setTurmas(response.data.turmas);
-      setFlag("");
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }
@@ -52,25 +55,30 @@ export default function Solicitacoes({ curso }: { curso: string }) {
   };
 
   const pegarAlunos = async (turma: propTurmas) => {
-    const config: AxiosRequestConfig = {
-      headers: {
-        solicitacoes: turma.solicitacoes,
-      },
-    };
-    try {
-      const response = await axios.get(
-        "http://localhost:3200/users/pegarAluno/",
-        config,
-      );
+    if(turma.solicitacoes){
+      const config: AxiosRequestConfig = {
+        headers: {
+          solicitacoes: turma.solicitacoes,
+        },
+      };
 
-      if (!response.status) {
-        toast.error("Alunos não encontrados");
-        return;
+      console.log(turma.sigla)
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3200/users/pegarAluno/",
+          config,
+        );
+
+        if (!response.status) {
+          toast.error("Alunos não encontrados");
+          return;
+        }
+
+        setAlunos(response.data.alunos);
+      } catch (errors) {
+        toast.error("Erro no servidor");
       }
-
-      setAlunos(response.data.alunos);
-    } catch (errors) {
-      toast.error("Erro no servidor");
     }
   };
 
@@ -97,7 +105,7 @@ export default function Solicitacoes({ curso }: { curso: string }) {
 
       toast.success("Aluno deferido com sucesso");
       setTemSolicitacoes(false);
-      await getTurma();
+      getTurma(turma);
     } catch (errors) {
       console.error("Erro no Servidor");
     }
@@ -114,8 +122,7 @@ export default function Solicitacoes({ curso }: { curso: string }) {
 
       toast.success("Aluno indeferido");
       setTemSolicitacoes(false);
-      await getTurma();
-      pegarAlunos(turma);
+      getTurma(turma);
     } catch (errors) {
       console.error("Erro ao indeferir a matrícula");
     }

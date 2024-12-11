@@ -7,7 +7,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 import SubMenu from "../submenu";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
-import {User} from "../../pages/inicio/page"
+import { User } from "../../pages/inicio/page";
 
 export default function Menu() {
   const userIcon = userImage;
@@ -27,11 +27,7 @@ export default function Menu() {
   }, []);
 
   const defineSelected = (prop: string) => {
-    if (
-      prop === "/disciplina" ||
-      prop === "/turma" ||
-      prop === "/matricula"
-    ) {
+    if (prop === "/disciplina" || prop === "/turma" || prop === "/matricula") {
       setEstado(!estado);
       setSelected("/disciplina");
       return;
@@ -39,7 +35,7 @@ export default function Menu() {
 
     if (prop === "/") {
       sessionStorage.removeItem("token");
-      localStorage.removeItem("events");
+      localStorage.removeItem("eventos");
     }
 
     setEstado(false);

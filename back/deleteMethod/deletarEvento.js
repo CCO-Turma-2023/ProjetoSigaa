@@ -2,7 +2,6 @@ const pool = require("../db");
 
 const deletarEvento = async (req, res) => {
   const nomeEvento = req.query.nomeEvento;
-
   const deleteQuery = "DELETE FROM calendario WHERE title = ?";
 
   try {

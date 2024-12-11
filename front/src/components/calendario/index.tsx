@@ -10,17 +10,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import DialogData from "../dialog";
 import DecodificarToken from "../../utils/tokenDecode";
 import { User } from "../../pages/inicio/page";
-import DialogCriarEvento from "../dialogCriarEvento";
-import DialogEditarEvento from "../dialogEditarEvento";
-
-interface Event {
-  title: string; // Título do evento
-  date: string; // Data no formato ISO (YYYY-MM-DD)
-  color: string; // Cor do evento
-  extendedProps?: {
-    description?: string; // Descrição do evento (opcional)
-  };
-}
+import DialogEvento from "../dialogEventos";
 
 export default function MyCalendar() {
   const [fecharComponente, setFecharComponente] = useState(true);
@@ -28,30 +18,28 @@ export default function MyCalendar() {
     useState(true);
 
   const [dataEscolhida, setDataEscolhida] = useState<string>("");
-  const [events, setEvents] = useState<any[]>([]);
-  const [currentYear, setCurrentYear] = useState<number>(
-    new Date().getFullYear(),
-  );
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [eventos, setEventos] = useState<any[]>([]);
+  const [anoAtual, setanoAtual] = useState<number>(new Date().getFullYear());
+  const [selecionarEvento, setselecionarEvento] = useState<any | null>(null);
 
   const [editarEvento, setEditarEvento] = useState<any | null>(null);
 
   let usuario: User | null = DecodificarToken();
 
   // Pegar API e DB
-  const fetchHolidays = useCallback(async (year: number) => {
+  const pegarEventos = useCallback(async (year: number) => {
     try {
       // Obter feriados
       const response = await axios.get(
         `https://brasilapi.com.br/api/feriados/v1/${year}`,
       );
 
-      const holidayEvents = response.data.map((holiday: any) => ({
-        title: holiday.name,
-        date: holiday.date,
+      const feriadosEventos = response.data.map((feriados: any) => ({
+        title: feriados.name,
+        date: feriados.date,
         color: "red",
         extendedProps: {
-          type: holiday.type,
+          type: feriados.type,
         },
       }));
 
@@ -66,27 +54,27 @@ export default function MyCalendar() {
         config,
       );
 
-      let allEvents;
+      let allEventos;
 
       if (pegarEventos.data) {
-        allEvents = [...holidayEvents, ...pegarEventos.data];
+        allEventos = [...feriadosEventos, ...pegarEventos.data];
       } else {
-        allEvents = [...holidayEvents];
+        allEventos = [...feriadosEventos];
       }
 
-      setEvents((prevEvents) => [
-        ...prevEvents.filter(
+      setEventos((prevEventos) => [
+        ...prevEventos.filter(
           (event) =>
-            !allEvents.some(
+            !allEventos.some(
               (newEvent) =>
                 newEvent.date === event.date && newEvent.title === event.title,
             ),
         ),
-        ...allEvents,
+        ...allEventos,
       ]);
 
       // Atualizar localStorage
-      localStorage.setItem("events", JSON.stringify(allEvents));
+      localStorage.setItem("eventos", JSON.stringify(allEventos));
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
     }
@@ -94,47 +82,48 @@ export default function MyCalendar() {
 
   // Ano atual e manter no localstorage as datas já obtidas
   useEffect(() => {
-    const storedEvents = localStorage.getItem("events");
-    if (storedEvents) {
-      setEvents(JSON.parse(storedEvents));
+    const storedEventos = localStorage.getItem("eventos");
+    if (storedEventos) {
+      setEventos(JSON.parse(storedEventos));
     } else {
-      fetchHolidays(currentYear);
+      pegarEventos(anoAtual);
     }
-  }, [fetchHolidays]);
-
-  // Caso mudar de ano
-  useEffect(() => {
-    fetchHolidays(currentYear);
-  }, [currentYear]);
+  }, []);
 
   // Pegar um ano novo
-  const handleDatesSet = (arg: any) => {
+  const mudarAno = (arg: any) => {
     const newYear = new Date(arg.start).getFullYear();
-    if (newYear !== currentYear) {
-      setCurrentYear(newYear);
+    if (newYear !== anoAtual) {
+      setanoAtual(newYear);
+      pegarEventos(newYear);
     }
   };
 
   // Visualizar evento
-  const handleEventClick = (info: any) => {
-    const { title, extendedProps, start } = info.event;
+  const visualizarEvento = (info: any) => {
+    const { title, extendedProps, start, backgroundColor } = info.event;
     const description =
       extendedProps?.description || info.event.extendedProps.type;
     const eventDate = start
       ? start.toLocaleDateString("pt-BR")
       : "Data desconhecida";
 
-    if (usuario?.type === 1) {
+    if (usuario?.type === 1 && description !== "national") {
       setDataEscolhida(info.dateStr);
       setFecharComponenteEditavel(false);
-      setEditarEvento({ title, description, eventDate });
+      setEditarEvento({
+        title,
+        description,
+        eventDate,
+        color: backgroundColor,
+      });
     } else {
-      setSelectedEvent({ title, description, eventDate });
+      setselecionarEvento({ title, description, eventDate });
     }
   };
 
   // Criar evento no dia
-  const handleDateClick = (info: any) => {
+  const criarEvento = (info: any) => {
     if (usuario?.type === 1) {
       setDataEscolhida(info.dateStr);
       setFecharComponente(false);
@@ -142,15 +131,15 @@ export default function MyCalendar() {
   };
 
   const adicionarEventos = (infos: any) => {
-    setEvents((eventosAntigos) => [...eventosAntigos, infos]);
+    setEventos((eventosAntigos) => [...eventosAntigos, infos]);
   };
 
   return (
     <div className="m-[3rem]">
-      <h1 className="text-white font-bold text-2xl mb-[1rem]">Calendário</h1>
+      <h1 className="mb-[1rem] text-2xl font-bold text-white">Calendário</h1>
       <div>
         {!fecharComponente && (
-          <DialogCriarEvento
+          <DialogEvento
             fecharComponente={setFecharComponente}
             adicionarEventos={adicionarEventos}
             data={dataEscolhida}
@@ -158,20 +147,20 @@ export default function MyCalendar() {
           />
         )}
         {!fecharComponenteEditavel && (
-          <DialogEditarEvento
-            fecharComponenteEditavel={setFecharComponenteEditavel}
+          <DialogEvento
+            fecharComponente={setFecharComponenteEditavel}
+            todosEventos={eventos}
+            setEventos={setEventos}
             evento={editarEvento}
-            todosEvents={events}
-            setEvents={setEvents}
           />
         )}
         <div className="h-full border border-white bg-[rgba(0,17,61,1)] p-2 text-white sm:w-[20rem] sm:text-xs lg:w-[40rem] lg:text-[0.9rem]">
-          {selectedEvent && (
+          {selecionarEvento && (
             <DialogData
-              title={selectedEvent.title}
-              description={selectedEvent.description}
-              eventDate={selectedEvent.eventDate}
-              onClose={() => setSelectedEvent(null)}
+              title={selecionarEvento.title}
+              description={selecionarEvento.description}
+              eventDate={selecionarEvento.eventDate}
+              onClose={() => setselecionarEvento(null)}
             />
           )}
           <FullCalendar
@@ -179,15 +168,14 @@ export default function MyCalendar() {
             initialView="dayGridMonth"
             editable={true}
             selectable={true}
-            datesSet={handleDatesSet}
-            events={events}
-            eventClick={handleEventClick}
-            dateClick={handleDateClick}
+            datesSet={mudarAno}
+            events={eventos}
+            eventClick={visualizarEvento}
+            dateClick={criarEvento}
             locale={ptBR}
           />
-        </div>{" "}
+        </div>
       </div>
     </div>
-    
   );
 }

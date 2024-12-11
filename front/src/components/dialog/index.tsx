@@ -13,8 +13,6 @@ export default function DialogData({
   onClose,
   eventDate,
 }: propDialog) {
-  const [isVisible, setVisible] = useState(true);
-
   return (
     <div className="fixed right-1/2 top-1/2 z-50 flex h-96 w-96 translate-x-1/2 flex-col items-center justify-between rounded-md bg-white p-5">
       <div className="flex gap-1 text-black">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import DiscMatricula from "../../components/subMenuCriarTurmas";
 import { useEffect, useState } from "react";
-import CriaTurma from "../../components/CriarTurma";
+import CrudTurma from "../../components/crudTurma";
 import { User } from "../../pages/inicio/page"
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode"
@@ -75,7 +75,7 @@ export default function CriarTurma() {
 
   return (
     <div className="align-center flex h-screen w-full flex-1 flex-col justify-center bg-backgroundLinear">
-      <div>{flag && <CriaTurma onClose={fechar} />}</div>
+      <div>{flag && <CrudTurma onClose={fechar} criar = {true} />}</div>
       <div className="align-center flex h-screen w-full flex-1 flex-col justify-center">
         <div className="ml-[2rem] flex h-[90%] w-[95%] flex-col bg-white">
           <div className="m-[1rem] ml-[2rem] flex text-3xl">

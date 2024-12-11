@@ -1,6 +1,6 @@
 import { FaRegCircle } from "react-icons/fa";
 import { propTurmas } from "../../pages/listarTurmas/page";
-import EditarTurma from "../editTurma";
+import CrudTurma from "../crudTurma";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -40,7 +40,7 @@ export default function DiscMatricula({
 
   return (
     <div className="flex h-52 w-[20%] items-center justify-center border-[2px] border-[#e3e3e3] p-2">
-      <div>{flag && <EditarTurma onClose={edit} turma={disc} />}</div>
+      <div>{flag && <CrudTurma onClose={edit} turma={disc} criar = {false} />}</div>
       <div className="flex flex-col">
         <div className="flex">
           <h2 className="ml-2 mt-1 text-[1.2rem] text-[#28c2c0]">

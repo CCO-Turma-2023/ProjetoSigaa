@@ -2,14 +2,20 @@ import { useState } from "react";
 import axios from "axios";
 import { propTurmas } from "../../pages/listarTurmas/page";
 import { toast } from "react-toastify";
+import { User } from "../../pages/inicio/page"
+import { useNavigate } from "react-router-dom";
+import DecodificarToken from "../../utils/tokenDecode";
 
-export default function editarTurma({
+export default function CrudTurma({
   onClose,
   turma,
+  criar
 }: {
-  onClose: (aux: boolean) => void;
-  turma: propTurmas;
+  onClose: (aux: boolean, pegarTurmasNovamente : boolean) => void;
+  turma?: propTurmas;
+  criar: boolean
 }) {
+  const navigate = useNavigate()
   const dias = [
     "Domingo",
     "Segunda-Feira",
@@ -55,19 +61,18 @@ export default function editarTurma({
   ];
 
   const [horariosSelecionados, setHorariosSelecionados] = useState<string[]>(
-    turma.horarios,
-  );
+    turma?.horarios || []);
   const [diaSelecionado, setDiaSelecionado] = useState("");
   const [horarioInicio, sethorarioInicio] = useState("");
   const [horarioFim, sethorarioFim] = useState("");
-  const [cargaHoraria, setCargaHoraria] = useState(turma.cargaHoraria);
-  const [periodo, setPeriodo] = useState(turma.periodo);
-  const [vagas, setVagas] = useState(turma.vagas);
-  const [sigla, setSigla] = useState(turma.sigla);
-  const [nomeDisciplina, setNomeDisciplina] = useState(turma.nome);
-  const [professor, setProfessor] = useState(turma.professor);
+  const [cargaHoraria, setCargaHoraria] = useState(turma?.cargaHoraria || "");
+  const [periodo, setPeriodo] = useState(turma?.periodo || "1");
+  const [vagas, setVagas] = useState(turma?.vagas || "10");
+  const [sigla, setSigla] = useState(turma?.sigla || "");
+  const [nomeDisciplina, setNomeDisciplina] = useState(turma?.nome || "");
+  const [professor, setProfessor] = useState(turma?.professor || "");
   const [obrigatoria, setObrigatoria] = useState(() => {
-    if (turma.periodo) {
+    if (turma?.periodo) {
       return true;
     } else {
       return false;
@@ -77,6 +82,13 @@ export default function editarTurma({
   const [qtdAulas, setQtdAulas] = useState<number>(
     String(cargaHoraria) === "64" ? 4 : 2,
   );
+
+  let usuario: User | null = DecodificarToken();
+
+  if (usuario === null) {
+    navigate("/");
+    return <></>;
+  }
 
   const resetarValores = () => {
     setHorariosSelecionados([]);
@@ -223,7 +235,7 @@ export default function editarTurma({
     sethorarioFim("");
   };
 
-  const editarTurma = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const crudTurma = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!professor || !nomeDisciplina || !sigla) {
@@ -249,24 +261,45 @@ export default function editarTurma({
       vagas: vagas,
       horarios: horariosSelecionados,
       cargaHoraria: cargaHoraria,
+      curso: usuario.curso
     };
 
-    try {
-      const response = await axios.put(
-        `http://localhost:3200/turmas/atualizarTurma/${turma.id}`,
-        data,
-      );
-
-      if (!response.status) {
-        toast.error("Houve um erro ao editar a turma");
-        return;
+    if(criar){
+      try {
+        const response = await axios.post(
+          "http://localhost:3200/turmas/adicionarTurma/",
+          data,
+        );
+  
+        if (!response.status) {
+          toast.error("Houve um erro ao criar a turma");
+          return;
+        }
+  
+        toast.success("Turma Criada com Sucesso");
+  
+        onClose(false, true);
+      } catch (errors) {
+        toast.error("Houve um erro ao criar a turma");
       }
-
-      toast.success("Turma Editada com Sucesso");
-
-      onClose(false);
-    } catch (errors) {
-      console.log("Erro ao criar a turma");
+    }else{
+      try {
+        const response = await axios.put(
+          `http://localhost:3200/turmas/atualizarTurma/${turma?.id}`,
+          data,
+        );
+  
+        if (!response.status) {
+          toast.error("Houve um erro ao editar a turma");
+          return;
+        }
+  
+        toast.success("Turma Editada com Sucesso");
+  
+        onClose(false, true);
+      } catch (errors) {
+        console.log("Erro ao criar a turma");
+      }
     }
   };
 
@@ -294,7 +327,7 @@ export default function editarTurma({
         </h1>
         <div className="m-[2rem] flex flex-col gap-[1rem]">
           <form
-            onSubmit={editarTurma}
+            onSubmit={crudTurma}
             className="flex flex-col gap-[1rem] rounded-[1rem] border-[1px] border-black p-[1rem]"
           >
             <div className="flex gap-[0.5rem]">
@@ -474,14 +507,14 @@ export default function editarTurma({
                 className="w-[15%] rounded-[0.5rem] bg-blue-500 p-1"
                 type="submit"
               >
-                Salvar
+                {`${criar ? "Criar" : "Salvar"}`}
               </button>
             </div>
           </form>
           <button
             className="w-[10%] rounded-[0.5rem] bg-red-500 p-1"
             onClick={() => {
-              onClose(false);
+              onClose(false, false);
             }}
           >
             {" "}

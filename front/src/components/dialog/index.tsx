@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface propDialog {
   title: string;
   description: string;

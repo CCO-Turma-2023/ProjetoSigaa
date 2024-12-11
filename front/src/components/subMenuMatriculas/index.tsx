@@ -49,12 +49,8 @@ export default function DiscSolMatricula({
         const participantes = String(response.data.turmas[i].participantes).split(",");
         if (participantes.includes(usuario.matricula)) {
           novosHorarios.push(...response.data.turmas[i].horarios);
-        } else {
-          for (let j in sol) {
-            if (usuario.matricula === sol[j]) {
-              novosHorarios.push(...response.data.turmas[i].horarios);
-            } 
-          }
+        } else if (sol.includes(usuario.matricula)) {
+          novosHorarios.push(...response.data.turmas[i].horarios);
         }
       }
 

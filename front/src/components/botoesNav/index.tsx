@@ -1,4 +1,4 @@
-import { ComponentType, useState } from "react";
+import { ComponentType } from "react";
 import { Link } from "react-router-dom";
 
 export interface PropsBotoes {

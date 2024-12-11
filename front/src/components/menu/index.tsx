@@ -86,7 +86,7 @@ export default function Menu() {
               defineSelected={defineSelected}
               isSelected={isSelected}
             />
-            {estado && <SubMenu />}{" "}
+            {estado && <SubMenu />}
           </>
         ) : (
           <BotoesNav

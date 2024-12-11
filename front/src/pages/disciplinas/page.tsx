@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Disciplina from "../../components/disciplina";
 import axios, { AxiosRequestConfig } from "axios";
-import Menu from "../../components/menu/index.tsx";
-import { toast } from "react-toastify";
 import { User } from "../../pages/inicio/page";
 import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface PropsDialogTrancamento {
   curso: string;
   periodo: string;
@@ -13,7 +11,6 @@ export default function DialogTrancarCurso({
   ano,
   onClose,
 }: PropsDialogTrancamento) {
-  const [senha, setSenha] = useState("");
 
   const enviarSolicitacao = (e: React.MouseEvent) => {
     e.preventDefault(); // Evita o reload da página

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import DecodificarToken from "../../utils/tokenDecode";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 let horariosC: string[] = [];
 

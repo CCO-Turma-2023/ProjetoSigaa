@@ -37,7 +37,6 @@ const schema = z
     }
   });
 
-
 export default function Cadastro() {
   const navigate = useNavigate();
 
@@ -49,11 +48,9 @@ export default function Cadastro() {
 
   const alterarValorSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurso(e.target.value);
-  }
-
+  };
 
   const alterarValorInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
     const id = e.target.id;
     const valor = e.target.value;
 
@@ -68,11 +65,10 @@ export default function Cadastro() {
     }
 
     return;
-  }
+  };
 
-  
   const validaUsuario = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const data = {
       nome: nome,
@@ -80,19 +76,17 @@ export default function Cadastro() {
       curso: curso,
       senha: senha,
       confirmarSenha: confirmarSenha,
-    }
+    };
 
     const result = schema.safeParse(data);
 
-    if (!result.success){
-      toast.error(result.error.errors[0].message)
+    if (!result.success) {
+      toast.error(result.error.errors[0].message);
       return;
     }
 
-    // Campos Válidos   
-    onSubmit(data); 
-  }
-
+    onSubmit(data);
+  };
 
   const onSubmit = async (data: any) => {
     try {
@@ -113,7 +107,6 @@ export default function Cadastro() {
     }
   };
 
-
   return (
     <div className="flex h-screen w-full flex-col bg-backgroundLinear">
       <Header selecionado="home" />
@@ -125,7 +118,6 @@ export default function Cadastro() {
               onSubmit={validaUsuario}
             >
               <div className="flex w-full flex-col items-center justify-center gap-1">
-
                 <label className="font" htmlFor="nome">
                   Nome Completo
                 </label>
@@ -153,13 +145,26 @@ export default function Cadastro() {
                 <label className="font mt-4" htmlFor="matricula">
                   Curso
                 </label>
-                <select onChange={alterarValorSelect} style={{ backgroundColor: "rgb(212, 212, 216)" }} name="curso" id="curso" className="w-1/2 rounded-3xl text-center">
-                <option value="" disabled selected>Selecione uma opção</option>
-                  <option value="Ciência da Computação">Ciência da Computação</option>
-                  <option value="Sistema da Informação">Sistema da Informação</option>
-                  <option value="Matemática Bacharelado">Matemática Bacharelado</option>
+                <select
+                  onChange={alterarValorSelect}
+                  style={{ backgroundColor: "rgb(212, 212, 216)" }}
+                  name="curso"
+                  id="curso"
+                  className="w-1/2 rounded-3xl text-center"
+                >
+                  <option value="" disabled selected>
+                    Selecione uma opção
+                  </option>
+                  <option value="Ciência da Computação">
+                    Ciência da Computação
+                  </option>
+                  <option value="Sistema da Informação">
+                    Sistema da Informação
+                  </option>
+                  <option value="Matemática Bacharelado">
+                    Matemática Bacharelado
+                  </option>
                 </select>
-
 
                 <label className="mt-4" htmlFor="senha">
                   Senha

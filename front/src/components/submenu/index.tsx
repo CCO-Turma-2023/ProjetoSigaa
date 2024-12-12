@@ -28,7 +28,6 @@ export default function SubMenu() {
         to="/turma"
         className="flex items-center gap-[0.5rem]"
       >
-        {" "}
         {caminho === "/turma" ? <FaCircle /> : <FaRegCircle />} Turmas Atuais
       </Link>
       <Link

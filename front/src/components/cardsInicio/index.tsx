@@ -25,10 +25,9 @@ export default function CardsInicio({
       </div>
       <div className="flex flex-col pl-[0.5rem] pt-[0.25rem]">
         <p className="uppercase">{titulo}</p>
-        <p
-          className="font-bold"
-          dangerouslySetInnerHTML={{ __html: texto }}
-        ></p>
+        <p className="font-bold">
+          {texto}
+        </p>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const mudarSenha = async (req, res) => {
     const user = rows[0];
 
     // Verificar se o token expirou
-    if (new Date() > new Date(user.reset_token)) {
+    if (new Date() > new Date(user.reset_token_expires)) {
       return res.status(400).send("Token expirado");
     }
 

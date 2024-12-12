@@ -43,22 +43,14 @@ export default function DiscSolMatricula({
         );
       }
 
-      let novosHorarios: string[] = [];
       for (let i in response.data.turmas) {
         const sol = String(response.data.turmas[i].solicitacoes).split(",");
         const participantes = String(response.data.turmas[i].participantes).split(",");
-        if (participantes.includes(usuario.matricula)) {
-          novosHorarios.push(...response.data.turmas[i].horarios);
-        } else {
-          for (let j in sol) {
-            if (usuario.matricula === sol[j]) {
-              novosHorarios.push(...response.data.turmas[i].horarios);
-            } 
-          }
+        if (participantes.includes(usuario.matricula) || sol.includes(usuario.matricula)) {
+          horariosC.push(...response.data.turmas[i].horarios);
         }
       }
-
-      horariosC = [...novosHorarios];
+      
     } catch (error) {
       console.error("Erro ao requisitar turmas:", error);
     }
@@ -84,7 +76,9 @@ export default function DiscSolMatricula({
   const verificaColisao = (Horarios: string[]) => {
     const novosHorarios = processarHorarios(Horarios);
 
-    const novosHorariosC = processarHorarios(horariosC);
+    //Segunda-feita 13:130 - 15:20 -> dia: Segunda-Feira, inicio: 13:30, fim : 15:20 
+
+    const novosHorariosC = processarHorarios(horariosC); // 13:30 -> 13.30
 
     for (const novoHorario of novosHorarios) {
       for (const horarioExistente of novosHorariosC) {

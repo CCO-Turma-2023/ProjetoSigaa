@@ -93,15 +93,7 @@ export default function Horarios() {
     pegarTurmas();
   }, []);
 
-  const processarHorarios = (
-    horarios: string[],
-  ): { dia: string; inicio: string; fim: string }[] => {
-    return horarios.map((horario) => {
-      const [dia, horas] = horario.split("  ");
-      const [inicio, fim] = horas.split(" - ");
-      return { dia: dia.trim(), inicio: inicio.trim(), fim: fim.trim() };
-    });
-  };
+ 
 
   const aulas = [
     {
@@ -239,12 +231,23 @@ export default function Horarios() {
     },
   ];
 
+  const processarHorarios = (
+    horarios: string[],
+  ): { dia: string; inicio: string; fim: string }[] => {
+    return horarios.map((horario) => {
+      const [dia, horas] = horario.split("  ");
+      const [inicio, fim] = horas.split(" - ");
+      return { dia: dia.trim(), inicio: inicio.trim(), fim: fim.trim() };
+    });
+  };
 
   const pegarHorario = () => {
     const horarios: { [key: string]: { dia: string; inicio: string; fim: string; }[] } = {};
     for (let i in turmasAtuais) {
       horarios[turmasAtuais[i].sigla] = processarHorarios(turmasAtuais[i].horarios);
     }
+
+    console.log(horarios)
 
     for (let i in horarios) {
       for (let j in horarios[i]) {
@@ -258,6 +261,7 @@ export default function Horarios() {
       }
     }
   }
+
   pegarHorario();
 
   const horarios = [

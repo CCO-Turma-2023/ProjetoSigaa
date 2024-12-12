@@ -94,10 +94,7 @@ export default function Inicio() {
     {
       icon: FaUsers,
       titulo: "PRG",
-      texto: `<div class="flex flex-col">
-          <span>Contato: (35) 3629-1282</span> 
-          <span>Email: prg@unifei.edu.br</span>
-        </div>`,
+      texto: `Contato: (35) 3629-1282 Email: prg@unifei.edu.br`,
       color: "#E5AE55",
     },
   ];

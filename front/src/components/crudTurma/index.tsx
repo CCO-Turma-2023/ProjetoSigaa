@@ -221,7 +221,7 @@ export default function CrudTurma({
       }
     }
 
-    if (horarioRepetido || horariosSelecionados.includes(horario)) {
+    if (horarioRepetido) {
       toast.warning("Horário já Selecionado");
       return;
     }

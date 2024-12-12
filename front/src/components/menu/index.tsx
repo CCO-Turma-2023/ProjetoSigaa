@@ -24,6 +24,7 @@ export default function Menu() {
 
   useEffect(() => {
     defineSelected(window.location.pathname);
+    console.log(window.location.pathname)
   }, []);
 
   const defineSelected = (prop: string) => {
@@ -63,7 +64,6 @@ export default function Menu() {
           defineSelected={defineSelected}
           isSelected={isSelected}
         />
-
         {usuario?.type === 0 ? (
           <>
             <BotoesNav

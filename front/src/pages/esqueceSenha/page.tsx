@@ -10,7 +10,6 @@ export default function Senha() {
     matricula: "",
   });
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({
@@ -19,7 +18,6 @@ export default function Senha() {
       [name]: value,
     });
   };
-
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
@@ -34,14 +32,13 @@ export default function Senha() {
         "http://localhost:3200/users/esqueceu",
         formData,
       );
-      
+
       toast.success("Email enviado!");
       console.log("Resposta do servidor:", response.data);
     } catch (error) {
       toast.error("Dados Incorretos");
     }
   };
-
 
   return (
     <div className="flex h-screen w-full flex-col bg-backgroundLinear">
@@ -54,7 +51,6 @@ export default function Senha() {
               onSubmit={onSubmit}
             >
               <div className="flex w-full flex-col items-center justify-center gap-1">
-                {/* Email */}
                 <label className="font mt-4" htmlFor="email">
                   Email
                 </label>
@@ -69,7 +65,6 @@ export default function Senha() {
                   onChange={handleChange}
                 />
 
-                {/* Matrícula */}
                 <label className="font mt-4" htmlFor="matricula">
                   Nº Matricula
                 </label>
@@ -85,7 +80,6 @@ export default function Senha() {
                 />
               </div>
 
-              {/* Botões */}
               <button
                 className="mt-4 h-9 w-36 rounded-3xl bg-[#314894] text-white"
                 type="submit"

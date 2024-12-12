@@ -25,7 +25,7 @@ export default function MyCalendar() {
   let usuario: User | null = DecodificarToken();
 
   // Pegar API e DB
-  const pegarEventos = useCallback(async (year: number) => {
+  const pegarEventos = async (year: number) => {
     try {
       // Obter feriados
       const response = await axios.get(
@@ -76,7 +76,7 @@ export default function MyCalendar() {
     } catch (error) {
       console.error(`Erro ao buscar feriados para o ano ${year}:`, error);
     }
-  }, []);
+  };
 
   // Ano atual e manter no localstorage as datas já obtidas
   useEffect(() => {

@@ -20,8 +20,7 @@ const mudarSenha = async (req, res) => {
       return res.status(400).send("Token expirado");
     }
 
-    // Atualizar a senha do usuário (use hash para segurança)
-
+    // Atualizar a senha do usuário
     await pool.query(
       "UPDATE users SET senha = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?",
       [novaSenha, user.id]

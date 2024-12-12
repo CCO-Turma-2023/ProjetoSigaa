@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false, // true for port 465, false for other ports
+  secure: false,
   auth: {
     user: "servidormaluco5@gmail.com",
     pass: "wztq oory okgt ljyj",
@@ -16,7 +16,6 @@ const recuperarSenha = async (req, res) => {
   try {
     const { email, matricula } = req.body;
 
-    // Usar await com o pool configurado para Promises
     const [rows] = await pool.query("SELECT * FROM users WHERE matricula = ?", [
       matricula,
     ]);

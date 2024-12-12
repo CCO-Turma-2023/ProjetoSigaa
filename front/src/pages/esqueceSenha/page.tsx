@@ -20,7 +20,7 @@ export default function Senha() {
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Evita o comportamento padrão do formulário de recarregar a página.
+    event.preventDefault();
 
     if (formData.email === "" || formData.matricula === "") {
       toast.warning("Campos Vazios\n");

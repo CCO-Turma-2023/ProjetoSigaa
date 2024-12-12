@@ -5,6 +5,7 @@ import Menu from "../components/menu"
 import DecodificarToken from "../utils/tokenDecode"
 import { User } from "../pages/inicio/page"
 
+
 const rotasCoordenador = ["/listarTurmas"];
 
 // Rotas que são exclusivas à alunos

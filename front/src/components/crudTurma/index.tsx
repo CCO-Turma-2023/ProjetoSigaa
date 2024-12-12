@@ -204,6 +204,12 @@ export default function CrudTurma({
 
     const [dia, horas] = horario.split("  ");
     const [inicio, fim] = horas.split(" - ")
+    const inicioH = parseFloat(
+      inicio.replace(":", "."),
+    );
+    const fimH = parseFloat(
+      fim.replace(":", "."),
+    );
     let horarioRepetido = false;
 
     for (let i in horariosSelecionados) {
@@ -212,9 +218,16 @@ export default function CrudTurma({
 
       if (diaS !== dia) continue;
 
-      if ((inicio >= inicioS && inicio < fimS) ||
-          (fim > inicioS && fim <= fimS) ||
-          (inicio <= inicioS && fim >= fimS)) 
+      const inicioSC = parseFloat(
+        inicioS.replace(":", "."),
+      );
+      const fimSC = parseFloat(
+        fimS.replace(":", "."),
+      );
+
+      if ((inicioH >= inicioSC && inicioH < fimSC) ||
+          (fimH > inicioSC && fimH <= fimSC) ||
+          (inicioH <= inicioSC && fimH >= fimSC)) 
       {
         horarioRepetido = true;
         break;

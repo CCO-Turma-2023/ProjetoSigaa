@@ -11,7 +11,7 @@ const removerTurma = async (req, res) => {
       UPDATE users 
       SET solicitacoes = TRIM(BOTH ',' FROM REPLACE(solicitacoes, ?, ''))
       WHERE matricula IN (?)`;
-
+      
   const queryAlunoTurmasDef = `
       UPDATE users 
       SET turmasDef = TRIM(BOTH ',' FROM REPLACE(turmasDef, ?, ''))

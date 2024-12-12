@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../../components/headerInicio";
 import unifei from "../../assets/unifeiImagem.jpg";
 import logo from "../../assets/logoEngrenagem.png";
@@ -10,9 +10,6 @@ import { toast } from "react-toastify";
 export default function Home() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.removeItem("token");
-  }, []);
 
   const [formData, setFormData] = useState({
     matricula: "",
